@@ -148,7 +148,6 @@ namespace ViewBoxContorl
             Debug.WriteLine("OnPaint");
             
             base.OnPaint(pe);
-            setGrayLevelData();
             
         }
 
@@ -286,7 +285,7 @@ namespace ViewBoxContorl
                 }
                 Graphics gDest = this.CreateGraphics();
                 gDest.DrawImage(tmpBmp, Dest, this.ClientRectangle, GraphicsUnit.Pixel);
-                //this.Image = tmpBmp;
+                this.Image = tmpBmp;
                 Trace.WriteLine((DateTime.Now - stTime).Milliseconds.ToString());
             }
         }
@@ -384,7 +383,7 @@ namespace ViewBoxContorl
 
             
             //this.Invalidate();
-            //setGrayLevelData();
+            setGrayLevelData();
         }
 
         private void ViewBox_VisibleChanged(object sender, EventArgs e)
