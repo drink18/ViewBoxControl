@@ -151,6 +151,7 @@ namespace ViewBoxContorl
             Debug.WriteLine("OnPaint");
 
             base.OnPaint(pe);
+
             setGrayLevelData();
         }
 
@@ -287,10 +288,12 @@ namespace ViewBoxContorl
                 }
                 Graphics gDest = this.CreateGraphics();
                 gDest.DrawImage(tmpBmp, Dest, this.ClientRectangle, GraphicsUnit.Pixel);
+
                 this.Image.Save("thisimage1.bmp");
                 //this.Image = tmpBmp;
                 //this.Invalidate();
                 //this.Refresh();
+
                 Trace.WriteLine((DateTime.Now - stTime).Milliseconds.ToString());
             }
         }
@@ -388,6 +391,7 @@ namespace ViewBoxContorl
                 this.Image = bmpBk;
 
                 Debug.WriteLine("ViewBox_SizeChanged");
+
 
 
                 //this.Invalidate();
