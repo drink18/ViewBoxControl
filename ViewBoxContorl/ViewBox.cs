@@ -128,28 +128,30 @@ namespace ViewBoxContorl
             set { grayLevelData = value; }
         }
         #endregion
+        Bitmap tmpBmp;
+        Rectangle Dest;
 
         public ViewBox()
         {
             InitializeComponent();
+            this.ResizeRedraw = true;
         }
 
         protected override void OnCreateControl()
         {
-            int width = this.Width;
-            int height = this.Height;
-            Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            //int width = this.Width;
+            //int height = this.Height;
+            //Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             ////Image<Bgr, Byte> bmp = new Image<Bgr, Byte>(width, height);
-            this.Image = bmp;
+            this.Image = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
         }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
             Debug.WriteLine("OnPaint");
-            
+
             base.OnPaint(pe);
             setGrayLevelData();
-            
         }
 
 
@@ -210,8 +212,8 @@ namespace ViewBoxContorl
                 Graphics graphics = Graphics.FromImage(bitmap);
 
                 // 插值算法的质量
-                graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                //graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                //graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 graphics.SmoothingMode = SmoothingMode.HighQuality;
                 graphics.DrawImage(original, new Rectangle(0, 0, newWidth, newHeight),
                     new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
@@ -268,8 +270,7 @@ namespace ViewBoxContorl
                 //内存复制方式，将灰阶数组内容复制到bmp中
                 //copyBmp(bmp, GrayLevelData);
 
-                Bitmap tmpBmp;
-                Rectangle Dest;
+                
                 if (this.Width / (double)NoCol >= this.Height / (double)NoRow)
                 {
                     double dimScale = (double)this.Height / NoRow;
@@ -286,7 +287,10 @@ namespace ViewBoxContorl
                 }
                 Graphics gDest = this.CreateGraphics();
                 gDest.DrawImage(tmpBmp, Dest, this.ClientRectangle, GraphicsUnit.Pixel);
+                this.Image.Save("thisimage1.bmp");
                 //this.Image = tmpBmp;
+                //this.Invalidate();
+                //this.Refresh();
                 Trace.WriteLine((DateTime.Now - stTime).Milliseconds.ToString());
             }
         }
@@ -325,6 +329,7 @@ namespace ViewBoxContorl
             //Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             //////Image<Bgr, Byte> bmp = new Image<Bgr, Byte>(width, height);
             //this.Image = bmp;
+            Debug.WriteLine("ViewBox_ClientSizeChanged");
 
         }
 
@@ -369,22 +374,25 @@ namespace ViewBoxContorl
         private void ViewBox_Resize(object sender, EventArgs e)
         {
 
-
+            Debug.WriteLine("ViewBox_Resize");
         }
 
         private void ViewBox_SizeChanged(object sender, EventArgs e)
         {
-            int width = this.Width;
-            int height = this.Height;
-            Bitmap bmpBk = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            if ((this.Width > 12) && (this.Height>12))
+            {
+                int width = this.Width;
+                int height = this.Height;
+                Bitmap bmpBk = new Bitmap(width, height, PixelFormat.Format24bppRgb);
 
-            this.Image = bmpBk;
+                this.Image = bmpBk;
 
-            Debug.WriteLine("resize");
+                Debug.WriteLine("ViewBox_SizeChanged");
 
-            
-            //this.Invalidate();
-            //setGrayLevelData();
+
+                //this.Invalidate();
+                setGrayLevelData();
+            }
         }
 
         private void ViewBox_VisibleChanged(object sender, EventArgs e)
@@ -394,7 +402,29 @@ namespace ViewBoxContorl
 
         private void ViewBox_Paint(object sender, PaintEventArgs e)
         {
+            Debug.WriteLine("ViewBox_Paint");
+            //setGrayLevelData();
 
+            if (tmpBmp != null)
+            {
+                Graphics gDest = this.CreateGraphics();
+                gDest.DrawImage(tmpBmp, Dest, this.ClientRectangle, GraphicsUnit.Pixel);
+                tmpBmp.Save("tmp.bmp");
+                this.Image.Save("tmp1.bmp");
+
+            }
+        }
+
+
+
+        private void ViewBox_LocationChanged(object sender, EventArgs e)
+        {
+            Debug.WriteLine("ViewBox_LocationChanged");
+        }
+
+        private void ViewBox_Validated(object sender, EventArgs e)
+        {
+            Debug.WriteLine("ViewBox_Validated");
         }
     }
 

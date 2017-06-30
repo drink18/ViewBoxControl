@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -128,21 +129,40 @@ namespace testViewBox
         private void vbxImage_SizeChanged(object sender, EventArgs e)
         {
             tbxInfo.AppendText("vbxImage_SizeChanged\r\n");
+            Debug.WriteLine("vbxImage_SizeChanged");
         }
 
         private void vbxImage_Resize(object sender, EventArgs e)
         {
             tbxInfo.AppendText("vbxImage_Resize\r\n");
+            Debug.WriteLine("vbxImage_Resize");
         }
 
         private void vbxImage_VisibleChanged(object sender, EventArgs e)
         {
             tbxInfo.AppendText("vbxImage_VisibleChanged\r\n");
+            Debug.WriteLine("vbxImage_VisibleChanged");
         }
 
         private void vbxImage_Paint(object sender, PaintEventArgs e)
         {
             tbxInfo.AppendText("vbxImage_Paint\r\n");
+            Debug.WriteLine("vbxImage_Paint");
+        }
+
+        private void vbxImage_Validated(object sender, EventArgs e)
+        {
+            Debug.WriteLine("vbxImage_Validated");
+        }
+
+        private void vbxImage_Validating(object sender, CancelEventArgs e)
+        {
+            Debug.WriteLine("vbxImage_Validating");
+        }
+
+        private void vbxImage_ClientSizeChanged(object sender, EventArgs e)
+        {
+            Debug.WriteLine("vbxImage_ClientSizeChanged");
         }
     }
 }
