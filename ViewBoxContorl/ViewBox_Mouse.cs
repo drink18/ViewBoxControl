@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -14,6 +16,7 @@ namespace ViewBoxContorl
         }
         public MouseOps MouseOpMode { get; set; } = MouseOps.PosLvl;
         public MouseButtons WinLvlAdjustingBtn = MouseButtons.Left;
+        public MouseButtons PosChangeBtn = MouseButtons.Right;
 
         int _dragX0;
         int _dragY0;
@@ -52,19 +55,27 @@ namespace ViewBoxContorl
 
         private void vbxImg_MouseMove(object sender, MouseEventArgs e)
         {
+            int dx = (e.X - _dragX0);
+            int dy = (e.Y - _dragY0);
             if ((e.Button & WinLvlAdjustingBtn) == WinLvlAdjustingBtn && MouseOpMode == MouseOps.PosLvl)
             {
                 bool accelMode = Control.ModifierKeys == Keys.Shift;
                 int scale = accelMode ? AccelModeScale : 1;
-                int dx = (e.X - _dragX0) * scale;
-                int dy = (e.Y - _dragY0) * scale;
 
-                _dragX0 = e.X;
-                _dragY0 = e.Y;
-
-                Win = (short)(Win + dx);
-                Lev = (short)(Lev + dy);
+                int sdx = dx * scale;
+                int sdy = dy * scale;
+                Win = (short)(Win + sdx);
+                Lev = (short)(Lev + sdy);
             }
+            else if((e.Button & PosChangeBtn) == PosChangeBtn)
+            {
+                var newPos = new Point(ObserverPos.X + dx, ObserverPos.Y + dy);
+                ObserverPos = newPos;
+            }
+
+            _dragX0 = e.X;
+            _dragY0 = e.Y;
         }
+
     }
 }

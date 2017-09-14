@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewBox", "ViewBoxContorl\ViewBox.csproj", "{FCC76157-2CA2-472F-97CB-80DEDF77CAF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testViewBox", "testViewBox\testViewBox.csproj", "{5E1B2181-0A15-4044-B32A-87906C4858C6}"

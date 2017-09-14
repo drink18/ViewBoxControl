@@ -187,6 +187,7 @@
             // 
             // vbxImage
             // 
+            this.vbxImage.AccelModeScale = 3;
             this.vbxImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -198,6 +199,7 @@
             this.vbxImage.Lev = ((short)(0));
             this.vbxImage.Location = new System.Drawing.Point(9, 10);
             this.vbxImage.Margin = new System.Windows.Forms.Padding(2);
+            this.vbxImage.MouseOpMode = ViewBoxContorl.ViewBox.MouseOps.PosLvl;
             this.vbxImage.Name = "vbxImage";
             this.vbxImage.NoCol = 0;
             this.vbxImage.NoRow = 0;
@@ -207,7 +209,7 @@
             this.vbxImage.TabIndex = 0;
             this.vbxImage.TabStop = false;
             this.vbxImage.Win = ((short)(1));
-            this.vbxImage.Zoomable = false;
+            this.vbxImage.Zoomable = true;
             this.vbxImage.SizeChanged += new System.EventHandler(this.vbxImage_SizeChanged);
             this.vbxImage.VisibleChanged += new System.EventHandler(this.vbxImage_VisibleChanged);
             this.vbxImage.Click += new System.EventHandler(this.vbxImage_Click);

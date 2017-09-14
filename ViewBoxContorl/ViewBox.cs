@@ -152,6 +152,7 @@ namespace ViewBoxContorl
             set { grayLevelData = value; }
         }
 
+        Bitmap _rawBmp; // raw bmp built from gray level data (same size)
 
 
         #endregion
@@ -248,6 +249,35 @@ namespace ViewBoxContorl
             }
         }
 
+        private void _renderWithObserverRect(Bitmap srcImg, Rectangle destRectInPicture)
+        {
+            Graphics gDest = Graphics.FromImage(this.Image);
+            gDest.DrawImage(srcImg, destRectInPicture, this.ClientRectangle, GraphicsUnit.Pixel);
+            this.Invalidate();
+        }
+
+        public void RenderToPictureBox()
+        {
+            Bitmap bmp = _sampleRawImgWithObserverRect(_rawBmp, NoCol, NoRow);
+
+            if (this.Width / (double)NoCol >= this.Height / (double)NoRow)
+            {
+                double dimScale = (double)this.Height / NoRow;
+                tmpBmp = ResizeUsingGDIPlus(bmp,
+                    (int)Math.Round(dimScale * NoCol), this.Height);
+                Dest = new Rectangle((int)(this.Width - dimScale * NoCol) / 2, 0, this.Width, this.Height);
+            }
+            else
+            {
+                double dimScale = (double)this.Width / NoCol;
+                tmpBmp = ResizeUsingGDIPlus(bmp, this.Width,
+                    (int)Math.Round(dimScale * NoRow));
+                Dest = new Rectangle(0, (int)(this.Height - dimScale * NoRow) / 2, this.Width, this.Height);
+            }
+
+            _renderWithObserverRect(tmpBmp, Dest);
+        }
+
         public void setGrayLevelData()
         {
             if (PixelData != null)
@@ -276,7 +306,9 @@ namespace ViewBoxContorl
                     }
                 }
 
-                Bitmap bmp = new Bitmap(NoCol, NoRow, PixelFormat.Format24bppRgb);
+                _rawBmp = _buildRawBitMap(GrayLevelData);
+
+                //Bitmap bmp = new Bitmap(NoCol, NoRow, PixelFormat.Format24bppRgb);
 
 
                 //逐像素方式
@@ -289,26 +321,10 @@ namespace ViewBoxContorl
                 //    }
                 //}
                 //内存复制方式，将灰阶数组内容复制到bmp中
-                copyBmp(bmp, GrayLevelData);
+                //copyBmp(bmp, GrayLevelData);
+                RenderToPictureBox();
 
 
-                if (this.Width / (double)NoCol >= this.Height / (double)NoRow)
-                {
-                    double dimScale = (double)this.Height / NoRow;
-                    tmpBmp = ResizeUsingGDIPlus(bmp,
-                        (int)Math.Round(dimScale * NoCol), this.Height);
-                    Dest = new Rectangle((int)(this.Width - dimScale * NoCol) / 2, 0, this.Width, this.Height);
-                }
-                else
-                {
-                    double dimScale = (double)this.Width / NoCol;
-                    tmpBmp = ResizeUsingGDIPlus(bmp, this.Width,
-                        (int)Math.Round(dimScale * NoRow));
-                    Dest = new Rectangle(0, (int)(this.Height - dimScale * NoRow) / 2, this.Width, this.Height);
-                }
-                Graphics gDest = Graphics.FromImage(this.Image);
-                gDest.DrawImage(tmpBmp, Dest, this.ClientRectangle, GraphicsUnit.Pixel);
-                this.Invalidate();
                 //this.Refresh();
 
                 Trace.WriteLine((DateTime.Now - stTime).Milliseconds.ToString());
@@ -477,8 +493,9 @@ namespace ViewBoxContorl
 
         private void ViewBox_Validated(object sender, EventArgs e)
         {
-            Debug.WriteLine("ViewBox_Validated");
         }
+
+
 
        
     }

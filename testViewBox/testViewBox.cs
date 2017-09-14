@@ -46,10 +46,12 @@ namespace testViewBox
         #endregion
         
 
+
         public testViewBox()
         {
             InitializeComponent();
 
+            MouseWheel += new MouseEventHandler(testMouseWheel);
             vbxImage.OnWinChanged += vbxImg_OnWinValChanged;
             vbxImage.OnLvlChanged += vbxImg_OnLvlValChanged;
             
@@ -84,6 +86,7 @@ namespace testViewBox
                 {
                     vbxImage.NoCol = NoCol;
                     vbxImage.NoRow = NoRow;
+                    vbxImage.ResetObserverRect();
                     byte[] rawData=new byte[2*NoCol*NoRow];
                     long fileLen= fs.Read(rawData, 0, rawData.Length);
                     vbxImage.readPixelData(rawData);
@@ -191,6 +194,13 @@ namespace testViewBox
         {
            hsbLev.Value = Math.Min(hsbLev.Maximum, Math.Max(hsbLev.Minimum, newVal));
            tbxLev.Text = string.Format("{0}", newVal);
+        }
+
+        private void testMouseWheel(object sender, MouseEventArgs args)
+        {
+            var delta = args.Delta / 120.0f * 0.1f;
+            Debug.WriteLine(string.Format("delta = {0}", delta));
+            vbxImage.SizeScale += delta;
         }
         
     }
