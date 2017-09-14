@@ -49,6 +49,10 @@ namespace testViewBox
         public testViewBox()
         {
             InitializeComponent();
+
+            vbxImage.OnWinChanged += vbxImg_OnWinValChanged;
+            vbxImage.OnLvlChanged += vbxImg_OnLvlValChanged;
+            
         }
 
         private void btnLoadImage_Click(object sender, EventArgs e)
@@ -147,7 +151,13 @@ namespace testViewBox
         private void vbxImage_Paint(object sender, PaintEventArgs e)
         {
             tbxInfo.AppendText("vbxImage_Paint\r\n");
-            Debug.WriteLine("vbxImage_Paint");
+            base.OnPaint(e);
+            Graphics g = vbxImage.CreateGraphics();
+//            Rectangle r = vbxImage.ClientRectangle;
+            Pen pen1=new Pen(Color.Red);
+
+            pen1.Width = 5;
+            g.DrawRectangle(pen1, 10, 10, 50, 50);
         }
 
         private void vbxImage_Validated(object sender, EventArgs e)
@@ -164,5 +174,24 @@ namespace testViewBox
         {
             Debug.WriteLine("vbxImage_ClientSizeChanged");
         }
+
+
+        private void vbxImage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void vbxImg_OnWinValChanged(int oldVal, int newVal)
+        {
+            hsbWin.Value = Math.Min(hsbWin.Maximum, Math.Max(hsbWin.Minimum, newVal));
+            tbxWin.Text = string.Format("{0}", newVal);
+        }
+        private void vbxImg_OnLvlValChanged(int oldVal, int newVal)
+        {
+           hsbLev.Value = Math.Min(hsbLev.Maximum, Math.Max(hsbLev.Minimum, newVal));
+           tbxLev.Text = string.Format("{0}", newVal);
+        }
+        
     }
 }

@@ -27,3 +27,7 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.vssscc
 $tf*/
+输出-调试.txt
+imgSamples/absImage2.img
+imgSamples/absImage1.img
+imgSamples/absImage.img

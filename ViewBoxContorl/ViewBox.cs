@@ -25,15 +25,19 @@ namespace ViewBoxContorl
             get { return win; }
             set
             {
+                if (value == win)
+                    return;
+
+                var old = win;
                 if (value < 1)
                 {
                     win = 1;
-
                 }
                 else
                 {
                     win = value;
                 }
+                OnWinChanged(old, win);
                 setGrayLevelData();
             }
         }
@@ -48,7 +52,12 @@ namespace ViewBoxContorl
             get { return lev; }
             set
             {
+                if (lev == value)
+                    return;
+
+                var old = lev;
                 lev = value;
+                OnLvlChanged(old, lev);
                 setGrayLevelData();
             }
         }
@@ -90,7 +99,22 @@ namespace ViewBoxContorl
             set { noCol = value; }
         }
         #endregion
-
+        #region FovRow
+        private double fovRow;
+        public double FovRow
+        {
+            get { return fovRow; }
+            set { fovRow = value; }
+        }
+        #endregion
+        #region FovCol
+        private double fovCol;
+        public double FovCol
+        {
+            get { return fovCol; }
+            set { fovCol = value; }
+        }
+        #endregion
         #region Zoomable
         bool zoomable = false;
 
@@ -127,6 +151,9 @@ namespace ViewBoxContorl
             get { return grayLevelData; }
             set { grayLevelData = value; }
         }
+
+
+
         #endregion
         Bitmap tmpBmp;
         Rectangle Dest;
@@ -139,62 +166,57 @@ namespace ViewBoxContorl
 
         protected override void OnCreateControl()
         {
-            //int width = this.Width;
-            //int height = this.Height;
-            //Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            ////Image<Bgr, Byte> bmp = new Image<Bgr, Byte>(width, height);
             this.Image = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
         }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
             Debug.WriteLine("OnPaint");
-
             base.OnPaint(pe);
         }
 
 
-        public static byte[] GetGrayArray(Bitmap srcBmp)
-        {
-            //将Bitmap锁定到系统内存中,获得BitmapData
-            //这里的第三个参数确定了该图像信息时rgb存储还是Argb存储
-            Rectangle rect = new Rectangle(0, 0, srcBmp.Width, srcBmp.Height);  //表示要锁定全图
-            BitmapData srcBmpData = srcBmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-            //位图中第一个像素数据的地址。它也可以看成是位图中的第一个扫描行
-            IntPtr srcPtr = srcBmpData.Scan0;
-            //将Bitmap对象的信息存放到byte数组中
-            int scanWidth = srcBmpData.Width * 3;
-            int src_bytes = scanWidth * rect.Height;
-            //int srcStride = srcBmpData.Stride;
-            byte[] srcValues = new byte[src_bytes];
-            byte[] grayValues = new byte[rect.Width * rect.Height];
-            //RGB[] rgb = new RGB[srcBmp.Width * rows];
-            //复制GRB信息到byte数组
-            Marshal.Copy(srcPtr, srcValues, 0, src_bytes);
-            //LogHelper.OutputArray(srcValues, rect.Width * 3, rect.Height, true);
-            //Marshal.Copy(dstPtr, dstValues, 0, dst_bytes);
-            //解锁位图
-            srcBmp.UnlockBits(srcBmpData);
-            //灰度化处理
-            int m = 0, j = 0;
-            int k = 0;
-            byte gray;
-            //根据Y = 0.299*R + 0.587*G + 0.114*B,intensity为亮度
-            for (int i = 0; i < rect.Height; i++)  //行
-            {
-                for (j = 0; j < rect.Width; j++)  //列
-                {
-                    //注意位图结构中RGB按BGR的顺序存储
-                    k = 3 * j;
-                    gray = (byte)(srcValues[i * scanWidth + k + 2] * 0.299
-                         + srcValues[i * scanWidth + k + 1] * 0.587
-                         + srcValues[i * scanWidth + k + 0] * 0.114);
-                    grayValues[m] = gray;  //将灰度值存到byte一维数组中
-                    m++;
-                }
-            }
-            return grayValues;
-        }
+        //public static byte[] GetGrayArray(Bitmap srcBmp)
+        //{
+        //    //将Bitmap锁定到系统内存中,获得BitmapData
+        //    //这里的第三个参数确定了该图像信息时rgb存储还是Argb存储
+        //    Rectangle rect = new Rectangle(0, 0, srcBmp.Width, srcBmp.Height);  //表示要锁定全图
+        //    BitmapData srcBmpData = srcBmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+        //    //位图中第一个像素数据的地址。它也可以看成是位图中的第一个扫描行
+        //    IntPtr srcPtr = srcBmpData.Scan0;
+        //    //将Bitmap对象的信息存放到byte数组中
+        //    int scanWidth = srcBmpData.Width * 3;
+        //    int src_bytes = scanWidth * rect.Height;
+        //    //int srcStride = srcBmpData.Stride;
+        //    byte[] srcValues = new byte[src_bytes];
+        //    byte[] grayValues = new byte[rect.Width * rect.Height];
+        //    //RGB[] rgb = new RGB[srcBmp.Width * rows];
+        //    //复制GRB信息到byte数组
+        //    Marshal.Copy(srcPtr, srcValues, 0, src_bytes);
+        //    //LogHelper.OutputArray(srcValues, rect.Width * 3, rect.Height, true);
+        //    //Marshal.Copy(dstPtr, dstValues, 0, dst_bytes);
+        //    //解锁位图
+        //    srcBmp.UnlockBits(srcBmpData);
+        //    //灰度化处理
+        //    int m = 0, j = 0;
+        //    int k = 0;
+        //    byte gray;
+        //    //根据Y = 0.299*R + 0.587*G + 0.114*B,intensity为亮度
+        //    for (int i = 0; i < rect.Height; i++)  //行
+        //    {
+        //        for (j = 0; j < rect.Width; j++)  //列
+        //        {
+        //            //注意位图结构中RGB按BGR的顺序存储
+        //            k = 3 * j;
+        //            gray = (byte)(srcValues[i * scanWidth + k + 2] * 0.299
+        //                 + srcValues[i * scanWidth + k + 1] * 0.587
+        //                 + srcValues[i * scanWidth + k + 0] * 0.114);
+        //            grayValues[m] = gray;  //将灰度值存到byte一维数组中
+        //            m++;
+        //        }
+        //    }
+        //    return grayValues;
+        //}
 
         /// <summary>
         /// 使用GDI+缩放图像。
@@ -258,18 +280,18 @@ namespace ViewBoxContorl
 
 
                 //逐像素方式
-                for (int i = 0; i < NoRow; i++)
-                {
-                    for (int j = 0; j < NoCol; j++)
-                    {
-                        bmp.SetPixel(j, i, Color.FromArgb(GrayLevelData[j + i * NoCol],
-                            GrayLevelData[j + i * NoCol], GrayLevelData[j + i * NoCol]));
-                    }
-                }
+                //for (int i = 0; i < NoRow; i++)
+                //{
+                //    for (int j = 0; j < NoCol; j++)
+                //    {
+                //        bmp.SetPixel(j, i, Color.FromArgb(GrayLevelData[j + i * NoCol],
+                //            GrayLevelData[j + i * NoCol], GrayLevelData[j + i * NoCol]));
+                //    }
+                //}
                 //内存复制方式，将灰阶数组内容复制到bmp中
-                //copyBmp(bmp, GrayLevelData);
+                copyBmp(bmp, GrayLevelData);
 
-                
+
                 if (this.Width / (double)NoCol >= this.Height / (double)NoRow)
                 {
                     double dimScale = (double)this.Height / NoRow;
@@ -322,11 +344,6 @@ namespace ViewBoxContorl
 
         private void ViewBox_ClientSizeChanged(object sender, EventArgs e)
         {
-            //int width = this.Width;
-            //int height = this.Height;
-            //Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            //////Image<Bgr, Byte> bmp = new Image<Bgr, Byte>(width, height);
-            //this.Image = bmp;
             Debug.WriteLine("ViewBox_ClientSizeChanged");
 
         }
@@ -338,7 +355,10 @@ namespace ViewBoxContorl
                 if (rawData.Length != 2 * NoCol * NoRow)
                 {
                     throw new RawDataSizeErrorException(NoCol, NoRow, rawData.Length);
+
                 }
+                Bitmap bmpBk = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
+                this.Image = bmpBk;
                 PixelData = new Int16[NoRow, NoCol];
                 GrayLevelData = new byte[NoRow * NoCol];
                 maxPixel = Int16.MinValue;
@@ -360,36 +380,73 @@ namespace ViewBoxContorl
                 }
                 lev = (Int16)((MaxPixel + MinPixel) / 2);
                 win = (Int16)(MaxPixel - MinPixel);
-
+                setGrayLevelData();
             }
             catch (RawDataSizeErrorException ex)
             {
-
                 MessageBox.Show(ex.row + "," + ex.col + "," + ex.size);
+                return;
+            }
+        }
+
+        public void readPixelData(Int16[] rawData)
+        {
+            try
+            {
+                if (rawData.Length != NoCol * NoRow)
+                {
+                    throw new RawDataSizeErrorException(NoCol, NoRow, rawData.Length);
+
+                }
+                Bitmap bmpBk = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
+                this.Image = bmpBk;
+                PixelData = new Int16[NoRow, NoCol];
+                GrayLevelData = new byte[NoRow * NoCol];
+                maxPixel = Int16.MinValue;
+                minPixel = Int16.MaxValue;
+                for (int i = 0; i < NoRow; i++)
+                {
+                    for (int j = 0; j < NoCol; j++)
+                    {
+                        PixelData[i, j] = rawData[j + i * NoCol];
+                        if (MaxPixel < PixelData[i, j])
+                        {
+                            maxPixel = PixelData[i, j];
+                        }
+                        if (MinPixel > PixelData[i, j])
+                        {
+                            minPixel = PixelData[i, j];
+                        }
+                    }
+                }
+                lev = (Int16)((MaxPixel + MinPixel) / 2);
+                win = (Int16)(MaxPixel - MinPixel);
+                setGrayLevelData();
+            }
+            catch (RawDataSizeErrorException ex)
+            {
+                MessageBox.Show(ex.row + "," + ex.col + "," + ex.size);
+                return;
             }
         }
 
         private void ViewBox_Resize(object sender, EventArgs e)
         {
-
+            //Bitmap bmpBk = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
             Debug.WriteLine("ViewBox_Resize");
         }
 
         private void ViewBox_SizeChanged(object sender, EventArgs e)
         {
-            if ((this.Width > 12) && (this.Height>12))
+            if ((this.Width > 12) && (this.Height > 12))
             {
-                int width = this.Width;
-                int height = this.Height;
-                Bitmap bmpBk = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                //int width = this.Width;
+                //int height = this.Height;
+                Bitmap bmpBk = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
 
                 this.Image = bmpBk;
 
                 Debug.WriteLine("ViewBox_SizeChanged");
-
-
-
-                //this.Invalidate();
                 setGrayLevelData();
             }
         }
@@ -408,9 +465,6 @@ namespace ViewBoxContorl
             {
                 Graphics gDest = this.CreateGraphics();
                 gDest.DrawImage(tmpBmp, Dest, this.ClientRectangle, GraphicsUnit.Pixel);
-                tmpBmp.Save("tmp.bmp");
-                this.Image.Save("tmp1.bmp");
-
             }
         }
 
@@ -424,6 +478,60 @@ namespace ViewBoxContorl
         private void ViewBox_Validated(object sender, EventArgs e)
         {
             Debug.WriteLine("ViewBox_Validated");
+        }
+
+        public enum MouseOps
+        {
+            PosLvl
+        }
+        MouseOps MouseOpMode { get; set; } = MouseOps.PosLvl;
+        int _dragX0;
+        int _dragY0;
+
+        public delegate void WinChangedEvt(int oldVal, int newVal);
+        public delegate void LvlChangedEvt(int oldVal, int newVal);
+
+        public WinChangedEvt OnWinChanged = (o, n)=>{};
+        public LvlChangedEvt OnLvlChanged = (o, n)=>{};
+
+
+
+        private void OnMouseDrag(object sender, GiveFeedbackEventArgs e)
+        {
+            if ((e.Effect & DragDropEffects.Move) != DragDropEffects.Move)
+                return;
+           
+           if(MouseOpMode == MouseOps.PosLvl )
+           {
+                int dx = (MousePosition.X - _dragX0);
+                int dy = (MousePosition.Y - _dragY0);
+
+                _dragX0 = dx;
+                _dragY0 = dy;
+
+                Win = (short)(Win + dx);
+                Lev = (short)(Lev + dy);
+           }
+        }
+        private void vbxImage_MouseDown(object sender, MouseEventArgs e)
+        {
+            _dragX0 = e.X;
+            _dragY0 = e.Y;
+        }
+
+        private void vbxImg_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left && MouseOpMode == MouseOps.PosLvl)
+            {
+                int dx = (e.X - _dragX0);
+                int dy = (e.Y - _dragY0);
+
+                _dragX0 = e.X;
+                _dragY0 = e.Y;
+
+                Win = (short)(Win + dx);
+                Lev = (short)(Lev + dy);
+            }
         }
     }
 

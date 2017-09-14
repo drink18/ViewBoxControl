@@ -36,7 +36,10 @@
             this.ClientSizeChanged += new System.EventHandler(this.ViewBox_ClientSizeChanged);
             this.SizeChanged += new System.EventHandler(this.ViewBox_SizeChanged);
             this.VisibleChanged += new System.EventHandler(this.ViewBox_VisibleChanged);
+            this.GiveFeedback += new System.Windows.Forms.GiveFeedbackEventHandler(this.OnMouseDrag);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ViewBox_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vbxImage_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.vbxImg_MouseMove);
             this.Resize += new System.EventHandler(this.ViewBox_Resize);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
