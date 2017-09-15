@@ -226,7 +226,7 @@ namespace ViewBoxContorl
         /// <param name="newWidth">新宽度。</param>
         /// <param name="newHeight">新高度。</param>
         /// <returns>缩放后的图像。</returns>
-        public static Bitmap ResizeUsingGDIPlus(Bitmap original, int newWidth, int newHeight)
+        public static Bitmap ResizeUsingGDIPlus(Bitmap original, Rectangle origSampleRect, int newWidth, int newHeight)
         {
             try
             {
@@ -235,10 +235,10 @@ namespace ViewBoxContorl
 
                 // 插值算法的质量
                 //graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.Bilinear;
+                graphics.SmoothingMode = SmoothingMode.Default;
                 graphics.DrawImage(original, new Rectangle(0, 0, newWidth, newHeight),
-                    new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
+                   origSampleRect, GraphicsUnit.Pixel);
                 graphics.Dispose();
 
                 return bitmap;
@@ -258,19 +258,17 @@ namespace ViewBoxContorl
 
         public void RenderToPictureBox()
         {
-            Bitmap bmp = _sampleRawImgWithObserverRect(_rawBmp, NoCol, NoRow);
-
             if (this.Width / (double)NoCol >= this.Height / (double)NoRow)
             {
                 double dimScale = (double)this.Height / NoRow;
-                tmpBmp = ResizeUsingGDIPlus(bmp,
+                tmpBmp = ResizeUsingGDIPlus(_rawBmp, SampleRect,
                     (int)Math.Round(dimScale * NoCol), this.Height);
                 Dest = new Rectangle((int)(this.Width - dimScale * NoCol) / 2, 0, this.Width, this.Height);
             }
             else
             {
                 double dimScale = (double)this.Width / NoCol;
-                tmpBmp = ResizeUsingGDIPlus(bmp, this.Width,
+                tmpBmp = ResizeUsingGDIPlus(_rawBmp, SampleRect, this.Width,
                     (int)Math.Round(dimScale * NoRow));
                 Dest = new Rectangle(0, (int)(this.Height - dimScale * NoRow) / 2, this.Width, this.Height);
             }
@@ -278,90 +276,48 @@ namespace ViewBoxContorl
             _renderWithObserverRect(tmpBmp, Dest);
         }
 
+        public byte getTransferedPixedlVal(short rawVal)
+        {
+            short ceil = (short)(Lev + Win / 2);
+            short floor = (short)(Lev - Win / 2);
+            double slope = 255D / Win;
+
+            byte ret = 0;
+            if (rawVal > ceil)
+            {
+                ret = 255;
+            }
+            else if (rawVal < floor)
+            {
+                ret = 0;
+            }
+            else
+            {
+               ret = (byte)(slope * (rawVal - floor));//(byte)Math.Round( slope * (PixelData[i, j] - floor));
+            }
+
+            return ret;
+        }
+
         public void setGrayLevelData()
         {
             if (PixelData != null)
             {
                 DateTime stTime = DateTime.Now;
-                short ceil = (short)(Lev + Win / 2);
-                short floor = (short)(Lev - Win / 2);
-                double slope = 255D / Win;
+                if (_rawBmp == null || (_rawBmp.Width != NoCol || _rawBmp.Height != NoRow))
+                    _rawBmp = new Bitmap(NoCol, NoRow, PixelFormat.Format24bppRgb);
 
-                for (int i = 0; i < NoRow; i++)
-                {
-                    for (int j = 0; j < NoCol; j++)
-                    {
-                        if (PixelData[i, j] > ceil)
-                        {
-                            GrayLevelData[j + i * NoCol] = 255;
-                        }
-                        else if (PixelData[i, j] < floor)
-                        {
-                            GrayLevelData[j + i * NoCol] = 0;
-                        }
-                        else
-                        {
-                            GrayLevelData[j + i * NoCol] = (byte)(slope * (PixelData[i, j] - floor));//(byte)Math.Round( slope * (PixelData[i, j] - floor));
-                        }
-                    }
-                }
+                _rawBmp = _buildRawBitMap(_rawBmp, GrayLevelData);
 
-                _rawBmp = _buildRawBitMap(GrayLevelData);
-
-                //Bitmap bmp = new Bitmap(NoCol, NoRow, PixelFormat.Format24bppRgb);
-
-
-                //逐像素方式
-                //for (int i = 0; i < NoRow; i++)
-                //{
-                //    for (int j = 0; j < NoCol; j++)
-                //    {
-                //        bmp.SetPixel(j, i, Color.FromArgb(GrayLevelData[j + i * NoCol],
-                //            GrayLevelData[j + i * NoCol], GrayLevelData[j + i * NoCol]));
-                //    }
-                //}
-                //内存复制方式，将灰阶数组内容复制到bmp中
-                //copyBmp(bmp, GrayLevelData);
                 RenderToPictureBox();
-
-
-                //this.Refresh();
 
                 Trace.WriteLine((DateTime.Now - stTime).Milliseconds.ToString());
             }
         }
 
-        private void copyBmp(Bitmap bmp, byte[] GrayLevelData)
-        {
-            // Lock the bitmap's bits.  锁定位图  
-            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-            BitmapData bmpData = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
-                                bmp.PixelFormat);
-            // Get the address of the first line.获取首行地址  
-            IntPtr ptr = bmpData.Scan0;
-            // Declare an array to hold the bytes of the bitmap.定义数组保存位图  
-            int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
-            byte[] rgbValues = new byte[bytes];
-            for (int i = 0; i < bmp.Height; i++)
-            {
-                for (int j = 0; j < bmpData.Stride; j++)
-                {
-                    if (j < 3 * bmp.Width)
-                    {
-                        rgbValues[j + i * bmpData.Stride] = GrayLevelData[(j / 3 + i * bmp.Width)];
-                    }
-                }
-            }
-            // Copy the RGB values back to the bitmap 把RGB值拷回位图  
-            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
-            // Unlock the bits.解锁  
-            bmp.UnlockBits(bmpData);
-        }
-
         private void ViewBox_ClientSizeChanged(object sender, EventArgs e)
         {
             Debug.WriteLine("ViewBox_ClientSizeChanged");
-
         }
 
         public void readPixelData(byte[] rawData)

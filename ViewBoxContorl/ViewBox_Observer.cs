@@ -14,7 +14,7 @@ namespace ViewBoxContorl
     {
         Rectangle _samplingRect;
         Rectangle _pictureRect;
-        public Rectangle ObserverRect
+        public Rectangle SampleRect
         {
             get
             {
@@ -71,33 +71,36 @@ namespace ViewBoxContorl
             _samplingRect.Y = cy - _samplingRect.Height / 2; 
         }
 
-        public Bitmap _buildRawBitMap(byte[] rawData)
+        public Bitmap _buildRawBitMap(Bitmap raw, byte[] rawData)
         {
-            Bitmap bmp = new Bitmap(NoCol, NoRow, PixelFormat.Format24bppRgb);
+            Bitmap bmp = raw;
             // Lock the bitmap's bits.  锁定位图  
 
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
+            unsafe
+            {
+                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
                                 bmp.PixelFormat);
 
-            // Get the address of the first line.获取首行地址  
-            IntPtr ptr = bmpData.Scan0;
-            // Declare an array to hold the bytes of the bitmap.定义数组保存位图  
-            int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
-            byte[] rgbValues = new byte[bytes];
-            for (int i = 0; i < bmp.Height; i++)
-            {
-                for (int j = 0; j < bmpData.Stride; j++)
+                // Get the address of the first line.获取首行地址  
+                byte* ptr = (byte*)bmpData.Scan0;
+                // Declare an array to hold the bytes of the bitmap.定义数组保存位图  
+                int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
+                int bytesPerPix = Bitmap.GetPixelFormatSize(bmp.PixelFormat) / 8;
+                int widthInPix = bmp.Width;
+                Parallel.For(0, bmp.Height, i =>
                 {
-                    if (j < 3 * bmp.Width)
+                    byte* ptrCurLine = ptr + bmpData.Stride * i;  
+                    for(int j = 0; j < widthInPix; ++j) 
                     {
-                        rgbValues[j + i * bmpData.Stride] = GrayLevelData[j / 3 + i * NoCol];
+                        byte pixVal = getTransferedPixedlVal(PixelData[i, j]);
+                        ptrCurLine[j * 3] = pixVal;
+                        ptrCurLine[j * 3 + 1] = pixVal;
+                        ptrCurLine[j * 3 + 2] = pixVal;
                     }
-                }
+                });
+                // Unlock the bits.解锁  
+                bmp.UnlockBits(bmpData);
             }
-            // Copy the RGB values back to the bitmap 把RGB值拷回位图  
-            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
-            // Unlock the bits.解锁  
-            bmp.UnlockBits(bmpData);
 
             return bmp;
         }
@@ -112,7 +115,7 @@ namespace ViewBoxContorl
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.DrawImage(rawBmp, new Rectangle(0, 0, width, height),
-                ObserverRect, GraphicsUnit.Pixel);
+                SampleRect, GraphicsUnit.Pixel);
             graphics.Dispose();
 
             return bitmap;
