@@ -190,6 +190,7 @@ namespace testViewBox
             hsbWin.Value = Math.Min(hsbWin.Maximum, Math.Max(hsbWin.Minimum, newVal));
             tbxWin.Text = string.Format("{0}", newVal);
         }
+
         private void vbxImg_OnLvlValChanged(int oldVal, int newVal)
         {
            hsbLev.Value = Math.Min(hsbLev.Maximum, Math.Max(hsbLev.Minimum, newVal));

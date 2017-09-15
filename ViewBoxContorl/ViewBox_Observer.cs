@@ -92,7 +92,7 @@ namespace ViewBoxContorl
                     {
                         byte pixVal = getTransferedPixedlVal(PixelData[i, j]);
                         for(int k = 0; k < bytesPerPix; k++)
-                        ptrCurLine[j * bytesPerPix + k] = pixVal;
+                            ptrCurLine[j * bytesPerPix + k] = pixVal;
                     }
                 });
             }

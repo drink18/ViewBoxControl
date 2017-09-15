@@ -27,7 +27,7 @@ namespace ViewBoxContorl
             {
                 var old = win;
                 _setWin(value);
-                //OnWinChanged(old, win);
+                OnWinChanged(old, win);
                 setGrayLevelData();
             }
         }
@@ -44,7 +44,7 @@ namespace ViewBoxContorl
             {
                 var old = lev;
                 _setLevel(value);
-                //OnLvlChanged(old, lev);
+                OnLvlChanged(old, lev);
                 setGrayLevelData();
             }
         }
@@ -146,6 +146,7 @@ namespace ViewBoxContorl
         Bitmap tmpBmp;
         Rectangle Dest;
         Graphics _cachedGraphics;
+        PixelFormat _imgFormat = PixelFormat.Format24bppRgb;
 
         public ViewBox()
         {
@@ -155,7 +156,7 @@ namespace ViewBoxContorl
 
         protected override void OnCreateControl()
         {
-            this.Image = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
+            this.Image = new Bitmap(this.Width, this.Height, _imgFormat);
             _cachedGraphics = Graphics.FromImage(this.Image);
         }
 
@@ -268,9 +269,10 @@ namespace ViewBoxContorl
             var graphics = Graphics.FromImage(this.Image);
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.Clear(Color.Black);
             graphics.DrawImage(srcImg, destRectInPicture, SampleRect, GraphicsUnit.Pixel);
-            this.Invalidate();
             graphics.Dispose();
+            Refresh();
         }
 
         public void RenderToPictureBox()
@@ -326,7 +328,7 @@ namespace ViewBoxContorl
             if (PixelData != null)
             {
                 if (_rawBmp == null || (_rawBmp.Width != NoCol || _rawBmp.Height != NoRow))
-                    _rawBmp = new Bitmap(NoCol, NoRow, PixelFormat.Format24bppRgb);
+                    _rawBmp = new Bitmap(NoCol, NoRow, _imgFormat);
 
                 DateTime stTime = DateTime.Now;
                 _rawBmp = _buildRawBitMap(_rawBmp, GrayLevelData);
@@ -438,7 +440,7 @@ namespace ViewBoxContorl
             {
                 //int width = this.Width;
                 //int height = this.Height;
-                Bitmap bmpBk = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
+                Bitmap bmpBk = new Bitmap(this.Width, this.Height,  _imgFormat);
 
                 this.Image = bmpBk;
 
