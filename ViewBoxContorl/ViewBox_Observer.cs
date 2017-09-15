@@ -76,15 +76,13 @@ namespace ViewBoxContorl
             Bitmap bmp = raw;
             // Lock the bitmap's bits.  锁定位图  
 
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                            bmp.PixelFormat);
+
             unsafe
             {
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite,
-                                bmp.PixelFormat);
-
                 // Get the address of the first line.获取首行地址  
                 byte* ptr = (byte*)bmpData.Scan0;
-                // Declare an array to hold the bytes of the bitmap.定义数组保存位图  
-                int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
                 int bytesPerPix = Bitmap.GetPixelFormatSize(bmp.PixelFormat) / 8;
                 int widthInPix = bmp.Width;
                 Parallel.For(0, bmp.Height, i =>
@@ -93,14 +91,13 @@ namespace ViewBoxContorl
                     for(int j = 0; j < widthInPix; ++j) 
                     {
                         byte pixVal = getTransferedPixedlVal(PixelData[i, j]);
-                        ptrCurLine[j * 3] = pixVal;
-                        ptrCurLine[j * 3 + 1] = pixVal;
-                        ptrCurLine[j * 3 + 2] = pixVal;
+                        for(int k = 0; k < bytesPerPix; k++)
+                        ptrCurLine[j * bytesPerPix + k] = pixVal;
                     }
                 });
-                // Unlock the bits.解锁  
-                bmp.UnlockBits(bmpData);
             }
+            // Unlock the bits.解锁  
+            bmp.UnlockBits(bmpData);
 
             return bmp;
         }

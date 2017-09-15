@@ -43,8 +43,7 @@ namespace ViewBoxContorl
                 _dragX0 = dx;
                 _dragY0 = dy;
 
-                Win = (short)(Win + dx);
-                Lev = (short)(Lev + dy);
+                SetWinAndLevel((short)(Win + dx), (short)(Lev + dy));
             }
         }
         private void vbxImage_MouseDown(object sender, MouseEventArgs e)

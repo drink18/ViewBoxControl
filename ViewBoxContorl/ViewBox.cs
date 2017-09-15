@@ -25,19 +25,9 @@ namespace ViewBoxContorl
             get { return win; }
             set
             {
-                if (value == win)
-                    return;
-
                 var old = win;
-                if (value < 1)
-                {
-                    win = 1;
-                }
-                else
-                {
-                    win = value;
-                }
-                OnWinChanged(old, win);
+                _setWin(value);
+                //OnWinChanged(old, win);
                 setGrayLevelData();
             }
         }
@@ -52,12 +42,9 @@ namespace ViewBoxContorl
             get { return lev; }
             set
             {
-                if (lev == value)
-                    return;
-
                 var old = lev;
-                lev = value;
-                OnLvlChanged(old, lev);
+                _setLevel(value);
+                //OnLvlChanged(old, lev);
                 setGrayLevelData();
             }
         }
@@ -158,6 +145,7 @@ namespace ViewBoxContorl
         #endregion
         Bitmap tmpBmp;
         Rectangle Dest;
+        Graphics _cachedGraphics;
 
         public ViewBox()
         {
@@ -167,13 +155,15 @@ namespace ViewBoxContorl
 
         protected override void OnCreateControl()
         {
-            this.Image = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
+            this.Image = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
+            _cachedGraphics = Graphics.FromImage(this.Image);
         }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            Debug.WriteLine("OnPaint");
+            DateTime stTime = DateTime.Now;
             base.OnPaint(pe);
+            Trace.WriteLine(string.Format("onpait= {0}", (DateTime.Now - stTime).Milliseconds));
         }
 
 
@@ -240,7 +230,7 @@ namespace ViewBoxContorl
                 graphics.DrawImage(original, new Rectangle(0, 0, newWidth, newHeight),
                    origSampleRect, GraphicsUnit.Pixel);
                 graphics.Dispose();
-
+               
                 return bitmap;
             }
             catch
@@ -249,11 +239,38 @@ namespace ViewBoxContorl
             }
         }
 
+        private void _setWin(short value)
+        {
+            if (value == win)
+                return;
+
+            var old = win;
+            if (value < 1)
+            {
+                win = 1;
+            }
+            else
+            {
+                win = value;
+            }
+        }
+
+        private void _setLevel(short value)
+        {
+            if (lev == value)
+                return;
+
+            lev = value;
+        }
+
         private void _renderWithObserverRect(Bitmap srcImg, Rectangle destRectInPicture)
         {
-            Graphics gDest = Graphics.FromImage(this.Image);
-            gDest.DrawImage(srcImg, destRectInPicture, this.ClientRectangle, GraphicsUnit.Pixel);
+            var graphics = Graphics.FromImage(this.Image);
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.DrawImage(srcImg, destRectInPicture, SampleRect, GraphicsUnit.Pixel);
             this.Invalidate();
+            graphics.Dispose();
         }
 
         public void RenderToPictureBox()
@@ -261,19 +278,17 @@ namespace ViewBoxContorl
             if (this.Width / (double)NoCol >= this.Height / (double)NoRow)
             {
                 double dimScale = (double)this.Height / NoRow;
-                tmpBmp = ResizeUsingGDIPlus(_rawBmp, SampleRect,
-                    (int)Math.Round(dimScale * NoCol), this.Height);
-                Dest = new Rectangle((int)(this.Width - dimScale * NoCol) / 2, 0, this.Width, this.Height);
+                int scaledWidth = (int)(dimScale * NoCol);
+                Dest = new Rectangle((Width - scaledWidth) / 2, 0, scaledWidth, this.Height);
             }
             else
             {
                 double dimScale = (double)this.Width / NoCol;
-                tmpBmp = ResizeUsingGDIPlus(_rawBmp, SampleRect, this.Width,
-                    (int)Math.Round(dimScale * NoRow));
-                Dest = new Rectangle(0, (int)(this.Height - dimScale * NoRow) / 2, this.Width, this.Height);
+                int scaledHeight = (int)(dimScale * NoRow);
+                Dest = new Rectangle(0, (Height - scaledHeight) /2,  this.Width, scaledHeight);
             }
 
-            _renderWithObserverRect(tmpBmp, Dest);
+            _renderWithObserverRect(_rawBmp, Dest);
         }
 
         public byte getTransferedPixedlVal(short rawVal)
@@ -299,19 +314,28 @@ namespace ViewBoxContorl
             return ret;
         }
 
+        public void SetWinAndLevel(short win, short lvl)
+        {
+            _setWin(win);
+            _setLevel(lvl);
+            setGrayLevelData();
+        }
+
         public void setGrayLevelData()
         {
             if (PixelData != null)
             {
-                DateTime stTime = DateTime.Now;
                 if (_rawBmp == null || (_rawBmp.Width != NoCol || _rawBmp.Height != NoRow))
                     _rawBmp = new Bitmap(NoCol, NoRow, PixelFormat.Format24bppRgb);
 
+                DateTime stTime = DateTime.Now;
                 _rawBmp = _buildRawBitMap(_rawBmp, GrayLevelData);
+                Trace.WriteLine(string.Format("build raw bitmap = {0}", (DateTime.Now - stTime).Milliseconds));
 
+                stTime = DateTime.Now;
                 RenderToPictureBox();
+                Trace.WriteLine(string.Format("render to pb = {0}", (DateTime.Now - stTime).Milliseconds));
 
-                Trace.WriteLine((DateTime.Now - stTime).Milliseconds.ToString());
             }
         }
 
@@ -450,9 +474,5 @@ namespace ViewBoxContorl
         private void ViewBox_Validated(object sender, EventArgs e)
         {
         }
-
-
-
-       
     }
 }
