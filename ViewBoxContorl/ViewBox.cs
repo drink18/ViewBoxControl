@@ -143,7 +143,6 @@ namespace ViewBoxContorl
 
 
         #endregion
-        Bitmap tmpBmp;
         Rectangle Dest;
         Graphics _cachedGraphics;
         PixelFormat _imgFormat = PixelFormat.Format24bppRgb;
@@ -277,6 +276,9 @@ namespace ViewBoxContorl
 
         public void RenderToPictureBox()
         {
+            if (this.Image == null)
+                return;
+
             if (this.Width / (double)NoCol >= this.Height / (double)NoRow)
             {
                 double dimScale = (double)this.Height / NoRow;
@@ -290,7 +292,7 @@ namespace ViewBoxContorl
                 Dest = new Rectangle(0, (Height - scaledHeight) /2,  this.Width, scaledHeight);
             }
 
-            _renderWithObserverRect(_rawBmp, Dest);
+            _renderWithObserverRect(_rawBmp, new Rectangle(0, 0, Width, Height)); // Dest); 
         }
 
         public byte getTransferedPixedlVal(short rawVal)
@@ -444,8 +446,11 @@ namespace ViewBoxContorl
 
                 this.Image = bmpBk;
 
-                Debug.WriteLine("ViewBox_SizeChanged");
-                setGrayLevelData();
+                //ReAdjustToViewPort();
+                _updateObserverRect();
+                if(_rawBmp != null)
+                    RenderToPictureBox();
+
             }
         }
 
@@ -453,20 +458,6 @@ namespace ViewBoxContorl
         {
             Debug.WriteLine("ViewBox_VisibleChanged");
         }
-
-        private void ViewBox_Paint(object sender, PaintEventArgs e)
-        {
-            Debug.WriteLine("ViewBox_Paint");
-            //setGrayLevelData();
-
-            if (tmpBmp != null)
-            {
-                Graphics gDest = this.CreateGraphics();
-                gDest.DrawImage(tmpBmp, Dest, this.ClientRectangle, GraphicsUnit.Pixel);
-            }
-        }
-
-
 
         private void ViewBox_LocationChanged(object sender, EventArgs e)
         {

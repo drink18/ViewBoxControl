@@ -13,7 +13,6 @@ namespace ViewBoxContorl
     partial class ViewBox : PictureBox
     {
         Rectangle _samplingRect;
-        Rectangle _pictureRect;
         public Rectangle SampleRect
         {
             get
@@ -27,7 +26,6 @@ namespace ViewBoxContorl
         float _sizeScale = 1.0f;
         public float SizeScale
         {
-
             get { return _sizeScale; }
             set
             {
@@ -35,28 +33,25 @@ namespace ViewBoxContorl
                 _updateObserverRect();
                 RenderToPictureBox();
             }
-        } 
+        }
 
-        public Point ObserverPos
+        public void TranslateObserverPos(int dxInPixel, int dyInPixel)
         {
-            get { return new Point(_samplingRect.X, _samplingRect.Y); }
-            set
-            {
-                //var x = Math.Max(0, value.X);
-                //var y = Math.Max(0, value.Y);
-                _samplingRect.X = value.X;
-                _samplingRect.Y = value.Y;
-
-                _updateObserverRect();
-                RenderToPictureBox();
-            }
+            _samplingRect.X += (int)(dxInPixel / SizeScale);
+            _samplingRect.Y += (int)(dyInPixel / SizeScale);
+            _updateObserverRect();
+            RenderToPictureBox();
         }
 
         public void ResetObserverRect()
         {
-            _samplingRect = new Rectangle(0, 0, NoCol, NoRow);
+            int x = -(Width - NoCol) / 2;
+            int y = -(Height- NoRow) / 2;
+            _samplingRect = new Rectangle(x, y, Width, Height);
+            _sizeScale = 1.0f;
         }
 
+        // keep the center of current sampling rect and apply scale
         void _updateObserverRect()
         {
             int cx = _samplingRect.X + _samplingRect.Width / 2;
@@ -64,8 +59,8 @@ namespace ViewBoxContorl
 
             float factor = 1.0f / SizeScale;
 
-            _samplingRect.Width = (int)(NoCol * factor);
-            _samplingRect.Height = (int)(NoRow * factor);
+            _samplingRect.Width = (int)(this.Width * factor);
+            _samplingRect.Height = (int)(this.Height * factor);
 
             _samplingRect.X = cx - _samplingRect.Width / 2;
             _samplingRect.Y = cy - _samplingRect.Height / 2; 
@@ -100,22 +95,6 @@ namespace ViewBoxContorl
             bmp.UnlockBits(bmpData);
 
             return bmp;
-        }
-
-        public Bitmap _sampleRawImgWithObserverRect(Bitmap rawBmp, int width, int height)
-        {
-            Bitmap bitmap = new Bitmap(width, height);
-            Graphics graphics = Graphics.FromImage(bitmap);
-
-            // 插值算法的质量
-            //graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            graphics.SmoothingMode = SmoothingMode.HighQuality;
-            graphics.DrawImage(rawBmp, new Rectangle(0, 0, width, height),
-                SampleRect, GraphicsUnit.Pixel);
-            graphics.Dispose();
-
-            return bitmap;
         }
     }
 }

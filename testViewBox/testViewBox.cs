@@ -16,7 +16,6 @@ namespace testViewBox
     public partial class testViewBox : Form
     {
         string imagePath = @"C:\Users\Windows User\Pictures";
-        Bitmap img;
         #region NoCol
         int noCol;
 

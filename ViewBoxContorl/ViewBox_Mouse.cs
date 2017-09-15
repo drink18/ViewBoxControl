@@ -29,23 +29,6 @@ namespace ViewBoxContorl
 
         public int AccelModeScale { get; set; } = 3;
 
-
-        private void OnMouseDrag(object sender, GiveFeedbackEventArgs e)
-        {
-            if ((e.Effect & DragDropEffects.Move) != DragDropEffects.Move)
-                return;
-
-            if (MouseOpMode == MouseOps.PosLvl)
-            {
-                int dx = (MousePosition.X - _dragX0);
-                int dy = (MousePosition.Y - _dragY0);
-
-                _dragX0 = dx;
-                _dragY0 = dy;
-
-                SetWinAndLevel((short)(Win + dx), (short)(Lev + dy));
-            }
-        }
         private void vbxImage_MouseDown(object sender, MouseEventArgs e)
         {
             _dragX0 = e.X;
@@ -63,13 +46,11 @@ namespace ViewBoxContorl
 
                 int sdx = dx * scale;
                 int sdy = dy * scale;
-                Win = (short)(Win + sdx);
-                Lev = (short)(Lev + sdy);
+                SetWinAndLevel((short)(Win + sdx), (short)(Lev + sdy));
             }
             else if((e.Button & PosChangeBtn) == PosChangeBtn)
             {
-                var newPos = new Point(ObserverPos.X + dx, ObserverPos.Y + dy);
-                ObserverPos = newPos;
+                TranslateObserverPos(-dx, -dy);
             }
 
             _dragX0 = e.X;
