@@ -14,16 +14,16 @@ namespace ViewBoxContorl.Annotation
         public static int MinSizeX = 4;
         public static int MinSizeY = 4;
         virtual public void Draw(Graphics g, Annotation ano) { }
-        virtual public void Move(Point delta) { }
+        virtual public void Move(PointF delta) { }
         virtual public void Manipulae() { }
 
-        protected Rectangle _absRect = new Rectangle(0, 0, MinSizeX, MinSizeY); //rect in absolute coord system
-        public Rectangle AbsRect {
+        protected RectangleF _absRect = new RectangleF(0, 0, MinSizeX, MinSizeY); //rect in absolute coord system
+        public RectangleF AbsRect {
             get { return _absRect; }
             set { _absRect = value; }
         }
         
         virtual public void DrawControlPoints(Graphics g, Annotation ano) { }
-        virtual public void OnDragCreating(Point p) {}
+        virtual public void OnDragCreating(PointF p) {}
     }
 }

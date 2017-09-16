@@ -58,6 +58,20 @@ namespace ViewBoxContorl.Annotation
             return tp[0];
         }
 
+        public PointF Client2Img(PointF p)
+        {
+            var tp = new PointF[] { new PointF(p.X, p.Y) };
+            _vb.matClientToImage.TransformPoints(tp);
+            return tp[0];
+        }
+
+        public PointF Img2Client(PointF p)
+        {
+            var tp = new PointF[] { new PointF(p.X, p.Y) };
+            _vb.matImageToClient.TransformPoints(tp);
+            return tp[0];
+        }
+
         public Point Client2ImgVec(Point p)
         {
             var tp = new Point[] { new Point(p.X, p.Y) };
@@ -71,6 +85,21 @@ namespace ViewBoxContorl.Annotation
             _vb.matImageToClient.TransformVectors(tp);
             return tp[0];
         }
+
+        public PointF Client2ImgVec(PointF p)
+        {
+            var tp = new PointF[] { new PointF(p.X, p.Y) };
+            _vb.matClientToImage.TransformVectors(tp);
+            return tp[0];
+        }
+
+        public PointF Img2ClientVec(PointF p)
+        {
+            var tp = new PointF[] { new PointF(p.X, p.Y) };
+            _vb.matImageToClient.TransformVectors(tp);
+            return tp[0];
+        }
+
         public Rectangle Client2Img(Rectangle r)
         {
             var tp = new Point[] { new Point(r.X, r.Y), new Point(r.Right, r.Bottom) };
@@ -85,6 +114,22 @@ namespace ViewBoxContorl.Annotation
             _vb.matImageToClient.TransformPoints(tp);
 
             return new Rectangle(tp[0].X, tp[0].Y, tp[1].X - tp[0].X, tp[1].Y - tp[0].Y);
+        }
+
+        public RectangleF Client2Img(RectangleF r)
+        {
+            var tp = new PointF[] { new PointF(r.X, r.Y), new PointF(r.Right, r.Bottom) };
+            _vb.matClientToImage.TransformPoints(tp);
+
+            return new RectangleF(tp[0].X, tp[0].Y, tp[1].X - tp[0].X, tp[1].Y - tp[0].Y);
+        }
+
+        public RectangleF Img2Client(RectangleF r)
+        {
+            var tp = new PointF[] { new PointF(r.X, r.Y), new PointF(r.Right, r.Bottom) };
+            _vb.matImageToClient.TransformPoints(tp);
+
+            return new RectangleF(tp[0].X, tp[0].Y, tp[1].X - tp[0].X, tp[1].Y - tp[0].Y);
         }
         #endregion
 

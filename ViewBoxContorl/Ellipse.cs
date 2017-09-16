@@ -10,11 +10,11 @@ namespace ViewBoxContorl.Annotation
 {
     public class Ellipse : BaseElement
     {
-        int Width {
+        float Width {
             get { return _absRect.Width; }
         }
 
-        int Height{
+        float Height{
             get { return _absRect.Height; }
         }
 
@@ -39,19 +39,18 @@ namespace ViewBoxContorl.Annotation
         public override void DrawControlPoints(Graphics g, Annotation ano) 
         {
             Pen pen = new Pen(Brushes.CornflowerBlue);
-
             var selRect = ano.Img2Client(_absRect);
-            g.DrawRectangle(pen, selRect);
+            g.DrawRectangle(pen, (int)selRect.X, (int)selRect.Y, (int)selRect.Width, (int)selRect.Height);
         }
 
-        public override void OnDragCreating(Point p)
+        public override void OnDragCreating(PointF p)
         {
             var x = _absRect.X;
             var y = _absRect.Y;
-            _absRect = new Rectangle(x, y, p.X - x, p.Y - y);
+            _absRect = new RectangleF(x, y, p.X - x, p.Y - y);
         }
 
-        public override void Move(Point delta)
+        public override void Move(PointF delta)
         {
             _absRect.X += delta.X;
             _absRect.Y += delta.Y;
