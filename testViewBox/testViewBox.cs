@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ViewBoxContorl.Annotation;
 
 namespace testViewBox
 {
@@ -45,7 +46,6 @@ namespace testViewBox
         #endregion
         
 
-
         public testViewBox()
         {
             InitializeComponent();
@@ -53,7 +53,10 @@ namespace testViewBox
             MouseWheel += new MouseEventHandler(testMouseWheel);
             vbxImage.OnWinChanged += vbxImg_OnWinValChanged;
             vbxImage.OnLvlChanged += vbxImg_OnLvlValChanged;
-            
+
+            dbNewShape.SelectedIndex = 0;
+            dbNewShape.Enabled = false;
+
         }
 
         private void btnLoadImage_Click(object sender, EventArgs e)
@@ -202,6 +205,23 @@ namespace testViewBox
             Debug.WriteLine(string.Format("delta = {0}", delta));
             vbxImage.SizeScale += delta;
         }
-        
+
+        private void cbAnnotation_CheckedChanged(object sender, EventArgs e)
+        {
+            vbxImage.InterationMode = cbAnnotation.Checked ? ViewBoxContorl.ViewBox.Interaction.Annotation : ViewBoxContorl.ViewBox.Interaction.Browse;
+            dbNewShape.Enabled = cbAnnotation.Checked;
+        }
+
+        private void dbNewShape_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string str = dbNewShape.SelectedItem as string;
+            if(str == "None")
+            {
+                vbxImage.NewAnnotationType = null;
+            }else if(str == "Ellipse")
+            {
+                vbxImage.NewAnnotationType = typeof(Ellipse);
+            }
+        }
     }
 }

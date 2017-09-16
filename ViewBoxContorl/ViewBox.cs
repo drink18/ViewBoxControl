@@ -11,6 +11,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using ViewBoxContorl.Annotation;
 
 namespace ViewBoxContorl
 {
@@ -143,15 +144,32 @@ namespace ViewBoxContorl
 
 
         #endregion
-        Rectangle Dest;
+
+
+        public enum Interaction
+        {
+            Browse,
+            Annotation
+        }
+
+        public Interaction InterationMode { get; set; } = Interaction.Browse;
+        public Type NewAnnotationType = null;
+
+
+        #region privates
         Graphics _cachedGraphics;
         PixelFormat _imgFormat = PixelFormat.Format24bppRgb;
+        Annotation.Annotation _annotation;
+        #endregion
 
         public ViewBox()
         {
             InitializeComponent();
             this.ResizeRedraw = true;
+            this.MouseUp += OnMouseUpEvt;
+            _annotation =  new Annotation.Annotation(this);
         }
+
 
         protected override void OnCreateControl()
         {
@@ -161,9 +179,8 @@ namespace ViewBoxContorl
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            DateTime stTime = DateTime.Now;
             base.OnPaint(pe);
-            Trace.WriteLine(string.Format("onpait= {0}", (DateTime.Now - stTime).Milliseconds));
+            _annotation.OnPaint(pe);
         }
 
 
@@ -276,23 +293,10 @@ namespace ViewBoxContorl
 
         public void RenderToPictureBox()
         {
-            if (this.Image == null)
+            if (this.Image == null || _rawBmp == null)
                 return;
 
-            if (this.Width / (double)NoCol >= this.Height / (double)NoRow)
-            {
-                double dimScale = (double)this.Height / NoRow;
-                int scaledWidth = (int)(dimScale * NoCol);
-                Dest = new Rectangle((Width - scaledWidth) / 2, 0, scaledWidth, this.Height);
-            }
-            else
-            {
-                double dimScale = (double)this.Width / NoCol;
-                int scaledHeight = (int)(dimScale * NoRow);
-                Dest = new Rectangle(0, (Height - scaledHeight) /2,  this.Width, scaledHeight);
-            }
-
-            _renderWithObserverRect(_rawBmp, new Rectangle(0, 0, Width, Height)); // Dest); 
+            _renderWithObserverRect(_rawBmp, new Rectangle(0, 0, Width, Height)); 
         }
 
         public byte getTransferedPixedlVal(short rawVal)
@@ -466,6 +470,11 @@ namespace ViewBoxContorl
 
         private void ViewBox_Validated(object sender, EventArgs e)
         {
+        }
+
+        private bool _hasImage()
+        {
+            return grayLevelData != null;
         }
     }
 }

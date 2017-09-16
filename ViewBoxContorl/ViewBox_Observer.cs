@@ -7,12 +7,15 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ViewBoxContorl
 {
     partial class ViewBox : PictureBox
     {
         Rectangle _samplingRect;
+        [Browsable(false)]
         public Rectangle SampleRect
         {
             get
@@ -24,6 +27,7 @@ namespace ViewBoxContorl
 
 
         float _sizeScale = 1.0f;
+        [Browsable(false)]
         public float SizeScale
         {
             get { return _sizeScale; }
@@ -34,6 +38,9 @@ namespace ViewBoxContorl
                 RenderToPictureBox();
             }
         }
+
+        public Matrix matClientToImage = new Matrix();
+        public Matrix matImageToClient = new Matrix();
 
         public void TranslateObserverPos(int dxInPixel, int dyInPixel)
         {
@@ -54,6 +61,9 @@ namespace ViewBoxContorl
         // keep the center of current sampling rect and apply scale
         void _updateObserverRect()
         {
+            if (!_hasImage())
+                return;
+
             int cx = _samplingRect.X + _samplingRect.Width / 2;
             int cy = _samplingRect.Y + _samplingRect.Height/ 2;
 
@@ -63,7 +73,9 @@ namespace ViewBoxContorl
             _samplingRect.Height = (int)(this.Height * factor);
 
             _samplingRect.X = cx - _samplingRect.Width / 2;
-            _samplingRect.Y = cy - _samplingRect.Height / 2; 
+            _samplingRect.Y = cy - _samplingRect.Height / 2;
+
+            _updateMatrices();
         }
 
         public Bitmap _buildRawBitMap(Bitmap raw, byte[] rawData)
@@ -95,6 +107,32 @@ namespace ViewBoxContorl
             bmp.UnlockBits(bmpData);
 
             return bmp;
+        }
+
+        public void _updateMatrices()
+        {
+            float ox = -SampleRect.X;
+            float oy = -SampleRect.Y;
+
+            float sxx = (float)this.Width / SampleRect.Width;
+            float syy = (float)this.Height / SampleRect.Height;
+
+            // transform from image to client. 
+            matImageToClient = new Matrix();
+            matImageToClient.Scale(sxx, syy); 
+            matImageToClient.Translate(ox, oy);
+
+            matClientToImage = matImageToClient.Clone();
+            matClientToImage.Invert();
+
+            PointF a0 = new PointF(1, 2);
+            var pts = new PointF[] {new PointF(a0.X, a0.Y)};
+            matImageToClient.TransformPoints(pts);
+
+            var pts1 = new PointF[] { new PointF(pts[0].X, pts[0].Y) };
+            matClientToImage.TransformPoints(pts1);
+
+            Debug.WriteLine("i");
         }
     }
 }

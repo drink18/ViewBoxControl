@@ -42,6 +42,8 @@
             this.tbxLev = new System.Windows.Forms.TextBox();
             this.hsbWin = new System.Windows.Forms.HScrollBar();
             this.hsbLev = new System.Windows.Forms.HScrollBar();
+            this.cbAnnotation = new System.Windows.Forms.CheckBox();
+            this.dbNewShape = new System.Windows.Forms.ComboBox();
             this.vbxImage = new ViewBoxContorl.ViewBox();
             ((System.ComponentModel.ISupportInitialize)(this.vbxImage)).BeginInit();
             this.SuspendLayout();
@@ -185,6 +187,32 @@
             this.hsbLev.TabIndex = 5;
             this.hsbLev.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hsbLev_Scroll);
             // 
+            // cbAnnotation
+            // 
+            this.cbAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAnnotation.AutoSize = true;
+            this.cbAnnotation.Location = new System.Drawing.Point(675, 149);
+            this.cbAnnotation.Name = "cbAnnotation";
+            this.cbAnnotation.Size = new System.Drawing.Size(84, 16);
+            this.cbAnnotation.TabIndex = 6;
+            this.cbAnnotation.Text = "Annotation";
+            this.cbAnnotation.UseVisualStyleBackColor = true;
+            this.cbAnnotation.CheckedChanged += new System.EventHandler(this.cbAnnotation_CheckedChanged);
+            // 
+            // dbNewShape
+            // 
+            this.dbNewShape.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dbNewShape.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dbNewShape.FormattingEnabled = true;
+            this.dbNewShape.Items.AddRange(new object[] {
+            "None",
+            "Ellipse"});
+            this.dbNewShape.Location = new System.Drawing.Point(765, 147);
+            this.dbNewShape.Name = "dbNewShape";
+            this.dbNewShape.Size = new System.Drawing.Size(121, 20);
+            this.dbNewShape.TabIndex = 7;
+            this.dbNewShape.SelectedIndexChanged += new System.EventHandler(this.dbNewShape_SelectedIndexChanged);
+            // 
             // vbxImage
             // 
             this.vbxImage.AccelModeScale = 3;
@@ -196,6 +224,7 @@
             this.vbxImage.FovRow = 0D;
             this.vbxImage.GrayLevelData = null;
             this.vbxImage.Image = ((System.Drawing.Image)(resources.GetObject("vbxImage.Image")));
+            this.vbxImage.InterationMode = ViewBoxContorl.ViewBox.Interaction.Annotation;
             this.vbxImage.Lev = ((short)(0));
             this.vbxImage.Location = new System.Drawing.Point(9, 10);
             this.vbxImage.Margin = new System.Windows.Forms.Padding(2);
@@ -205,7 +234,9 @@
             this.vbxImage.NoRow = 0;
             this.vbxImage.Pannable = false;
             this.vbxImage.PixelData = null;
+            this.vbxImage.SampleRect = new System.Drawing.Rectangle(-161, -205, 322, 410);
             this.vbxImage.Size = new System.Drawing.Size(322, 410);
+            this.vbxImage.SizeScale = 1F;
             this.vbxImage.TabIndex = 0;
             this.vbxImage.TabStop = false;
             this.vbxImage.Win = ((short)(1));
@@ -221,6 +252,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(898, 438);
+            this.Controls.Add(this.dbNewShape);
+            this.Controls.Add(this.cbAnnotation);
             this.Controls.Add(this.hsbLev);
             this.Controls.Add(this.hsbWin);
             this.Controls.Add(this.tbxLev);
@@ -260,6 +293,8 @@
         private System.Windows.Forms.TextBox tbxLev;
         private System.Windows.Forms.HScrollBar hsbWin;
         private System.Windows.Forms.HScrollBar hsbLev;
+        private System.Windows.Forms.CheckBox cbAnnotation;
+        private System.Windows.Forms.ComboBox dbNewShape;
     }
 }
 

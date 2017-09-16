@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotation.cs" />
+    <Compile Include="Annotation_Element.cs" />
+    <Compile Include="Annotation_Manip.cs" />
+    <Compile Include="Annotation_Selection.cs" />
+    <Compile Include="BaseElement.cs" />
+    <Compile Include="Ellipse.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="Structures.cs" />
     <Compile Include="ViewBox.cs">
