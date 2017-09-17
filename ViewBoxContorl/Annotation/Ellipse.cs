@@ -46,13 +46,6 @@ namespace ViewBoxContorl.Annotation
             pen.Dispose();
         }
 
-        public override void OnDragCreating(PointF p)
-        {
-            var x = _absRect.X;
-            var y = _absRect.Y;
-            AbsRect = new RectangleF(x, y, p.X - x, p.Y - y);
-        }
-
         public override void Move(PointF delta)
         {
             AbsRect = new RectangleF(_absRect.X + delta.X, _absRect.Y + delta.Y, _absRect.Width, _absRect.Height);

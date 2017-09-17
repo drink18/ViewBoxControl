@@ -177,6 +177,20 @@ namespace ViewBoxContorl.Annotation
             }
             ctrlPen.Dispose();
         }
-        virtual public void OnDragCreating(PointF p) {}
+
+        virtual public void OnDragCreating(PointF p)
+        {
+            var x = _absRect.X;
+            var y = _absRect.Y;
+            var x1 = p.X;
+            var y1 = p.Y;
+
+            x = Math.Min(x, x1);
+            y = Math.Min(y, y1);
+            var w = Math.Max(x, x1) - x;
+            var h = Math.Max(y, y1) - y;
+
+            AbsRect = new RectangleF(x, y, w, h);
+        }
     }
 }
