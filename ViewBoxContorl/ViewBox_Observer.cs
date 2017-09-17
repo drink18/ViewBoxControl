@@ -131,8 +131,6 @@ namespace ViewBoxContorl
 
             var pts1 = new PointF[] { new PointF(pts[0].X, pts[0].Y) };
             matClientToImage.TransformPoints(pts1);
-
-            Debug.WriteLine("i");
         }
     }
 }

@@ -19,7 +19,6 @@ namespace ViewBoxContorl.Annotation
             _vb = vb;
         }
 
-
         AnnotationSelection _selection = new AnnotationSelection();
 
         #region mouse crap
@@ -147,6 +146,16 @@ namespace ViewBoxContorl.Annotation
         }
         #endregion
 
+        #region Event raising
+        public delegate void ShapeChanging(BaseElement e);
+        public delegate void ShapeChanged(BaseElement e);
+        public delegate void ShapeCreated(BaseElement e);
+
+        public ShapeChanging ShapeChangingEvt = o=> { };
+        public ShapeChanged ShapeChangedEvt = o=> { };
+        public ShapeCreated ShapeCreatedEvt = o=> { };
+        #endregion  
+
         #region event handler
         public void MouseMove(object sender, MouseEventArgs e)
         {
@@ -169,12 +178,17 @@ namespace ViewBoxContorl.Annotation
                 if (_creatingEle.IsValid())
                 {
                     _elementsList.Add(_creatingEle);
+                    ShapeCreatedEvt(_creatingEle);
                 }
                 _creating = false;
                 _creatingEle = null;
                 _vb.Invalidate();
             }
 
+            if(_cmd != null)
+            {
+                _cmd.EndCmd();
+            }
             _cmd = null;
         }
 

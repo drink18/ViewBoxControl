@@ -168,7 +168,9 @@ namespace ViewBoxContorl
             this.ResizeRedraw = true;
             this.MouseUp += OnMouseUpEvt;
             _annotation =  new Annotation.Annotation(this);
+            _annotation.ShapeCreatedEvt += vbxImage_AnnotationShapeCreated;
         }
+
 
         protected override void OnCreateControl()
         {
@@ -357,14 +359,9 @@ namespace ViewBoxContorl
                 if (_rawBmp == null || (_rawBmp.Width != NoCol || _rawBmp.Height != NoRow))
                     _rawBmp = new Bitmap(NoCol, NoRow, _imgFormat);
 
-                DateTime stTime = DateTime.Now;
                 _rawBmp = _buildRawBitMap(_rawBmp, GrayLevelData);
-                Trace.WriteLine(string.Format("build raw bitmap = {0}", (DateTime.Now - stTime).Milliseconds));
 
-                stTime = DateTime.Now;
                 RenderToPictureBox();
-                Trace.WriteLine(string.Format("render to pb = {0}", (DateTime.Now - stTime).Milliseconds));
-
             }
         }
 
@@ -496,6 +493,11 @@ namespace ViewBoxContorl
         private bool _hasImage()
         {
             return grayLevelData != null;
+        }
+
+        private void vbxImage_AnnotationShapeCreated(BaseElement e)
+        {
+            Debug.WriteLine(string.Format("{0} created", e.GetType().Name));
         }
     }
 }

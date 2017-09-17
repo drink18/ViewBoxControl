@@ -26,6 +26,8 @@ namespace ViewBoxContorl.Annotation
         }
         public virtual void OnMouseUp(Point p) { }
         public virtual void OnMouseDown(Point p) { }
+
+        public virtual void EndCmd() { _ano.ShapeChangedEvt(_ele); }
     }
 
     public class MoveCommand : ManipCommand
@@ -54,6 +56,7 @@ namespace ViewBoxContorl.Annotation
         public override void OnMouseMove(Point p)
         {
             _ele.Manipulate(_cpt, _ano.Client2ImgVec(new Point(p.X - _lastMousePos.X, p.Y - _lastMousePos.Y)));
+            _ano.ShapeChangingEvt(_ele);
             base.OnMouseMove(p);
         }
     }

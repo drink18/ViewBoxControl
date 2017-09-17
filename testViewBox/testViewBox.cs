@@ -56,7 +56,6 @@ namespace testViewBox
 
             dbNewShape.SelectedIndex = 0;
             dbNewShape.Enabled = false;
-
         }
 
         private void btnLoadImage_Click(object sender, EventArgs e)
@@ -194,7 +193,6 @@ namespace testViewBox
         private void testMouseWheel(object sender, MouseEventArgs args)
         {
             var delta = args.Delta / 120.0f * 0.1f;
-            Debug.WriteLine(string.Format("delta = {0}", delta));
             vbxImage.SizeScale += delta;
         }
 
