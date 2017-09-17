@@ -147,12 +147,14 @@ namespace ViewBoxContorl.Annotation
         #endregion
 
         #region Event raising
+        public delegate void ShapeChangeBegin(BaseElement e);
         public delegate void ShapeChanging(BaseElement e);
-        public delegate void ShapeChanged(BaseElement e);
+        public delegate void ShapeChangeEnd(BaseElement e);
         public delegate void ShapeCreated(BaseElement e);
 
+        public ShapeChangeBegin ShapeChangeBeginEvt = o => { };
         public ShapeChanging ShapeChangingEvt = o=> { };
-        public ShapeChanged ShapeChangedEvt = o=> { };
+        public ShapeChangeEnd ShapeChangeEndEvt = o=> { };
         public ShapeCreated ShapeCreatedEvt = o=> { };
         #endregion  
 

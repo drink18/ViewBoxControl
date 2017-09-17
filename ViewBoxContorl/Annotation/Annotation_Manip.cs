@@ -18,6 +18,8 @@ namespace ViewBoxContorl.Annotation
             _ele = ele;
             _lastMousePos = p;
             _ano = ano;
+
+            _ano.ShapeChangeBeginEvt(_ele);
         }
 
         public virtual void OnMouseMove(Point p)
@@ -27,7 +29,7 @@ namespace ViewBoxContorl.Annotation
         public virtual void OnMouseUp(Point p) { }
         public virtual void OnMouseDown(Point p) { }
 
-        public virtual void EndCmd() { _ano.ShapeChangedEvt(_ele); }
+        public virtual void EndCmd() { _ano.ShapeChangeEndEvt(_ele); }
     }
 
     public class MoveCommand : ManipCommand

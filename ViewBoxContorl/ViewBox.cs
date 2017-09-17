@@ -169,8 +169,9 @@ namespace ViewBoxContorl
             this.MouseUp += OnMouseUpEvt;
             _annotation =  new Annotation.Annotation(this);
             _annotation.ShapeCreatedEvt += vbxImage_AnnotationShapeCreated;
+            _annotation.ShapeChangingEvt += vbxImage_AnnotationShapeChanging;
+            _annotation.ShapeChangeEndEvt += vbxImage_AnnotationShapeChanged;
         }
-
 
         protected override void OnCreateControl()
         {
@@ -499,5 +500,16 @@ namespace ViewBoxContorl
         {
             Debug.WriteLine(string.Format("{0} created", e.GetType().Name));
         }
+
+        private void vbxImage_AnnotationShapeChanged(BaseElement e)
+        {
+            Debug.WriteLine(string.Format("{0} changed", e.GetType().Name));
+        }
+
+        private void vbxImage_AnnotationShapeChanging(BaseElement e)
+        {
+            Debug.WriteLine(string.Format("{0} changing", e.GetType().Name));
+        }
+
     }
 }
