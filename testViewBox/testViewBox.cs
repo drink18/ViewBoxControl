@@ -218,9 +218,18 @@ namespace testViewBox
             if(str == "None")
             {
                 vbxImage.NewAnnotationType = null;
-            }else if(str == "Ellipse")
+            }
+            else if(str == "Ellipse")
             {
                 vbxImage.NewAnnotationType = typeof(Ellipse);
+            }
+            else if(str == "Box")
+            {
+                vbxImage.NewAnnotationType = typeof(Box);
+            }
+            else if(str == "Line")
+            {
+                vbxImage.NewAnnotationType = typeof(Line);
             }
         }
     }

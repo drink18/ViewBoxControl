@@ -206,7 +206,9 @@
             this.dbNewShape.FormattingEnabled = true;
             this.dbNewShape.Items.AddRange(new object[] {
             "None",
-            "Ellipse"});
+            "Ellipse",
+            "Box",
+            "Line"});
             this.dbNewShape.Location = new System.Drawing.Point(765, 147);
             this.dbNewShape.Name = "dbNewShape";
             this.dbNewShape.Size = new System.Drawing.Size(121, 20);

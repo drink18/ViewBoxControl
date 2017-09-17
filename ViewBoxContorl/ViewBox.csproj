@@ -51,6 +51,7 @@
     <Compile Include="Annotation\BaseElement.cs" />
     <Compile Include="Annotation\Box.cs" />
     <Compile Include="Annotation\Ellipse.cs" />
+    <Compile Include="Annotation\Line.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="Structures.cs" />
     <Compile Include="ViewBox.cs">

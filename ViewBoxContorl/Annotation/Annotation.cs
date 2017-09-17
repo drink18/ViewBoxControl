@@ -166,12 +166,13 @@ namespace ViewBoxContorl.Annotation
         {
             if (_creating)
             {
-                if (_creatingEle.AbsRect.Width >= BaseElement.MinSizeX && _creatingEle.AbsRect.Width >= BaseElement.MinSizeY)
+                if (_creatingEle.IsValid())
                 {
                     _elementsList.Add(_creatingEle);
                 }
                 _creating = false;
                 _creatingEle = null;
+                _vb.Invalidate();
             }
 
             _cmd = null;

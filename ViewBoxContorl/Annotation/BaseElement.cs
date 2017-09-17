@@ -21,6 +21,8 @@ namespace ViewBoxContorl.Annotation
             BottomMiddle,
             BottomLeft,
             LeftMiddle, 
+            LineEnd0,
+            LineEnd1,
             None
         }
 
@@ -97,6 +99,10 @@ namespace ViewBoxContorl.Annotation
                 AbsRect = new RectangleF(x, y, w, h);
             }
         }
+        virtual public bool IsValid()
+        {
+            return AbsRect.Width >= MinSizeX && AbsRect.Height >= MinSizeY;
+        }
 
         protected RectangleF _absRect = new RectangleF(0, 0, MinSizeX, MinSizeY); //rect in absolute coord system
         public RectangleF AbsRect {
@@ -111,7 +117,7 @@ namespace ViewBoxContorl.Annotation
         protected Dictionary<CtrlPt, PointF> CtrlPoints = new Dictionary<CtrlPt, PointF>();
         protected HashSet<CtrlPt> ValidPickPts = new HashSet<CtrlPt>();
 
-        Dictionary<CtrlPt, PointF> _getCtrlPtRects()
+        virtual protected Dictionary<CtrlPt, PointF> _getCtrlPtRects()
         {
             var rects = new Dictionary<CtrlPt, PointF>();
             var hf = CtrlPtSize / 2;

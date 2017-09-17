@@ -46,11 +46,6 @@ namespace ViewBoxContorl.Annotation
             pen.Dispose();
         }
 
-        public override void DrawControlPoints(Graphics g, Annotation ano) 
-        {
-            base.DrawControlPoints(g, ano);
-        }
-
         public override void OnDragCreating(PointF p)
         {
             var x = _absRect.X;
