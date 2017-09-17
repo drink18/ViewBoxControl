@@ -31,7 +31,6 @@ namespace ViewBoxContorl.Annotation
         {
             Point1 = p;
             _buildBoundingRect();
-
         }
 
         public override void Draw(Graphics g, Annotation ano)
@@ -91,24 +90,7 @@ namespace ViewBoxContorl.Annotation
                 Point1 = new PointF(d.X + Point1.X, d.Y + Point1.Y);
             }
 
-            var x = Math.Min(Point0.X, Point1.X);
-            var y = Math.Min(Point0.Y, Point1.Y);
-            var w = Math.Max(Point0.X, Point1.X) - x;
-            var h = Math.Max(Point0.Y, Point1.Y) - y;
-
-            if(w < MinSizeX)
-            {
-                x -= (MinSizeX - w) / 2;
-                w = MinSizeX;
-            }
-
-            if(h < MinSizeY)
-            {
-                y -= (MinSizeY - h) / 2;
-                h = MinSizeY;
-            }
-
-            AbsRect = new RectangleF(x, y, w, h);
+            _buildBoundingRect();
         }
 
         public override bool IsValid()
