@@ -109,6 +109,7 @@ namespace ViewBoxContorl.Annotation
         }
 
         protected Dictionary<CtrlPt, PointF> CtrlPoints = new Dictionary<CtrlPt, PointF>();
+        protected HashSet<CtrlPt> ValidPickPts = new HashSet<CtrlPt>();
 
         Dictionary<CtrlPt, PointF> _getCtrlPtRects()
         {
@@ -130,9 +131,15 @@ namespace ViewBoxContorl.Annotation
             return rects;
         }
 
-        protected void UpdateCtrlPts()
+        virtual protected void UpdateCtrlPts()
         {
-            CtrlPoints = _getCtrlPtRects();
+            var ctrlPts = _getCtrlPtRects();
+            CtrlPoints.Clear();
+            foreach(var e in ctrlPts)
+            {
+                if (ValidPickPts.Contains(e.Key))
+                    CtrlPoints[e.Key] = e.Value;
+            }
         }
 
         virtual public CtrlPt PickControlPoint(PointF pClt, Annotation ano)

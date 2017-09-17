@@ -20,6 +20,16 @@ namespace ViewBoxContorl.Annotation
 
         public Ellipse(Point topLeft, Matrix client2Img)
         {
+            ValidPickPts = new HashSet<CtrlPt>() {
+                CtrlPt.TopLeft,
+                CtrlPt.TopMiddle,
+                CtrlPt.TopRight,
+                CtrlPt.RightMiddle,
+                CtrlPt.BottomRight,
+                CtrlPt.BottomMiddle,
+                CtrlPt.BottomLeft,
+                CtrlPt.LeftMiddle };
+
             var pts = new Point[] { new Point(topLeft.X, topLeft.Y) };
             client2Img.TransformPoints(pts);
             _absRect.X = pts[0].X;
