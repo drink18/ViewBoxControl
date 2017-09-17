@@ -55,13 +55,13 @@ namespace ViewBoxContorl
             else
             {
                 _annotation.MouseMove(sender, e);
+                Invalidate();
             }
-
         }
 
         private void OnMouseUpEvt(object sender, MouseEventArgs e)
         {
-            if(InterationMode == Interaction.Browse)
+            if (InterationMode == Interaction.Browse)
             {
             }
             else
@@ -70,7 +70,7 @@ namespace ViewBoxContorl
             }
         }
 
-        #region browse mouse evet
+#region browse mouse evet
         private void BrowseMouseDown(object sender, MouseEventArgs e)
         {
             _dragX0 = e.X;
@@ -98,10 +98,10 @@ namespace ViewBoxContorl
             _dragX0 = e.X;
             _dragY0 = e.Y;
         }
-        #endregion
+#endregion
 
-        #region annoation mouse event
-        #endregion
+#region annoation mouse event
+#endregion
 
     }
 }

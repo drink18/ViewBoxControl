@@ -155,14 +155,6 @@ namespace testViewBox
 
         private void vbxImage_Paint(object sender, PaintEventArgs e)
         {
-            tbxInfo.AppendText("vbxImage_Paint\r\n");
-            base.OnPaint(e);
-            Graphics g = vbxImage.CreateGraphics();
-//            Rectangle r = vbxImage.ClientRectangle;
-            Pen pen1=new Pen(Color.Red);
-
-            pen1.Width = 5;
-            g.DrawRectangle(pen1, 10, 10, 50, 50);
         }
 
         private void vbxImage_Validated(object sender, EventArgs e)

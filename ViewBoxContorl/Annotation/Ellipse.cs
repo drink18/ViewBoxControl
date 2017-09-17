@@ -38,7 +38,7 @@ namespace ViewBoxContorl.Annotation
 
         public override void Draw(Graphics g, Annotation ano)
         {
-            Pen pen = new Pen(Brushes.White);
+            Pen pen = new Pen(Brushes.LightYellow);
             
             var rect = ano.Img2Client(AbsRect);
             g.DrawEllipse(pen, rect);

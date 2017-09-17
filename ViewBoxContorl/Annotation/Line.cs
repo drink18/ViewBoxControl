@@ -35,7 +35,7 @@ namespace ViewBoxContorl.Annotation
 
         public override void Draw(Graphics g, Annotation ano)
         {
-            Pen pen = new Pen(Brushes.White);
+            Pen pen = new Pen(Brushes.LightYellow);
             g.DrawLine(pen, ano.Img2Client(Point0), ano.Img2Client(Point1));
             pen.Dispose();
         }
