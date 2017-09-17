@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace ViewBoxContorl.Annotation
 {
     partial class AnnotationSelection
     {
         HashSet<BaseElement> _selectedElements = new HashSet<BaseElement>();
+        public HashSet<BaseElement> SelectedElements
+        {
+            get { return _selectedElements; }
+            set { _selectedElements = value; }
+        }
 
         public void AddToSelection(BaseElement ele)
         {
@@ -29,5 +35,6 @@ namespace ViewBoxContorl.Annotation
         {
             _selectedElements.Clear();
         }
+
     }
 }

@@ -30,6 +30,20 @@ namespace ViewBoxContorl.Annotation
         #endregion
 
         #region utils
+        public Tuple<BaseElement, BaseElement.CtrlPt> PickCtrlPts(PointF p)
+        {
+            foreach(var e in _selection.SelectedElements)
+            {
+                var ctrlPt = e.PickControlPoint(p, this);
+                if(ctrlPt != BaseElement.CtrlPt.None)
+                {
+                    return new Tuple<BaseElement, BaseElement.CtrlPt>(e, ctrlPt);
+                }
+            }
+
+            return null;
+        }
+
         // coord in client area to coord in element
         public BaseElement PickElement(Point point)
         {
@@ -175,26 +189,34 @@ namespace ViewBoxContorl.Annotation
             }
             else
             {
-                var ele = PickElement(p);
-                if (ele != null)
+                // first check if we can pick ctrl pt of selected items
+                var ctrlP = PickCtrlPts(p);
+                if (ctrlP != null)
                 {
-                    if (_selection.IsSelected(ele))
+                    _cmd = new DragCtrlPtCommand(ctrlP.Item1, ctrlP.Item2, p, this);
+                }
+                else
+                {
+                    var ele = PickElement(p);
+                    if (ele != null)
                     {
-                        // move
-                        _cmd = new MoveCommand(ele, p, this);
+                        if (_selection.IsSelected(ele))
+                        {
+                            // move
+                            _cmd = new MoveCommand(ele, p, this);
+                        }
+                        else
+                        {
+                            _selection.ClearSelection();
+                            _selection.AddToSelection(ele);
+                        }
                     }
                     else
                     {
                         _selection.ClearSelection();
-                        _selection.AddToSelection(ele);
                     }
+                    _vb.Invalidate();
                 }
-
-                else
-                {
-                    _selection.ClearSelection();
-                }
-                _vb.Invalidate();
             }
         }
 
@@ -213,6 +235,7 @@ namespace ViewBoxContorl.Annotation
                 _creatingEle.Draw(args.Graphics, this);
         }
         #endregion
+
 
     }
 }

@@ -41,4 +41,20 @@ namespace ViewBoxContorl.Annotation
             base.OnMouseMove(p);
         }
     }
+
+    public class DragCtrlPtCommand : ManipCommand
+    {
+        BaseElement.CtrlPt _cpt;
+        public DragCtrlPtCommand(BaseElement ele, BaseElement.CtrlPt cpt, Point p, Annotation ano)
+            :base(ele, p, ano)
+        {
+            _cpt = cpt;
+        }
+
+        public override void OnMouseMove(Point p)
+        {
+            _ele.Manipulate(_cpt, _ano.Client2ImgVec(new Point(p.X - _lastMousePos.X, p.Y - _lastMousePos.Y)));
+            base.OnMouseMove(p);
+        }
+    }
 }

@@ -38,22 +38,19 @@ namespace ViewBoxContorl.Annotation
 
         public override void DrawControlPoints(Graphics g, Annotation ano) 
         {
-            Pen pen = new Pen(Brushes.CornflowerBlue);
-            var selRect = ano.Img2Client(_absRect);
-            g.DrawRectangle(pen, (int)selRect.X, (int)selRect.Y, (int)selRect.Width, (int)selRect.Height);
+            base.DrawControlPoints(g, ano);
         }
 
         public override void OnDragCreating(PointF p)
         {
             var x = _absRect.X;
             var y = _absRect.Y;
-            _absRect = new RectangleF(x, y, p.X - x, p.Y - y);
+            AbsRect = new RectangleF(x, y, p.X - x, p.Y - y);
         }
 
         public override void Move(PointF delta)
         {
-            _absRect.X += delta.X;
-            _absRect.Y += delta.Y;
+            AbsRect = new RectangleF(_absRect.X + delta.X, _absRect.Y + delta.Y, _absRect.Width, _absRect.Height);
         }
     }
 }
