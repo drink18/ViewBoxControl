@@ -226,7 +226,7 @@
             this.vbxImage.FovRow = 0D;
             this.vbxImage.GrayLevelData = null;
             this.vbxImage.Image = ((System.Drawing.Image)(resources.GetObject("vbxImage.Image")));
-            this.vbxImage.InterationMode = ViewBoxContorl.ViewBox.Interaction.Annotation;
+            this.vbxImage.InterationMode = ViewBoxContorl.ViewBox.Interaction.Browse;
             this.vbxImage.Lev = ((short)(0));
             this.vbxImage.Location = new System.Drawing.Point(9, 10);
             this.vbxImage.Margin = new System.Windows.Forms.Padding(2);
