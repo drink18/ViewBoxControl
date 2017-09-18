@@ -50,7 +50,7 @@ namespace testViewBox
         {
             InitializeComponent();
 
-            MouseWheel += new MouseEventHandler(testMouseWheel);
+            //MouseWheel += new MouseEventHandler(testMouseWheel);
             vbxImage.OnWinChanged += vbxImg_OnWinValChanged;
             vbxImage.OnLvlChanged += vbxImg_OnLvlValChanged;
 
@@ -198,7 +198,7 @@ namespace testViewBox
 
         private void cbAnnotation_CheckedChanged(object sender, EventArgs e)
         {
-            vbxImage.InterationMode = cbAnnotation.Checked ? ViewBoxContorl.ViewBox.Interaction.Annotation : ViewBoxContorl.ViewBox.Interaction.Browse;
+            vbxImage.InterationMode = cbAnnotation.Checked ? ViewBoxContorl.ViewBoxForm.Interaction.Annotation : ViewBoxContorl.ViewBoxForm.Interaction.Browse;
             dbNewShape.Enabled = cbAnnotation.Checked;
         }
 

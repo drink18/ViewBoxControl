@@ -12,9 +12,9 @@ namespace ViewBoxContorl.Annotation
     public partial class Annotation
     {
         List<BaseElement> _elementsList = new List<BaseElement>();
-        ViewBox _vb;
+        ViewBoxForm _vb;
 
-        public Annotation(ViewBox vb)
+        public Annotation(ViewBoxForm vb)
         {
             _vb = vb;
         }

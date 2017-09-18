@@ -15,7 +15,7 @@ using ViewBoxContorl.Annotation;
 
 namespace ViewBoxContorl
 {
-    public partial class ViewBox : PictureBox
+    public partial class ViewBoxForm : UserControl
     {
         [Browsable(true)]
         #region Win
@@ -162,11 +162,11 @@ namespace ViewBoxContorl
         Annotation.Annotation _annotation;
         #endregion
 
-        public ViewBox()
+        public ViewBoxForm()
         {
             InitializeComponent();
             this.ResizeRedraw = true;
-            this.MouseUp += OnMouseUpEvt;
+            this.MouseWheel += vbxImg_MouseWheel;
             _annotation =  new Annotation.Annotation(this);
             _annotation.ShapeCreatedEvt += vbxImage_AnnotationShapeCreated;
             _annotation.ShapeChangingEvt += vbxImage_AnnotationShapeChanging;
@@ -175,8 +175,8 @@ namespace ViewBoxContorl
 
         protected override void OnCreateControl()
         {
-            this.Image = new Bitmap(this.Width, this.Height, _imgFormat);
-            _cachedGraphics = Graphics.FromImage(this.Image);
+            this.View.Image = new Bitmap(this.Width, this.Height, _imgFormat);
+            _cachedGraphics = Graphics.FromImage(this.View.Image);
         }
 
         private void RenderMouseCursorInfo(PaintEventArgs pe)
@@ -199,12 +199,6 @@ namespace ViewBoxContorl
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
-            _annotation.OnPaint(pe);
-            if(InterationMode == Interaction.Annotation)
-            {
-                RenderMouseCursorInfo(pe);
-
-            }
         }
 
 
@@ -306,7 +300,7 @@ namespace ViewBoxContorl
 
         private void _renderWithObserverRect(Bitmap srcImg, Rectangle destRectInPicture)
         {
-            var graphics = Graphics.FromImage(this.Image);
+            var graphics = Graphics.FromImage(this.View.Image);
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.Clear(Color.Black);
@@ -317,7 +311,7 @@ namespace ViewBoxContorl
 
         public void RenderToPictureBox()
         {
-            if (this.Image == null || _rawBmp == null)
+            if (this.View.Image == null || _rawBmp == null)
                 return;
 
             _renderWithObserverRect(_rawBmp, new Rectangle(0, 0, Width, Height)); 
@@ -381,7 +375,7 @@ namespace ViewBoxContorl
 
                 }
                 Bitmap bmpBk = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
-                this.Image = bmpBk;
+                this.View.Image = bmpBk;
                 PixelData = new Int16[NoRow, NoCol];
                 GrayLevelData = new byte[NoRow * NoCol];
                 maxPixel = Int16.MinValue;
@@ -422,7 +416,7 @@ namespace ViewBoxContorl
 
                 }
                 Bitmap bmpBk = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
-                this.Image = bmpBk;
+                this.View.Image = bmpBk;
                 PixelData = new Int16[NoRow, NoCol];
                 GrayLevelData = new byte[NoRow * NoCol];
                 maxPixel = Int16.MinValue;
@@ -467,7 +461,7 @@ namespace ViewBoxContorl
                 //int height = this.Height;
                 Bitmap bmpBk = new Bitmap(this.Width, this.Height,  _imgFormat);
 
-                this.Image = bmpBk;
+                this.View.Image = bmpBk;
 
                 //ReAdjustToViewPort();
                 _updateObserverRect();
@@ -511,5 +505,13 @@ namespace ViewBoxContorl
             Debug.WriteLine(string.Format("{0} changing", e.GetType().Name));
         }
 
+        private void img_OnPaint(object sender, PaintEventArgs e)
+        {
+            _annotation.OnPaint(e);
+            if(InterationMode == Interaction.Annotation)
+            {
+                RenderMouseCursorInfo(e);
+            }
+        }
     }
 }

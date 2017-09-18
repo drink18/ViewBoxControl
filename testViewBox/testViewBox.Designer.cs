@@ -44,8 +44,7 @@
             this.hsbLev = new System.Windows.Forms.HScrollBar();
             this.cbAnnotation = new System.Windows.Forms.CheckBox();
             this.dbNewShape = new System.Windows.Forms.ComboBox();
-            this.vbxImage = new ViewBoxContorl.ViewBox();
-            ((System.ComponentModel.ISupportInitialize)(this.vbxImage)).BeginInit();
+            this.vbxImage = new ViewBoxContorl.ViewBoxForm();
             this.SuspendLayout();
             // 
             // btnLoadImage
@@ -221,16 +220,14 @@
             this.vbxImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.vbxImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.vbxImage.FovCol = 0D;
             this.vbxImage.FovRow = 0D;
             this.vbxImage.GrayLevelData = null;
-            this.vbxImage.Image = ((System.Drawing.Image)(resources.GetObject("vbxImage.Image")));
-            this.vbxImage.InterationMode = ViewBoxContorl.ViewBox.Interaction.Browse;
+            this.vbxImage.InterationMode = ViewBoxContorl.ViewBoxForm.Interaction.Browse;
             this.vbxImage.Lev = ((short)(0));
             this.vbxImage.Location = new System.Drawing.Point(9, 10);
             this.vbxImage.Margin = new System.Windows.Forms.Padding(2);
-            this.vbxImage.MouseOpMode = ViewBoxContorl.ViewBox.MouseOps.PosLvl;
+            this.vbxImage.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.PosLvl;
             this.vbxImage.Name = "vbxImage";
             this.vbxImage.NoCol = 0;
             this.vbxImage.NoRow = 0;
@@ -273,7 +270,6 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "testViewBox";
             this.Text = "Test ViewBox";
-            ((System.ComponentModel.ISupportInitialize)(this.vbxImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,7 +277,7 @@
 
         #endregion
 
-        private ViewBoxContorl.ViewBox vbxImage;
+        private ViewBoxContorl.ViewBoxForm vbxImage;
         private System.Windows.Forms.Button btnLoadImage;
         private System.Windows.Forms.TextBox tbxInfo;
         private System.Windows.Forms.Button btnLoadRawImage;

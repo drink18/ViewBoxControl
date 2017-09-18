@@ -9,7 +9,7 @@ using ViewBoxContorl.Annotation;
 
 namespace ViewBoxContorl
 {
-    public partial class ViewBox : PictureBox
+    public partial class ViewBoxForm : UserControl
     {
         public enum MouseOps
         {
@@ -46,6 +46,19 @@ namespace ViewBoxContorl
             }
         }
 
+        private void View_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(InterationMode == Interaction.Browse)
+            {
+                BrowseMouseMove(sender, e);
+            }
+            else
+            {
+                _annotation.MouseMove(sender, e);
+                this.View.Invalidate();
+            }
+        }
+
         private void vbxImg_MouseMove(object sender, MouseEventArgs e)
         {
             if(InterationMode == Interaction.Browse)
@@ -55,11 +68,17 @@ namespace ViewBoxContorl
             else
             {
                 _annotation.MouseMove(sender, e);
-                Invalidate();
+                this.View.Invalidate();
             }
         }
 
-        private void OnMouseUpEvt(object sender, MouseEventArgs e)
+        private void vbxImg_MouseWheel(object sender, MouseEventArgs e)
+        {
+            var delta = e.Delta / 120.0f * 0.1f;
+            SizeScale += delta;
+        }
+
+        private void vbxImg_MouseUp(object sender, MouseEventArgs e)
         {
             if (InterationMode == Interaction.Browse)
             {

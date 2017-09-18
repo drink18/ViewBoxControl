@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace ViewBoxContorl
 {
-    partial class ViewBox : PictureBox
+    partial class ViewBoxForm : UserControl
     {
         Rectangle _samplingRect;
         [Browsable(false)]
