@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace ViewBoxContorl.Annotation
             LeftMiddle, 
             LineEnd0,
             LineEnd1,
+            Rotation,
             None
         }
 
@@ -40,8 +42,8 @@ namespace ViewBoxContorl.Annotation
             {
                 var x = AbsRect.X + d.X;
                 var y = AbsRect.Y + d.Y;
-                var w = AbsRect.Width + d.X;
-                var h = AbsRect.Height + d.Y;
+                var w = AbsRect.Width - d.X;
+                var h = AbsRect.Height - d.Y;
                 AbsRect = new RectangleF(x, y, w, h);
             }
             else if(ctrlPt == CtrlPt.TopMiddle)
@@ -100,6 +102,29 @@ namespace ViewBoxContorl.Annotation
                 var h = AbsRect.Height;
                 AbsRect = new RectangleF(x, y, w, h);
             }
+            else if(ctrlPt == CtrlPt.Rotation)
+            {
+                var m = new Matrix();
+                var e = _transform.Elements;
+                var angle = (float)Math.Atan2(e[1], e[0]);
+                angle *= 180.0f / (float)Math.PI;
+                angle += d.X;
+                m.Rotate(angle);
+                m.Translate(_transform.OffsetX, _transform.OffsetY, MatrixOrder.Append);
+                _transform = m;
+            }
+
+            {
+                var center = _realignOffcenterRect(AbsRect);
+                var e = _transform.Elements;
+                var w = AbsRect.Width;
+                var h = AbsRect.Height;
+
+                _transform = new Matrix(e[0], e[1], e[2], e[3], center.X, center.Y);
+                AbsRect = new RectangleF(-w / 2, -h / 2, w, h);
+            }
+
+
         }
         virtual public bool IsValid()
         {
@@ -125,8 +150,23 @@ namespace ViewBoxContorl.Annotation
             }
         }
 
+        protected Matrix _transform = new Matrix();
+        public Matrix Transform
+        {
+            get { return _transform; }
+            set { _transform = value; }
+        }
+
         protected Dictionary<CtrlPt, PointF> CtrlPoints = new Dictionary<CtrlPt, PointF>();
         protected HashSet<CtrlPt> ValidPickPts = new HashSet<CtrlPt>();
+
+        public void Init(PointF startPos)
+        {
+            _transform = new Matrix();
+            _transform.Translate(startPos.X, startPos.Y);
+
+            _transform.Rotate(45);
+        }
 
         virtual protected Dictionary<CtrlPt, PointF> _getCtrlPtRects()
         {
@@ -144,6 +184,9 @@ namespace ViewBoxContorl.Annotation
 
             rects[CtrlPt.RightMiddle] = new PointF(AbsRect.Right, AbsRect.Y + AbsRect.Height / 2);
             rects[CtrlPt.LeftMiddle] = new PointF(AbsRect.X, AbsRect.Y + AbsRect.Height / 2);
+
+            var c = Center;
+            rects[CtrlPt.Rotation] = new PointF(0, 0);
 
             return rects;
         }
@@ -164,8 +207,8 @@ namespace ViewBoxContorl.Annotation
             foreach(var cpt in CtrlPoints)
             {
                 var p = cpt.Value;
-                var p1 = ano.Img2Client(p);  //pt in client coord sys
-                if(Math.Abs(p1.X - pClt.X) <= CtrlPtSize && Math.Abs(p1.Y - pClt.Y) <= CtrlPtSize)
+                var p1 = _getPointInLocal(pClt);
+                if(Math.Abs(p1.X - p.X) <= CtrlPtSize && Math.Abs(p1.Y - p.Y) <= CtrlPtSize)
                 {
                     return cpt.Key;
                 }
@@ -174,17 +217,31 @@ namespace ViewBoxContorl.Annotation
         }
         
         virtual public void DrawControlPoints(Graphics g, Annotation ano)
-        { 
+        {
+            g.Transform = _getRenderMatrix(ano);
+
             Pen pen = new Pen(Brushes.CornflowerBlue);
-            var selRect = ano.Img2Client(_absRect);
-            g.DrawRectangle(pen, (int)selRect.X, (int)selRect.Y, (int)selRect.Width + 1, (int)selRect.Height + 1);
+            pen.Width /= ano.ViewScale;
+            g.DrawRectangle(pen, (int)AbsRect.X - 1, (int)AbsRect.Y - 1, (int)AbsRect.Width + 1, (int)AbsRect.Height + 1);
             pen.Dispose();
 
             Pen ctrlPen= new Pen(Brushes.CornflowerBlue);
-            foreach(var ar in CtrlPoints.Values)
+            foreach(var cpt in CtrlPoints)
             {
-                var r = ano.Img2Client(ar);
-                g.FillRectangle(ctrlPen.Brush, (int)r.X - CtrlPtSize / 2, (int)r.Y - CtrlPtSize / 2, CtrlPtSize, CtrlPtSize);
+                var r = cpt.Value;
+                ctrlPen.Color = cpt.Key == CtrlPt.TopLeft ? Color.Red : Color.CornflowerBlue;
+                if (cpt.Key == CtrlPt.Rotation)
+                    ctrlPen.Color = Color.Orange;
+                float s = CtrlPtSize / ano.ViewScale; // make sure ctrl points are always the same size regardless the scale
+
+                if (cpt.Key == CtrlPt.Rotation)
+                {
+                    g.DrawEllipse(ctrlPen, r.X - s / 2, r.Y - s / 2, s, s);
+                }
+                else
+                {
+                    g.FillRectangle(ctrlPen.Brush, (int)r.X - s / 2, (int)r.Y - s / 2, s, s);
+                }
             }
             ctrlPen.Dispose();
         }
@@ -193,15 +250,55 @@ namespace ViewBoxContorl.Annotation
         {
             var x = _absRect.X;
             var y = _absRect.Y;
-            var x1 = p.X;
-            var y1 = p.Y;
+            var pt = _getPointInLocal(new PointF(p.X, p.Y));
+            x = Math.Min(_absRect.X, pt.X);
+            y = Math.Min(_absRect.Y, pt.Y);
 
-            x = Math.Min(x, x1);
-            y = Math.Min(y, y1);
-            var w = Math.Max(x, x1) - x;
-            var h = Math.Max(y, y1) - y;
+            var w = Math.Max(pt.X, _absRect.X) - x;
+            var h = Math.Max(pt.Y, _absRect.Y) - y;
 
-            AbsRect = new RectangleF(x, y, w, h);
+            // top loft in wld space
+            var p0 = _getPointInWld(new PointF(x, y));
+            var cWld = new PointF((p.X + p0.X) / 2, (p.Y + p0.Y) / 2); //center in world
+
+            var e = _transform.Elements;
+            _transform = new Matrix(e[0], e[1], e[2], e[3], (p0.X + p.X) / 2, (p0.Y + p.Y) / 2);
+
+            // now update local rect
+            AbsRect = new RectangleF(- w/2, -h/2, w, h);
+        }
+
+        protected PointF _getPointInWld(PointF pLocal)
+        {
+            var pts = new PointF[] {new PointF(pLocal.X, pLocal.Y) };
+            _transform.TransformPoints(pts);
+            return pts[0];
+        }
+
+        protected PointF _getPointInLocal(PointF pWld)
+        {
+            var inv = _transform.Clone();
+            inv.Invert();
+            var pts = new PointF[] {new PointF(pWld.X, pWld.Y) };
+            inv.TransformPoints(pts);
+            return pts[0];
+        }
+
+        protected Matrix _getRenderMatrix(Annotation ano)
+        {
+            var m = ano.matImg2Client.Clone();
+            m.Multiply(_transform);
+            return m;
+        }
+
+        // given a rectangle, return the new center in world so that the rect's center is 
+        // repositioned at (0, 0)
+        protected PointF _realignOffcenterRect(RectangleF r)
+        {
+            var  p0 = _getPointInWld(new PointF(r.X, r.Y)); // topleft
+            var  p1 = _getPointInWld(new PointF(r.Right, r.Bottom)); // bottom right
+            var center = new PointF((p0.X + p1.X) / 2, (p0.Y + p1.Y) / 2);
+            return center;
         }
     }
 }

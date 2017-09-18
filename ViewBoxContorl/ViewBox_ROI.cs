@@ -41,7 +41,9 @@ namespace ViewBoxContorl
         float MeasureMeanPixelValeInDiagram(BaseElement e)
         {
             var pixels = _getPixelsInsideROI(e);
-            var mean = pixels.Average();
+            double mean = 0;
+            if(pixels.Length > 0 )
+                pixels.Average();
 
             return (float)mean;
         }
@@ -49,9 +51,14 @@ namespace ViewBoxContorl
         float MeasureSquareVariation(BaseElement e)
         {
             var pixels = _getPixelsInsideROI(e);
-            var mean = pixels.Average();
-            var sum = pixels.Sum(d => (d - mean) * (d - mean));
-            var variaton = sum / pixels.Length;
+            double variaton = 0;
+
+            if (pixels.Length > 0)
+            {
+                var mean = pixels.Average();
+                var sum = pixels.Sum(d => (d - mean) * (d - mean));
+                variaton = sum / pixels.Length;
+            }
 
             return (float)variaton;
         }
@@ -81,12 +88,14 @@ namespace ViewBoxContorl
 
         private void _annotationShapeCreated_ROI(BaseElement e)
         {
-            _updateROIStatistics(e);
+            if(_hasImage())
+                _updateROIStatistics(e);
         }
 
         private void _annotationShapeChanged_ROI(BaseElement e)
         {
-            _updateROIStatistics(e);
+            if(_hasImage())
+                _updateROIStatistics(e);
         }
     }
 }

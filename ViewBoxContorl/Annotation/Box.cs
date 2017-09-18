@@ -20,39 +20,36 @@ namespace ViewBoxContorl.Annotation
                 CtrlPt.BottomRight,
                 CtrlPt.BottomMiddle,
                 CtrlPt.BottomLeft,
-                CtrlPt.LeftMiddle };
+                CtrlPt.LeftMiddle,
+                CtrlPt.Rotation,
+            };
 
             var pts = new Point[] { new Point(topLeft.X, topLeft.Y) };
             client2Img.TransformPoints(pts);
-            _absRect.X = pts[0].X;
-            _absRect.Y = pts[0].Y;
+            Init(pts[0]);
         }
 
         public override void Draw(Graphics g, Annotation ano)
         {
             Pen pen = new Pen(Brushes.LightYellow);
-            
-            var rect = ano.Img2Client(AbsRect);
-            g.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
+            pen.Width /= ano.ViewScale;
+
+            g.Transform = _getRenderMatrix(ano);
+            g.DrawRectangle(pen, AbsRect.X, AbsRect.Y, AbsRect.Width, AbsRect.Height);
 
             pen.Dispose();
         }
 
-        public override void OnDragCreating(PointF p)
-        {
-            var x = _absRect.X;
-            var y = _absRect.Y;
-            AbsRect = new RectangleF(x, y, p.X - x, p.Y - y);
-        }
-
         public override void Move(PointF delta)
         {
-            AbsRect = new RectangleF(_absRect.X + delta.X, _absRect.Y + delta.Y, _absRect.Width, _absRect.Height);
+            var e = _transform.Elements;
+            _transform = new Matrix(e[0], e[1], e[2], e[3], _transform.OffsetX + delta.X, _transform.OffsetY + delta.Y);
         }
 
         public override bool IsPointInsideShape(PointF p)
         {
-            return AbsRect.Contains(p);
+            var pLocal = _getPointInLocal(p);
+            return AbsRect.Contains(pLocal);
         }
     }
 }

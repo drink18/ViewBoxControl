@@ -28,36 +28,43 @@ namespace ViewBoxContorl.Annotation
                 CtrlPt.BottomRight,
                 CtrlPt.BottomMiddle,
                 CtrlPt.BottomLeft,
-                CtrlPt.LeftMiddle };
+                CtrlPt.LeftMiddle,
+                CtrlPt.Rotation,
+            };
 
             var pts = new Point[] { new Point(topLeft.X, topLeft.Y) };
             client2Img.TransformPoints(pts);
-            _absRect.X = pts[0].X;
-            _absRect.Y = pts[0].Y;
+
+            _absRect.X = 0;
+            _absRect.Y = 0; 
+
+            Init(pts[0]);
         }
 
         public override void Draw(Graphics g, Annotation ano)
         {
             Pen pen = new Pen(Brushes.LightYellow);
-            
-            var rect = ano.Img2Client(AbsRect);
-            g.DrawEllipse(pen, rect);
+            pen.Width /= ano.ViewScale;
+
+            g.Transform = _getRenderMatrix(ano);
+            g.DrawEllipse(pen, AbsRect);
 
             pen.Dispose();
         }
 
         public override void Move(PointF delta)
         {
-            AbsRect = new RectangleF(_absRect.X + delta.X, _absRect.Y + delta.Y, _absRect.Width, _absRect.Height);
+            var e = _transform.Elements;
+            _transform = new Matrix(e[0], e[1], e[2], e[3], _transform.OffsetX + delta.X, _transform.OffsetY + delta.Y);
         }
 
-        public override bool IsPointInsideShape(PointF p)
+        public override bool IsPointInsideShape(PointF pWld)
         {
-            PointF c = new PointF(AbsRect.X + AbsRect.Width / 2, AbsRect.Y + AbsRect.Height / 2);
+            var p = _getPointInLocal(pWld);
             float lx = AbsRect.Width / 2;
             float ly = AbsRect.Height / 2;
 
-            PointF np = new PointF(p.X - c.X, p.Y - c.Y);
+            PointF np = new PointF(p.X , p.Y);
             return ((np.X * np.X) / (lx * lx) + (np.Y * np.Y) / (ly * ly) <= 1);
         }
     }

@@ -43,7 +43,22 @@ namespace ViewBoxContorl.Annotation
         #region display control
         public bool ShowStatistics { get; set; }
         public bool ShowPixelValue { get; set; }
-        #endregion  
+        #endregion
+
+        public Matrix matImg2Client
+        {
+            get { return _vb.matImageToClient; }
+        }
+
+        public Matrix matClient2Img
+        {
+            get { return _vb.matClientToImage; }
+        }
+
+        public float ViewScale
+        {
+            get { return _vb.SizeScale; }
+        }
 
         #region utils
         public Tuple<BaseElement, BaseElement.CtrlPt> PickCtrlPts(PointF p)
@@ -222,7 +237,7 @@ namespace ViewBoxContorl.Annotation
             else
             {
                 // first check if we can pick ctrl pt of selected items
-                var ctrlP = PickCtrlPts(p);
+                var ctrlP = PickCtrlPts(Client2Img(p));
                 if (ctrlP != null)
                 {
                     _cmd = new DragCtrlPtCommand(ctrlP.Item1, ctrlP.Item2, p, this);
@@ -254,6 +269,7 @@ namespace ViewBoxContorl.Annotation
 
         public void OnPaint(PaintEventArgs args)
         {
+            args.Graphics.Transform.Reset();
             foreach(var e in _elementsList)
             {
                 e.Draw(args.Graphics, this);
