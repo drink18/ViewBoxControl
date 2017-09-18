@@ -222,5 +222,17 @@ namespace testViewBox
                 vbxImage.NewAnnotationType = typeof(Line);
             }
         }
+
+        private void ShowPixelMeasure_CheckedChanged(object sender, EventArgs e)
+        {
+            vbxImage.ShowPixelValue = cbShowPixelMeasure.Checked;
+            vbxImage.Refresh();
+        }
+
+        private void cbShowStatistics_CheckedChanged(object sender, EventArgs e)
+        {
+            vbxImage.ShowStatistics = cbShowStatistics.Checked;
+            vbxImage.Refresh();
+        }
     }
 }

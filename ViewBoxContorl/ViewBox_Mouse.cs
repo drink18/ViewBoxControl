@@ -51,25 +51,17 @@ namespace ViewBoxContorl
             if(InterationMode == Interaction.Browse)
             {
                 BrowseMouseMove(sender, e);
+                if (ShowPixelValue)
+                {
+                    View.Invalidate();
+                }
             }
             else
             {
                 _annotation.MouseMove(sender, e);
-                this.View.Invalidate();
+                View.Invalidate();
             }
-        }
 
-        private void vbxImg_MouseMove(object sender, MouseEventArgs e)
-        {
-            if(InterationMode == Interaction.Browse)
-            {
-                BrowseMouseMove(sender, e);
-            }
-            else
-            {
-                _annotation.MouseMove(sender, e);
-                this.View.Invalidate();
-            }
         }
 
         private void vbxImg_MouseWheel(object sender, MouseEventArgs e)

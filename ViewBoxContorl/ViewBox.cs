@@ -146,6 +146,9 @@ namespace ViewBoxContorl
         #endregion
 
 
+        public bool ShowStatistics { get; set; }
+        public bool ShowPixelValue { get; set; }
+
         public enum Interaction
         {
             Browse,
@@ -462,7 +465,6 @@ namespace ViewBoxContorl
 
                 this.View.Image = bmpBk;
 
-                //ReAdjustToViewPort();
                 _updateObserverRect();
                 if(_rawBmp != null)
                     RenderToPictureBox();
@@ -497,12 +499,16 @@ namespace ViewBoxContorl
         private void img_OnPaint(object sender, PaintEventArgs e)
         {
             _annotation.OnPaint(e);
-            if(InterationMode == Interaction.Annotation)
+            if(ShowPixelValue)
             {
                 RenderMouseCursorInfo(e);
+            }
+
+            if (ShowStatistics)
+            {
                 foreach (var roi in _annotation.ElementLists)
                 {
-                    if(!_annotation.SelectedElements.Contains(roi))
+                    if (!_annotation.SelectedElements.Contains(roi))
                         DrawROIInfo(e.Graphics, roi);
                 }
             }

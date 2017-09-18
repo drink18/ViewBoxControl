@@ -58,7 +58,6 @@
             this.SizeChanged += new System.EventHandler(this.ViewBox_SizeChanged);
             this.VisibleChanged += new System.EventHandler(this.ViewBox_VisibleChanged);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vbxImage_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.vbxImg_MouseMove);
             this.Resize += new System.EventHandler(this.ViewBox_Resize);
             this.ResumeLayout(false);
 

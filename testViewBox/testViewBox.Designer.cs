@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(testViewBox));
             this.btnLoadImage = new System.Windows.Forms.Button();
             this.tbxInfo = new System.Windows.Forms.TextBox();
             this.btnLoadRawImage = new System.Windows.Forms.Button();
@@ -44,6 +43,8 @@
             this.hsbLev = new System.Windows.Forms.HScrollBar();
             this.cbAnnotation = new System.Windows.Forms.CheckBox();
             this.dbNewShape = new System.Windows.Forms.ComboBox();
+            this.cbShowPixelMeasure = new System.Windows.Forms.CheckBox();
+            this.cbShowStatistics = new System.Windows.Forms.CheckBox();
             this.vbxImage = new ViewBoxContorl.ViewBoxForm();
             this.SuspendLayout();
             // 
@@ -63,11 +64,11 @@
             // 
             this.tbxInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxInfo.Location = new System.Drawing.Point(398, 172);
+            this.tbxInfo.Location = new System.Drawing.Point(398, 206);
             this.tbxInfo.Margin = new System.Windows.Forms.Padding(2);
             this.tbxInfo.Multiline = true;
             this.tbxInfo.Name = "tbxInfo";
-            this.tbxInfo.Size = new System.Drawing.Size(493, 257);
+            this.tbxInfo.Size = new System.Drawing.Size(493, 223);
             this.tbxInfo.TabIndex = 2;
             // 
             // btnLoadRawImage
@@ -190,7 +191,7 @@
             // 
             this.cbAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbAnnotation.AutoSize = true;
-            this.cbAnnotation.Location = new System.Drawing.Point(675, 149);
+            this.cbAnnotation.Location = new System.Drawing.Point(579, 147);
             this.cbAnnotation.Name = "cbAnnotation";
             this.cbAnnotation.Size = new System.Drawing.Size(84, 16);
             this.cbAnnotation.TabIndex = 6;
@@ -214,6 +215,30 @@
             this.dbNewShape.TabIndex = 7;
             this.dbNewShape.SelectedIndexChanged += new System.EventHandler(this.dbNewShape_SelectedIndexChanged);
             // 
+            // cbShowPixelMeasure
+            // 
+            this.cbShowPixelMeasure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbShowPixelMeasure.AutoSize = true;
+            this.cbShowPixelMeasure.Location = new System.Drawing.Point(669, 147);
+            this.cbShowPixelMeasure.Name = "cbShowPixelMeasure";
+            this.cbShowPixelMeasure.Size = new System.Drawing.Size(90, 16);
+            this.cbShowPixelMeasure.TabIndex = 8;
+            this.cbShowPixelMeasure.Text = "Pixel Value";
+            this.cbShowPixelMeasure.UseVisualStyleBackColor = true;
+            this.cbShowPixelMeasure.CheckedChanged += new System.EventHandler(this.ShowPixelMeasure_CheckedChanged);
+            // 
+            // cbShowStatistics
+            // 
+            this.cbShowStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbShowStatistics.AutoSize = true;
+            this.cbShowStatistics.Location = new System.Drawing.Point(669, 169);
+            this.cbShowStatistics.Name = "cbShowStatistics";
+            this.cbShowStatistics.Size = new System.Drawing.Size(84, 16);
+            this.cbShowStatistics.TabIndex = 9;
+            this.cbShowStatistics.Text = "Statistics";
+            this.cbShowStatistics.UseVisualStyleBackColor = true;
+            this.cbShowStatistics.CheckedChanged += new System.EventHandler(this.cbShowStatistics_CheckedChanged);
+            // 
             // vbxImage
             // 
             this.vbxImage.AccelModeScale = 3;
@@ -234,6 +259,8 @@
             this.vbxImage.Pannable = false;
             this.vbxImage.PixelData = null;
             this.vbxImage.SampleRect = new System.Drawing.Rectangle(-161, -205, 322, 410);
+            this.vbxImage.ShowPixelValue = false;
+            this.vbxImage.ShowStatistics = false;
             this.vbxImage.Size = new System.Drawing.Size(322, 410);
             this.vbxImage.SizeScale = 1F;
             this.vbxImage.TabIndex = 0;
@@ -251,6 +278,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(898, 438);
+            this.Controls.Add(this.cbShowStatistics);
+            this.Controls.Add(this.cbShowPixelMeasure);
             this.Controls.Add(this.dbNewShape);
             this.Controls.Add(this.cbAnnotation);
             this.Controls.Add(this.hsbLev);
@@ -293,6 +322,8 @@
         private System.Windows.Forms.HScrollBar hsbLev;
         private System.Windows.Forms.CheckBox cbAnnotation;
         private System.Windows.Forms.ComboBox dbNewShape;
+        private System.Windows.Forms.CheckBox cbShowPixelMeasure;
+        private System.Windows.Forms.CheckBox cbShowStatistics;
     }
 }
 

@@ -40,6 +40,11 @@ namespace ViewBoxContorl.Annotation
         ManipCommand _cmd = null;
         #endregion
 
+        #region display control
+        public bool ShowStatistics { get; set; }
+        public bool ShowPixelValue { get; set; }
+        #endregion  
+
         #region utils
         public Tuple<BaseElement, BaseElement.CtrlPt> PickCtrlPts(PointF p)
         {
