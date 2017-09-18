@@ -56,12 +56,12 @@ namespace ViewBoxContorl
             return (float)variaton;
         }
 
-        public void DrawROIStats(Graphics g, BaseElement roi)
+        public void DrawROIInfo(Graphics g, BaseElement roi)
         {
             if(roi.GetType() != typeof(Line))
             {
                 var userData = roi.UserData as ROIUserData;
-                Font font = new Font("Arial", 8);
+                Font font = new Font("Arial", 8, FontStyle.Bold);
                 SolidBrush brush = new SolidBrush(Color.LightSalmon);
                 g.DrawString(string.Format("Mean: {0}\n Var: {1}", userData.PixelMean, userData.PixelVariation), font, brush, _annotation.Img2Client(roi.Center));
             }

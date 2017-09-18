@@ -263,6 +263,10 @@ namespace ViewBoxContorl.Annotation
         }
         #endregion
 
-
+        public void RemoveElement(BaseElement e)
+        {
+            _elementsList.Remove(e);
+            _selection.RemoveFromSelectoin(e);
+        }
     }
 }

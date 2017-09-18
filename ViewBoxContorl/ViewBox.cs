@@ -503,7 +503,21 @@ namespace ViewBoxContorl
                 foreach (var roi in _annotation.ElementLists)
                 {
                     if(!_annotation.SelectedElements.Contains(roi))
-                        DrawROIStats(e.Graphics, roi);
+                        DrawROIInfo(e.Graphics, roi);
+                }
+            }
+        }
+
+        private void View_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(InterationMode == Interaction.Annotation)
+            {
+                if(e.KeyCode == Keys.Delete)
+                {
+                    foreach (var ele in _annotation.SelectedElements)
+                    {
+                        _annotation.RemoveElement(ele);
+                    }
                 }
             }
         }
