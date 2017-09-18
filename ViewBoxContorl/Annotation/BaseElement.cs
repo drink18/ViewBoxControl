@@ -30,6 +30,8 @@ namespace ViewBoxContorl.Annotation
         public static int MinSizeY = 4;
         public static int CtrlPtSize= 8;
 
+        public UserData UserData;
+
         virtual public void Draw(Graphics g, Annotation ano) { }
         virtual public void Move(PointF delta) { }
         virtual public void Manipulate(CtrlPt ctrlPt, PointF d)

@@ -155,7 +155,6 @@ namespace ViewBoxContorl
         public Interaction InterationMode { get; set; } = Interaction.Browse;
         public Type NewAnnotationType = null;
 
-
         #region privates
         Graphics _cachedGraphics;
         PixelFormat _imgFormat = PixelFormat.Format24bppRgb;
@@ -168,9 +167,9 @@ namespace ViewBoxContorl
             this.ResizeRedraw = true;
             this.MouseWheel += vbxImg_MouseWheel;
             _annotation =  new Annotation.Annotation(this);
-            _annotation.ShapeCreatedEvt += vbxImage_AnnotationShapeCreated;
+            _annotation.ShapeCreatedEvt += _annotationShapeCreated_ROI;
             _annotation.ShapeChangingEvt += vbxImage_AnnotationShapeChanging;
-            _annotation.ShapeChangeEndEvt += vbxImage_AnnotationShapeChanged;
+            _annotation.ShapeChangeEndEvt += _annotationShapeChanged_ROI;
         }
 
         protected override void OnCreateControl()
@@ -488,16 +487,6 @@ namespace ViewBoxContorl
         private bool _hasImage()
         {
             return grayLevelData != null;
-        }
-
-        private void vbxImage_AnnotationShapeCreated(BaseElement e)
-        {
-            Debug.WriteLine(string.Format("{0} created", e.GetType().Name));
-        }
-
-        private void vbxImage_AnnotationShapeChanged(BaseElement e)
-        {
-            Debug.WriteLine(string.Format("{0} changed", e.GetType().Name));
         }
 
         private void vbxImage_AnnotationShapeChanging(BaseElement e)

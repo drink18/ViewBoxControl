@@ -11,6 +11,12 @@ namespace ViewBoxContorl
 {
     partial class ViewBoxForm : UserControl
     {
+        public class ROIUserData : UserData
+        {
+            public float PixelMean;
+            public float PixelVariation; 
+        }
+
         int[] _getPixelsInsideROI(BaseElement e)
         {
             var pixels = new List<int>();
@@ -54,12 +60,33 @@ namespace ViewBoxContorl
         {
             if(roi.GetType() != typeof(Line))
             {
-                float mean = MeasureMeanPixelValeInDiagram(roi);
-                float variation = MeasureSquareVariation(roi);
+                var userData = roi.UserData as ROIUserData;
                 Font font = new Font("Arial", 8);
-                SolidBrush brush = new SolidBrush(Color.LightYellow);
-                g.DrawString(string.Format("Mean: {0}\n Var: {1}", mean, variation), font, brush, _annotation.Img2Client(roi.Center));
+                SolidBrush brush = new SolidBrush(Color.LightSalmon);
+                g.DrawString(string.Format("Mean: {0}\n Var: {1}", userData.PixelMean, userData.PixelVariation), font, brush, _annotation.Img2Client(roi.Center));
             }
+        }
+
+        private void _updateROIStatistics(BaseElement e)
+        {
+            var userData = new ROIUserData();
+
+            var mean = MeasureMeanPixelValeInDiagram(e);
+            var var = MeasureMeanPixelValeInDiagram(e);
+            userData.PixelMean = mean;
+            userData.PixelVariation = var;
+
+            e.UserData = userData;
+        }
+
+        private void _annotationShapeCreated_ROI(BaseElement e)
+        {
+            _updateROIStatistics(e);
+        }
+
+        private void _annotationShapeChanged_ROI(BaseElement e)
+        {
+            _updateROIStatistics(e);
         }
     }
 }
