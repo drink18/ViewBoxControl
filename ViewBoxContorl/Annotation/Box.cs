@@ -49,5 +49,10 @@ namespace ViewBoxContorl.Annotation
         {
             AbsRect = new RectangleF(_absRect.X + delta.X, _absRect.Y + delta.Y, _absRect.Width, _absRect.Height);
         }
+
+        public override bool IsPointInsideShape(PointF p)
+        {
+            return AbsRect.Contains(p);
+        }
     }
 }

@@ -12,6 +12,10 @@ namespace ViewBoxContorl.Annotation
     public partial class Annotation
     {
         List<BaseElement> _elementsList = new List<BaseElement>();
+        public List<BaseElement> ElementLists
+        {
+            get { return _elementsList; }
+        }
         ViewBoxForm _vb;
 
         public Annotation(ViewBoxForm vb)
@@ -20,6 +24,14 @@ namespace ViewBoxContorl.Annotation
         }
 
         AnnotationSelection _selection = new AnnotationSelection();
+        public BaseElement[] SelectedElements
+        {
+            get
+            {
+                return _selection.SelectedElements.ToArray();
+            }
+
+        }
 
         #region mouse crap
         Point _mouseDownPos;
@@ -48,11 +60,9 @@ namespace ViewBoxContorl.Annotation
         {
             foreach (var ele in _elementsList)
             {
-                var rect = Img2Client(ele.AbsRect);
-                if (rect.Contains(point))
-                {
+                var p = Client2Img(point);
+                if (ele.IsPointInsideShape(new PointF(p.X, p.Y)))
                     return ele;
-                }
             }
             return null;
         }

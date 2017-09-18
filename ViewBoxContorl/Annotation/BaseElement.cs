@@ -103,6 +103,7 @@ namespace ViewBoxContorl.Annotation
         {
             return AbsRect.Width >= MinSizeX && AbsRect.Height >= MinSizeY;
         }
+        virtual public bool IsPointInsideShape(PointF p) { return false; }
 
         protected RectangleF _absRect = new RectangleF(0, 0, MinSizeX, MinSizeY); //rect in absolute coord system
         public RectangleF AbsRect {
@@ -111,6 +112,14 @@ namespace ViewBoxContorl.Annotation
             {
                 _absRect = value;
                 UpdateCtrlPts();
+            }
+        }
+
+        public PointF Center
+        {
+            get
+            {
+                return new PointF(_absRect.X + _absRect.Width / 2, _absRect.Y + _absRect.Height / 2);
             }
         }
 

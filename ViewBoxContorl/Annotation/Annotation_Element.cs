@@ -26,7 +26,6 @@ namespace ViewBoxContorl.Annotation
 
         bool _creating = false;
         BaseElement _creatingEle = null;
-        BaseElement _pickedElement = null;
         public BaseElement CreateNewElement(Type t, Point position, Matrix client2Img) 
         {
             _creating = true;

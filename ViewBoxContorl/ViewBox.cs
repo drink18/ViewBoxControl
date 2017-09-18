@@ -511,6 +511,11 @@ namespace ViewBoxContorl
             if(InterationMode == Interaction.Annotation)
             {
                 RenderMouseCursorInfo(e);
+                foreach (var roi in _annotation.ElementLists)
+                {
+                    if(!_annotation.SelectedElements.Contains(roi))
+                        DrawROIStats(e.Graphics, roi);
+                }
             }
         }
     }

@@ -50,5 +50,15 @@ namespace ViewBoxContorl.Annotation
         {
             AbsRect = new RectangleF(_absRect.X + delta.X, _absRect.Y + delta.Y, _absRect.Width, _absRect.Height);
         }
+
+        public override bool IsPointInsideShape(PointF p)
+        {
+            PointF c = new PointF(AbsRect.X + AbsRect.Width / 2, AbsRect.Y + AbsRect.Height / 2);
+            float lx = AbsRect.Width / 2;
+            float ly = AbsRect.Height / 2;
+
+            PointF np = new PointF(p.X - c.X, p.Y - c.Y);
+            return ((np.X * np.X) / (lx * lx) + (np.Y * np.Y) / (ly * ly) <= 1);
+        }
     }
 }

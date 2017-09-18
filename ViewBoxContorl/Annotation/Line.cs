@@ -24,6 +24,7 @@ namespace ViewBoxContorl.Annotation
             _absRect.X = pts[0].X;
             _absRect.Y = pts[0].Y;
             Point0 = pts[0];
+            Point1 = pts[0];
         }
 
 
@@ -116,6 +117,27 @@ namespace ViewBoxContorl.Annotation
                 h = MinSizeY;
             }
             AbsRect = new RectangleF(x, y, w, h);
+        }
+
+        public override bool IsPointInsideShape(PointF p)
+        {
+            var v = new PointF(p.X - Point0.X, p.Y - Point0.Y);
+            PointF n = new PointF(Point1.X - Point0.X, Point1.Y - Point0.Y);
+            float lenSqr = n.X * n.X + n.Y * n.Y;
+            float len = (float)Math.Sqrt(lenSqr);
+            n.X /= len;
+            n.Y /= len;
+
+            //proj
+            float d = v.X * n.X + v.Y * n.Y;
+            if(d > 0 && d <= len)
+            {
+                PointF v1 = new PointF(v.X - d * n.X, v.Y - d * n.Y);
+                if (v1.X * v1.X + v1.Y * v1.Y < 4) // 2 pixels of fudge factor
+                    return true;
+            }
+
+            return false;
         }
     }
 }
