@@ -231,7 +231,7 @@ namespace ViewBoxContorl.Annotation
             return CtrlPt.None;
         }
 
-        virtual public void DrawSelectionBox(Graphics g, Annotation ano)
+        virtual public void DrawBoundingBox(Graphics g, Annotation ano)
         {
             g.Transform = _getRenderMatrix(ano);
 
@@ -240,8 +240,14 @@ namespace ViewBoxContorl.Annotation
             g.DrawRectangle(pen, (int)LocalRect.X - 1, (int)LocalRect.Y - 1, (int)LocalRect.Width + 1, (int)LocalRect.Height + 1);
             pen.Dispose();
         }
+
+        virtual public void RenderAuxilaries(Graphics g, Annotation ano)
+        {
+            DrawBoundingBox(g, ano);
+            DrawControlPoints(g, ano);
+        }
         
-        virtual public void DrawControlPoints(Graphics g, Annotation ano)
+        virtual protected void DrawControlPoints(Graphics g, Annotation ano)
         {
             g.Transform = _getRenderMatrix(ano);
 

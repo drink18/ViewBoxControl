@@ -51,7 +51,7 @@ namespace ViewBoxContorl.Annotation
             Point1 = new PointF(Point1.X + delta.X, Point1.Y + delta.Y);
         }
 
-        public override void DrawControlPoints(Graphics g, Annotation ano)
+        protected override void DrawControlPoints(Graphics g, Annotation ano)
         {
             Pen ctrlPen= new Pen(Brushes.CornflowerBlue);
             ctrlPen.Width /= ano.ViewScale;
@@ -155,6 +155,11 @@ namespace ViewBoxContorl.Annotation
             var led = ed as LineData;
             Point0 = led.P0;
             Point1 = led.P1;
+        }
+
+        public override void RenderAuxilaries(Graphics g, Annotation ano)
+        {
+            DrawControlPoints(g, ano);
         }
     }
 }

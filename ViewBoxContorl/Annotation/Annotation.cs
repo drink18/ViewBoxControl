@@ -281,9 +281,7 @@ namespace ViewBoxContorl.Annotation
                 e.Draw(args.Graphics, this);
                 if(_selection.IsSelected(e))
                 {
-                    if(!(e is Line))
-                        e.DrawSelectionBox(args.Graphics, this);
-                    e.DrawControlPoints(args.Graphics, this);
+                    e.RenderAuxilaries(args.Graphics, this);
                 }
             }
 
