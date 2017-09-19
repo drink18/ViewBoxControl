@@ -21,8 +21,8 @@ namespace ViewBoxContorl.Annotation
 
             var pts = new Point[] { new Point(topLeft.X, topLeft.Y) };
             client2Img.TransformPoints(pts);
-            _absRect.X = pts[0].X;
-            _absRect.Y = pts[0].Y;
+            _localRect.X = pts[0].X;
+            _localRect.Y = pts[0].Y;
             Point0 = pts[0];
             Point1 = pts[0];
         }
@@ -37,44 +37,41 @@ namespace ViewBoxContorl.Annotation
         public override void Draw(Graphics g, Annotation ano)
         {
             Pen pen = new Pen(Brushes.LightYellow);
-            g.DrawLine(pen, ano.Img2Client(Point0), ano.Img2Client(Point1));
+            pen.Width /= ano.ViewScale;
+            g.Transform = _getRenderMatrix(ano);
+            g.DrawLine(pen, Point0, Point1);
             pen.Dispose();
         }
 
         public override void Move(PointF delta)
         {
-            AbsRect = new RectangleF(_absRect.X + delta.X, _absRect.Y + delta.Y, _absRect.Width, _absRect.Height);
+            LocalRect = new RectangleF(_localRect.X + delta.X, _localRect.Y + delta.Y, _localRect.Width, _localRect.Height);
             Point0 = new PointF(Point0.X + delta.X, Point0.Y + delta.Y);
             Point1 = new PointF(Point1.X + delta.X, Point1.Y + delta.Y);
         }
 
         public override void DrawControlPoints(Graphics g, Annotation ano)
         {
-            Pen pen = new Pen(Brushes.CornflowerBlue);
-            var selRect = ano.Img2Client(_absRect);
-            g.DrawRectangle(pen, (int)selRect.X, (int)selRect.Y, (int)selRect.Width + 1, (int)selRect.Height + 1);
-            pen.Dispose();
-
             Pen ctrlPen= new Pen(Brushes.CornflowerBlue);
-            var pt0 = ano.Img2Client(Point0);
-            var pt1 = ano.Img2Client(Point1);
-            g.FillRectangle(ctrlPen.Brush, (int)pt0.X - CtrlPtSize / 2, (int)pt0.Y - CtrlPtSize / 2, CtrlPtSize, CtrlPtSize);
-            g.FillRectangle(ctrlPen.Brush, (int)pt1.X - CtrlPtSize / 2, (int)pt1.Y - CtrlPtSize / 2, CtrlPtSize, CtrlPtSize);
+            ctrlPen.Width /= ano.ViewScale;
+            float s = CtrlPtSize / ano.ViewScale; // make sure ctrl points are always the same size regardless the scale
+            g.FillRectangle(ctrlPen.Brush, (int)Point0.X - s / 2, (int)Point0.Y - s / 2, s, s);
+            g.FillRectangle(ctrlPen.Brush, (int)Point1.X - s / 2, (int)Point1.Y - s / 2, s, s);
             ctrlPen.Dispose();
         }
 
-        public override CtrlPt PickControlPoint(PointF pClt, Annotation ano)
+        public override CtrlPt PickControlPoint(PointF pImg, Annotation ano)
         {
-            var pt0 = ano.Img2Client(Point0);
-            var pt1 = ano.Img2Client(Point1);
+            var pt0 = _getPointInWld(Point0);
+            var pt1 = _getPointInWld(Point1);
 
             var r0 = new RectangleF(pt0.X - CtrlPtSize / 2, pt0.Y - CtrlPtSize / 2, CtrlPtSize, CtrlPtSize);
             var r1 = new RectangleF(pt1.X - CtrlPtSize / 2, pt1.Y - CtrlPtSize / 2, CtrlPtSize, CtrlPtSize);
 
-            if (r0.Contains(pClt))
+            if (r0.Contains(pImg))
                 return CtrlPt.LineEnd0;
 
-            if (r1.Contains(pClt))
+            if (r1.Contains(pImg))
                 return CtrlPt.LineEnd1;
 
             return CtrlPt.None;
@@ -116,7 +113,7 @@ namespace ViewBoxContorl.Annotation
                 y -= (MinSizeY - h) / 2;
                 h = MinSizeY;
             }
-            AbsRect = new RectangleF(x, y, w, h);
+            LocalRect = new RectangleF(x, y, w, h);
         }
 
         public override bool IsPointInsideShape(PointF p)

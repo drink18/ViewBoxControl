@@ -11,11 +11,11 @@ namespace ViewBoxContorl.Annotation
     public class Ellipse : BaseElement
     {
         float Width {
-            get { return _absRect.Width; }
+            get { return _localRect.Width; }
         }
 
         float Height{
-            get { return _absRect.Height; }
+            get { return _localRect.Height; }
         }
 
         public Ellipse(Point topLeft, Matrix client2Img)
@@ -35,8 +35,8 @@ namespace ViewBoxContorl.Annotation
             var pts = new Point[] { new Point(topLeft.X, topLeft.Y) };
             client2Img.TransformPoints(pts);
 
-            _absRect.X = 0;
-            _absRect.Y = 0; 
+            _localRect.X = 0;
+            _localRect.Y = 0; 
 
             Init(pts[0]);
         }
@@ -47,7 +47,7 @@ namespace ViewBoxContorl.Annotation
             pen.Width /= ano.ViewScale;
 
             g.Transform = _getRenderMatrix(ano);
-            g.DrawEllipse(pen, AbsRect);
+            g.DrawEllipse(pen, LocalRect);
 
             pen.Dispose();
         }
@@ -61,8 +61,8 @@ namespace ViewBoxContorl.Annotation
         public override bool IsPointInsideShape(PointF pWld)
         {
             var p = _getPointInLocal(pWld);
-            float lx = AbsRect.Width / 2;
-            float ly = AbsRect.Height / 2;
+            float lx = LocalRect.Width / 2;
+            float ly = LocalRect.Height / 2;
 
             PointF np = new PointF(p.X , p.Y);
             return ((np.X * np.X) / (lx * lx) + (np.Y * np.Y) / (ly * ly) <= 1);

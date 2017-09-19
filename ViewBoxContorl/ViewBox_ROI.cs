@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +21,10 @@ namespace ViewBoxContorl
         int[] _getPixelsInsideROI(BaseElement e)
         {
             var pixels = new List<int>();
-            int x = (int)e.AbsRect.X;
-            int y = (int)e.AbsRect.Y;
 
-            for (int row = y; row < e.AbsRect.Bottom; row++)
+            for (int row = 0; row < NoRow; row++)
             {
-                for (int col = x; col < e.AbsRect.Right; col++)
+                for (int col = 0; col < NoCol; col++)
                 {
                     if (col >= 0 && row >= 0 && col < NoCol && row < NoRow 
                         && e.IsPointInsideShape(new PointF(col, row)))
@@ -43,7 +42,7 @@ namespace ViewBoxContorl
             var pixels = _getPixelsInsideROI(e);
             double mean = 0;
             if(pixels.Length > 0 )
-                pixels.Average();
+                mean = pixels.Average();
 
             return (float)mean;
         }
@@ -63,14 +62,35 @@ namespace ViewBoxContorl
             return (float)variaton;
         }
 
-        public void DrawROIInfo(Graphics g, BaseElement roi)
+        public void _renderROIInfo(Graphics g, BaseElement roi)
         {
             if(roi.GetType() != typeof(Line))
             {
                 var userData = roi.UserData as ROIUserData;
                 Font font = new Font("Arial", 8, FontStyle.Bold);
                 SolidBrush brush = new SolidBrush(Color.LightSalmon);
-                g.DrawString(string.Format("Mean: {0}\n Var: {1}", userData.PixelMean, userData.PixelVariation), font, brush, _annotation.Img2Client(roi.Center));
+                g.DrawString(string.Format("Mean: {0}\n Var: {1}", userData.PixelMean, userData.PixelVariation), font, brush, _annotation.Img2Client(roi.CenterWld));
+                font.Dispose();
+                brush.Dispose();
+            }
+        }
+
+        private void _renderMouseCursorInfo(PaintEventArgs pe)
+        {
+            // pixel measure
+            var e = PointToClient(MousePosition);
+            var p = new PointF(e.X, e.Y);
+            var pImg = _annotation.Client2Img(p);
+            if (pImg.X >= 0 && pImg.Y >= 0 && pImg.X < NoCol && pImg.Y < NoRow)
+            {
+                var val = PixelData[(int)pImg.Y, (int)pImg.X];
+
+                Graphics g = pe.Graphics;
+                Font font = new Font("Arial", 10);
+                SolidBrush brush = new SolidBrush(Color.LightYellow);
+                g.DrawString(string.Format("{0}", val), font, brush, new PointF(p.X + 5, p.Y - 5));
+                font.Dispose();
+                brush.Dispose();
             }
         }
 
@@ -79,7 +99,7 @@ namespace ViewBoxContorl
             var userData = new ROIUserData();
 
             var mean = MeasureMeanPixelValeInDiagram(e);
-            var var = MeasureMeanPixelValeInDiagram(e);
+            var var = MeasureSquareVariation(e);
             userData.PixelMean = mean;
             userData.PixelVariation = var;
 

@@ -35,21 +35,20 @@ namespace ViewBoxContorl.Annotation
             pen.Width /= ano.ViewScale;
 
             g.Transform = _getRenderMatrix(ano);
-            g.DrawRectangle(pen, AbsRect.X, AbsRect.Y, AbsRect.Width, AbsRect.Height);
+            g.DrawRectangle(pen, LocalRect.X, LocalRect.Y, LocalRect.Width, LocalRect.Height);
 
             pen.Dispose();
         }
 
         public override void Move(PointF delta)
         {
-            var e = _transform.Elements;
-            _transform = new Matrix(e[0], e[1], e[2], e[3], _transform.OffsetX + delta.X, _transform.OffsetY + delta.Y);
+            _transform = _setMatrixTranslation(_transform, new PointF(_transform.OffsetX + delta.X, _transform.OffsetY + delta.Y));
         }
 
         public override bool IsPointInsideShape(PointF p)
         {
             var pLocal = _getPointInLocal(p);
-            return AbsRect.Contains(pLocal);
+            return LocalRect.Contains(pLocal);
         }
     }
 }
