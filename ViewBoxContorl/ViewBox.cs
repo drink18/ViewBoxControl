@@ -188,36 +188,6 @@ namespace ViewBoxContorl
             base.OnPaint(pe);
         }
 
-        /// <summary>
-        /// 使用GDI+缩放图像。
-        /// </summary>
-        /// <param name="original">要缩放的图像。</param>
-        /// <param name="newWidth">新宽度。</param>
-        /// <param name="newHeight">新高度。</param>
-        /// <returns>缩放后的图像。</returns>
-        public static Bitmap ResizeUsingGDIPlus(Bitmap original, Rectangle origSampleRect, int newWidth, int newHeight)
-        {
-            try
-            {
-                Bitmap bitmap = new Bitmap(newWidth, newHeight);
-                Graphics graphics = Graphics.FromImage(bitmap);
-
-                // 插值算法的质量
-                //graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                graphics.InterpolationMode = InterpolationMode.Bilinear;
-                graphics.SmoothingMode = SmoothingMode.Default;
-                graphics.DrawImage(original, new Rectangle(0, 0, newWidth, newHeight),
-                   origSampleRect, GraphicsUnit.Pixel);
-                graphics.Dispose();
-               
-                return bitmap;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
         private void _setWin(short value)
         {
             if (value == win)
