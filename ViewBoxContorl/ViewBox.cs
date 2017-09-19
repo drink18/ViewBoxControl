@@ -148,6 +148,7 @@ namespace ViewBoxContorl
 
         public bool ShowStatistics { get; set; }
         public bool ShowPixelValue { get; set; }
+        public Shape[] AnnotationShapes { get { return _annotation.ShapeList.ToArray();} }
 
         public enum Interaction
         {
@@ -186,49 +187,6 @@ namespace ViewBoxContorl
         {
             base.OnPaint(pe);
         }
-
-
-        //public static byte[] GetGrayArray(Bitmap srcBmp)
-        //{
-        //    //将Bitmap锁定到系统内存中,获得BitmapData
-        //    //这里的第三个参数确定了该图像信息时rgb存储还是Argb存储
-        //    Rectangle rect = new Rectangle(0, 0, srcBmp.Width, srcBmp.Height);  //表示要锁定全图
-        //    BitmapData srcBmpData = srcBmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-        //    //位图中第一个像素数据的地址。它也可以看成是位图中的第一个扫描行
-        //    IntPtr srcPtr = srcBmpData.Scan0;
-        //    //将Bitmap对象的信息存放到byte数组中
-        //    int scanWidth = srcBmpData.Width * 3;
-        //    int src_bytes = scanWidth * rect.Height;
-        //    //int srcStride = srcBmpData.Stride;
-        //    byte[] srcValues = new byte[src_bytes];
-        //    byte[] grayValues = new byte[rect.Width * rect.Height];
-        //    //RGB[] rgb = new RGB[srcBmp.Width * rows];
-        //    //复制GRB信息到byte数组
-        //    Marshal.Copy(srcPtr, srcValues, 0, src_bytes);
-        //    //LogHelper.OutputArray(srcValues, rect.Width * 3, rect.Height, true);
-        //    //Marshal.Copy(dstPtr, dstValues, 0, dst_bytes);
-        //    //解锁位图
-        //    srcBmp.UnlockBits(srcBmpData);
-        //    //灰度化处理
-        //    int m = 0, j = 0;
-        //    int k = 0;
-        //    byte gray;
-        //    //根据Y = 0.299*R + 0.587*G + 0.114*B,intensity为亮度
-        //    for (int i = 0; i < rect.Height; i++)  //行
-        //    {
-        //        for (j = 0; j < rect.Width; j++)  //列
-        //        {
-        //            //注意位图结构中RGB按BGR的顺序存储
-        //            k = 3 * j;
-        //            gray = (byte)(srcValues[i * scanWidth + k + 2] * 0.299
-        //                 + srcValues[i * scanWidth + k + 1] * 0.587
-        //                 + srcValues[i * scanWidth + k + 0] * 0.114);
-        //            grayValues[m] = gray;  //将灰度值存到byte一维数组中
-        //            m++;
-        //        }
-        //    }
-        //    return grayValues;
-        //}
 
         /// <summary>
         /// 使用GDI+缩放图像。

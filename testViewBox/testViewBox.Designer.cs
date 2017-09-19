@@ -46,6 +46,7 @@
             this.cbShowPixelMeasure = new System.Windows.Forms.CheckBox();
             this.cbShowStatistics = new System.Windows.Forms.CheckBox();
             this.vbxImage = new ViewBoxContorl.ViewBoxForm();
+            this.btnPrintROI = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnLoadImage
@@ -273,11 +274,23 @@
             this.vbxImage.Paint += new System.Windows.Forms.PaintEventHandler(this.vbxImage_Paint);
             this.vbxImage.Resize += new System.EventHandler(this.vbxImage_Resize);
             // 
+            // btnPrintROI
+            // 
+            this.btnPrintROI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrintROI.Location = new System.Drawing.Point(588, 170);
+            this.btnPrintROI.Name = "btnPrintROI";
+            this.btnPrintROI.Size = new System.Drawing.Size(75, 23);
+            this.btnPrintROI.TabIndex = 10;
+            this.btnPrintROI.Text = "Print ROI";
+            this.btnPrintROI.UseVisualStyleBackColor = true;
+            this.btnPrintROI.Click += new System.EventHandler(this.btnPrintROI_Click);
+            // 
             // testViewBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(898, 438);
+            this.Controls.Add(this.btnPrintROI);
             this.Controls.Add(this.cbShowStatistics);
             this.Controls.Add(this.cbShowPixelMeasure);
             this.Controls.Add(this.dbNewShape);
@@ -324,6 +337,7 @@
         private System.Windows.Forms.ComboBox dbNewShape;
         private System.Windows.Forms.CheckBox cbShowPixelMeasure;
         private System.Windows.Forms.CheckBox cbShowStatistics;
+        private System.Windows.Forms.Button btnPrintROI;
     }
 }
 

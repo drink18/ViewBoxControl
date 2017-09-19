@@ -234,5 +234,22 @@ namespace testViewBox
             vbxImage.ShowStatistics = cbShowStatistics.Checked;
             vbxImage.Refresh();
         }
+
+        private void btnPrintROI_Click(object sender, EventArgs e)
+        {
+            var shapes = vbxImage.AnnotationShapes;
+            string dump = "Begin of ROI dump\n";
+            foreach (var shape in shapes)
+            {
+                var roiInfo = shape.UserData as ViewBoxContorl.ViewBoxForm.ROIUserData;
+                if (roiInfo != null)
+                {
+                    dump += string.Format("Shape is {0}\n", shape.GetType().Name);
+                    dump += string.Format("Var={0}, Mean={1}\n", roiInfo.PixelVariation, roiInfo.PixelMean);
+                }
+            }
+            dump += "End of ROI dump\n";
+            tbxInfo.AppendText(dump);
+        }
     }
 }

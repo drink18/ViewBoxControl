@@ -200,12 +200,12 @@ namespace ViewBoxContorl.Annotation
             if(_cmd != null)
             {
                 _cmd.OnMouseMove(new Point(e.X, e.Y ));
-                _vb.Invalidate();
+                _vb.Refresh();
             }
             else if(_creating)
             {
                 _creatingEle.OnDragCreating(Client2Img(new Point(e.X, e.Y)));
-                _vb.Invalidate();
+                _vb.Refresh();
             }
         }
 
