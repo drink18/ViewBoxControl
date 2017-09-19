@@ -4,22 +4,25 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewBoxContorl.Annotation.Data;
 
 namespace ViewBoxContorl.Annotation
 {
-    public class ManipCommand
-    {
-        protected BaseElement _ele;
+    public class ManipCommand {
+        protected Shape _ele;
         protected Point _lastMousePos;
         protected Annotation _ano;
+        protected ShapeSnapshotData _initSnapshot;
+        public ShapeSnapshotData InitSnapshot { get { return _initSnapshot; } }
 
-        public ManipCommand(BaseElement ele, Point p, Annotation ano)
+        public ManipCommand(Shape shape, Point p, Annotation ano)
         {
-            _ele = ele;
+            _ele = shape;
             _lastMousePos = p;
             _ano = ano;
-
-            _ano.ShapeChangeBeginEvt(_ele);
+            _initSnapshot = shape.ExportElement();
+            
+            _ano.ShapeChangeBeginEvt(_ele, this);
         }
 
         public virtual void OnMouseMove(Point p)
@@ -29,12 +32,15 @@ namespace ViewBoxContorl.Annotation
         public virtual void OnMouseUp(Point p) { }
         public virtual void OnMouseDown(Point p) { }
 
-        public virtual void EndCmd() { _ano.ShapeChangeEndEvt(_ele); }
+        public virtual void EndCmd()
+        {
+            _ano.ShapeChangeEndEvt(_ele, this);
+        }
     }
 
     public class MoveCommand : ManipCommand
     {
-        public MoveCommand(BaseElement ele, Point p, Annotation ano)
+        public MoveCommand(Shape ele, Point p, Annotation ano)
             :base(ele, p, ano)
         {
         }
@@ -48,8 +54,8 @@ namespace ViewBoxContorl.Annotation
 
     public class DragCtrlPtCommand : ManipCommand
     {
-        BaseElement.CtrlPt _cpt;
-        public DragCtrlPtCommand(BaseElement ele, BaseElement.CtrlPt cpt, Point p, Annotation ano)
+        Shape.CtrlPt _cpt;
+        public DragCtrlPtCommand(Shape ele, Shape.CtrlPt cpt, Point p, Annotation ano)
             :base(ele, p, ano)
         {
             _cpt = cpt;
@@ -58,7 +64,7 @@ namespace ViewBoxContorl.Annotation
         public override void OnMouseMove(Point p)
         {
             _ele.Manipulate(_cpt, _ano.Client2ImgVec(new Point(p.X - _lastMousePos.X, p.Y - _lastMousePos.Y)));
-            _ano.ShapeChangingEvt(_ele);
+            _ano.ShapeChangingEvt(_ele, this);
             base.OnMouseMove(p);
         }
     }

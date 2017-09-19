@@ -475,7 +475,7 @@ namespace ViewBoxContorl
             return grayLevelData != null;
         }
 
-        private void vbxImage_AnnotationShapeChanging(BaseElement e)
+        private void vbxImage_AnnotationShapeChanging(Shape e, ManipCommand cmd)
         {
         }
 
@@ -507,8 +507,16 @@ namespace ViewBoxContorl
                 {
                     foreach (var ele in _annotation.SelectedElements)
                     {
-                        _annotation.RemoveElement(ele);
+                        _annotation.RemoveShape(ele);
                     }
+
+                    this.View.Refresh();
+                }
+
+                if(e.KeyCode == Keys.Z && e.Control)
+                {
+                    _annotation.UndoLastEvent();
+                    View.Refresh();
                 }
             }
         }

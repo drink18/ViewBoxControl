@@ -18,7 +18,7 @@ namespace ViewBoxContorl
             public float PixelVariation; 
         }
 
-        int[] _getPixelsInsideROI(BaseElement e)
+        int[] _getPixelsInsideROI(Shape e)
         {
             var pixels = new List<int>();
 
@@ -37,7 +37,7 @@ namespace ViewBoxContorl
             return pixels.ToArray();
         }
 
-        float MeasureMeanPixelValeInDiagram(BaseElement e)
+        float MeasureMeanPixelValeInDiagram(Shape e)
         {
             var pixels = _getPixelsInsideROI(e);
             double mean = 0;
@@ -47,7 +47,7 @@ namespace ViewBoxContorl
             return (float)mean;
         }
 
-        float MeasureSquareVariation(BaseElement e)
+        float MeasureSquareVariation(Shape e)
         {
             var pixels = _getPixelsInsideROI(e);
             double variaton = 0;
@@ -62,7 +62,7 @@ namespace ViewBoxContorl
             return (float)variaton;
         }
 
-        public void _renderROIInfo(Graphics g, BaseElement roi)
+        public void _renderROIInfo(Graphics g, Shape roi)
         {
             if(roi.GetType() != typeof(Line))
             {
@@ -94,7 +94,7 @@ namespace ViewBoxContorl
             }
         }
 
-        private void _updateROIStatistics(BaseElement e)
+        private void _updateROIStatistics(Shape e)
         {
             var userData = new ROIUserData();
 
@@ -106,13 +106,13 @@ namespace ViewBoxContorl
             e.UserData = userData;
         }
 
-        private void _annotationShapeCreated_ROI(BaseElement e)
+        private void _annotationShapeCreated_ROI(Shape e)
         {
             if(_hasImage())
                 _updateROIStatistics(e);
         }
 
-        private void _annotationShapeChanged_ROI(BaseElement e)
+        private void _annotationShapeChanged_ROI(Shape e, ManipCommand cmd)
         {
             if(_hasImage())
                 _updateROIStatistics(e);

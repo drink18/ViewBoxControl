@@ -48,8 +48,10 @@
     <Compile Include="Annotation\Annotation_Element.cs" />
     <Compile Include="Annotation\Annotation_Manip.cs" />
     <Compile Include="Annotation\Annotation_Selection.cs" />
-    <Compile Include="Annotation\BaseElement.cs" />
+    <Compile Include="Annotation\Annotation_Undo.cs" />
+    <Compile Include="Annotation\Shape.cs" />
     <Compile Include="Annotation\Box.cs" />
+    <Compile Include="Annotation\Data\ElementData.cs" />
     <Compile Include="Annotation\Ellipse.cs" />
     <Compile Include="Annotation\Line.cs" />
     <Compile Include="EventArgs.cs" />

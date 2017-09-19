@@ -6,11 +6,12 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewBoxContorl.Annotation.Data;
 
 namespace ViewBoxContorl.Annotation
 {
     public class UserData { }
-    public class BaseElement
+    public class Shape
     {
         public enum CtrlPt
         {
@@ -36,14 +37,6 @@ namespace ViewBoxContorl.Annotation
 
         virtual public void Draw(Graphics g, Annotation ano) { }
         virtual public void Move(PointF delta) { }
-
-
-        protected float _getAngleFromMatrixDeg(float[] e)
-        {
-            var angle = (float)Math.Atan2(e[1], e[0]);
-            angle *= 180.0f / (float)Math.PI;
-            return angle;
-        }
 
         virtual public void Manipulate(CtrlPt ctrlPt, PointF d)
         {
@@ -130,14 +123,26 @@ namespace ViewBoxContorl.Annotation
                 _transform = _setMatrixTranslation(_transform, center);
                 LocalRect = new RectangleF(-w / 2, -h / 2, w, h);
             }
-
-
         }
         virtual public bool IsValid()
         {
             return LocalRect.Width >= MinSizeX && LocalRect.Height >= MinSizeY;
         }
         virtual public bool IsPointInsideShape(PointF p) { return false; }
+
+        virtual public ShapeSnapshotData ExportElement()
+        {
+            var ed = new ShapeSnapshotData();
+            ed.LocalRect = _localRect;
+            ed.Transform = _transform.Clone();
+            return ed;
+        }
+
+        virtual public void InitFromElementData(ShapeSnapshotData ed)
+        {
+            _transform = ed.Transform.Clone();
+            LocalRect = ed.LocalRect;
+        }
 
         protected RectangleF _localRect = new RectangleF(0, 0, MinSizeX, MinSizeY); //rect in absolute coord system
         public RectangleF LocalRect {
@@ -320,6 +325,13 @@ namespace ViewBoxContorl.Annotation
             var e = m.Elements;
             var _m = new Matrix(e[0], e[1], e[2], e[3], pos.X, pos.Y);
             return _m;
+        }
+
+        protected float _getAngleFromMatrixDeg(float[] e)
+        {
+            var angle = (float)Math.Atan2(e[1], e[0]);
+            angle *= 180.0f / (float)Math.PI;
+            return angle;
         }
     }
 }

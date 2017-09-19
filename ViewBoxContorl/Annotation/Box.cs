@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ViewBoxContorl.Annotation
 {
-    public class Box : BaseElement
+    public class Box : Shape
     {
         public Box(Point topLeft, Matrix client2Img)
         {

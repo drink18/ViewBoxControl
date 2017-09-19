@@ -25,17 +25,17 @@ namespace ViewBoxContorl.Annotation
         public Type NewElementType = null;
 
         bool _creating = false;
-        BaseElement _creatingEle = null;
-        public BaseElement CreateNewElement(Type t, Point position, Matrix client2Img) 
+        Shape _creatingEle = null;
+        public Shape CreateNewElement(Type t, Point position, Matrix client2Img) 
         {
             _creating = true;
-            _creatingEle = (BaseElement)Activator.CreateInstance(t, new object[] { position, client2Img });
+            _creatingEle = (Shape)Activator.CreateInstance(t, new object[] { position, client2Img });
             return _creatingEle;
         }
 
         public void SetupCreationContext(Type t)
         {
-            if(t.IsSubclassOf(typeof(BaseElement)))
+            if(t.IsSubclassOf(typeof(Shape)))
             {
                 CurrentInteractContext = InteractContext.Create;
                 NewElementType = t;

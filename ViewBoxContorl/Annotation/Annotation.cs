@@ -11,20 +11,24 @@ namespace ViewBoxContorl.Annotation
 {
     public partial class Annotation
     {
-        List<BaseElement> _elementsList = new List<BaseElement>();
-        public List<BaseElement> ElementLists
+        List<Shape> _shapeList = new List<Shape>();
+        public List<Shape> ElementLists
         {
-            get { return _elementsList; }
+            get { return _shapeList; }
         }
         ViewBoxForm _vb;
 
         public Annotation(ViewBoxForm vb)
         {
             _vb = vb;
+
+            ShapeCreatedEvt += OnShapeCreated_Undo;
+            ShapeDeletedEvt += OnShapeDeleted_Undo;
+            ShapeChangeEndEvt += OnShapeChanged_Undo;
         }
 
         AnnotationSelection _selection = new AnnotationSelection();
-        public BaseElement[] SelectedElements
+        public Shape[] SelectedElements
         {
             get
             {
@@ -61,14 +65,14 @@ namespace ViewBoxContorl.Annotation
         }
 
         #region utils
-        public Tuple<BaseElement, BaseElement.CtrlPt> PickCtrlPts(PointF p)
+        public Tuple<Shape, Shape.CtrlPt> PickCtrlPts(PointF p)
         {
             foreach(var e in _selection.SelectedElements)
             {
                 var ctrlPt = e.PickControlPoint(p, this);
-                if(ctrlPt != BaseElement.CtrlPt.None)
+                if(ctrlPt != Shape.CtrlPt.None)
                 {
-                    return new Tuple<BaseElement, BaseElement.CtrlPt>(e, ctrlPt);
+                    return new Tuple<Shape, Shape.CtrlPt>(e, ctrlPt);
                 }
             }
 
@@ -76,9 +80,9 @@ namespace ViewBoxContorl.Annotation
         }
 
         // coord in client area to coord in element
-        public BaseElement PickElement(Point point)
+        public Shape PickElement(Point point)
         {
-            foreach (var ele in _elementsList)
+            foreach (var ele in _shapeList)
             {
                 var p = Client2Img(point);
                 if (ele.IsPointInsideShape(new PointF(p.X, p.Y)))
@@ -177,15 +181,17 @@ namespace ViewBoxContorl.Annotation
         #endregion
 
         #region Event raising
-        public delegate void ShapeChangeBegin(BaseElement e);
-        public delegate void ShapeChanging(BaseElement e);
-        public delegate void ShapeChangeEnd(BaseElement e);
-        public delegate void ShapeCreated(BaseElement e);
+        public delegate void ShapeChangeBegin(Shape e, ManipCommand cmd);
+        public delegate void ShapeChanging(Shape e, ManipCommand cmd);
+        public delegate void ShapeChangeEnd(Shape e, ManipCommand cmd);
+        public delegate void ShapeCreated(Shape e);
+        public delegate void ShapeDeleted(Shape e);
 
-        public ShapeChangeBegin ShapeChangeBeginEvt = o => { };
-        public ShapeChanging ShapeChangingEvt = o=> { };
-        public ShapeChangeEnd ShapeChangeEndEvt = o=> { };
+        public ShapeChangeBegin ShapeChangeBeginEvt = (o,c) => { };
+        public ShapeChanging ShapeChangingEvt = (o,c)=> { };
+        public ShapeChangeEnd ShapeChangeEndEvt = (o,c)=> { };
         public ShapeCreated ShapeCreatedEvt = o=> { };
+        public ShapeDeleted ShapeDeletedEvt = o => { };
         #endregion  
 
         #region event handler
@@ -209,7 +215,7 @@ namespace ViewBoxContorl.Annotation
             {
                 if (_creatingEle.IsValid())
                 {
-                    _elementsList.Add(_creatingEle);
+                    _shapeList.Add(_creatingEle);
                     ShapeCreatedEvt(_creatingEle);
                 }
                 _creating = false;
@@ -270,7 +276,7 @@ namespace ViewBoxContorl.Annotation
         public void OnPaint(PaintEventArgs args)
         {
             args.Graphics.Transform.Reset();
-            foreach(var e in _elementsList)
+            foreach(var e in _shapeList)
             {
                 e.Draw(args.Graphics, this);
                 if(_selection.IsSelected(e))
@@ -285,10 +291,16 @@ namespace ViewBoxContorl.Annotation
         }
         #endregion
 
-        public void RemoveElement(BaseElement e)
+        protected void DeleteShape(Shape e)
         {
-            _elementsList.Remove(e);
+            _shapeList.Remove(e);
             _selection.RemoveFromSelectoin(e);
+        }
+
+        public void RemoveShape(Shape e)
+        {
+            DeleteShape(e);
+            ShapeDeletedEvt(e);
         }
     }
 }

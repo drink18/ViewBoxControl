@@ -8,7 +8,7 @@ using System.Drawing.Drawing2D;
 
 namespace ViewBoxContorl.Annotation  
 {
-    public class Ellipse : BaseElement
+    public class Ellipse : Shape
     {
         float Width {
             get { return _localRect.Width; }

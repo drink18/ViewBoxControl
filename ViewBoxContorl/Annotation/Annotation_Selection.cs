@@ -9,24 +9,24 @@ namespace ViewBoxContorl.Annotation
 {
     partial class AnnotationSelection
     {
-        HashSet<BaseElement> _selectedElements = new HashSet<BaseElement>();
-        public HashSet<BaseElement> SelectedElements
+        HashSet<Shape> _selectedElements = new HashSet<Shape>();
+        public HashSet<Shape> SelectedElements
         {
             get { return _selectedElements; }
             set { _selectedElements = value; }
         }
 
-        public void AddToSelection(BaseElement ele)
+        public void AddToSelection(Shape ele)
         {
             _selectedElements.Add(ele);
         }
 
-        public bool IsSelected(BaseElement ele)
+        public bool IsSelected(Shape ele)
         {
             return _selectedElements.Contains(ele);
         }
 
-        public void RemoveFromSelectoin(BaseElement ele)
+        public void RemoveFromSelectoin(Shape ele)
         {
             _selectedElements.Remove(ele);
         }

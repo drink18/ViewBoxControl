@@ -5,10 +5,11 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewBoxContorl.Annotation.Data;
 
 namespace ViewBoxContorl.Annotation
 {
-    public class Line : BaseElement
+    public class Line : Shape
     {
         public PointF Point0 { get; set; }
         public PointF Point1 { get; set; }
@@ -135,6 +136,25 @@ namespace ViewBoxContorl.Annotation
             }
 
             return false;
+        }
+
+        public override ShapeSnapshotData ExportElement()
+        {
+            var ed = new LineData();
+            ed.LocalRect = LocalRect;
+            ed.Transform = _transform;
+            ed.P0 = Point0;
+            ed.P1 = Point1;
+
+            return ed;
+        }
+
+        public override void InitFromElementData(ShapeSnapshotData ed)
+        {
+            base.InitFromElementData(ed);
+            var led = ed as LineData;
+            Point0 = led.P0;
+            Point1 = led.P1;
         }
     }
 }
