@@ -12,7 +12,7 @@ namespace ViewBoxContorl.Annotation
     public partial class Annotation
     {
         List<Shape> _shapeList = new List<Shape>();
-        public List<Shape> ElementLists
+        public List<Shape> ShapeList
         {
             get { return _shapeList; }
         }
@@ -28,11 +28,11 @@ namespace ViewBoxContorl.Annotation
         }
 
         AnnotationSelection _selection = new AnnotationSelection();
-        public Shape[] SelectedElements
+        public Shape[] SelectedShapes
         {
             get
             {
-                return _selection.SelectedElements.ToArray();
+                return _selection.SelectedShapes.ToArray();
             }
 
         }
@@ -67,7 +67,7 @@ namespace ViewBoxContorl.Annotation
         #region utils
         public Tuple<Shape, Shape.CtrlPt> PickCtrlPts(PointF p)
         {
-            foreach(var e in _selection.SelectedElements)
+            foreach(var e in _selection.SelectedShapes)
             {
                 var ctrlPt = e.PickControlPoint(p, this);
                 if(ctrlPt != Shape.CtrlPt.None)
@@ -80,7 +80,7 @@ namespace ViewBoxContorl.Annotation
         }
 
         // coord in client area to coord in element
-        public Shape PickElement(Point point)
+        public Shape PickShape(Point point)
         {
             foreach (var ele in _shapeList)
             {
@@ -250,18 +250,18 @@ namespace ViewBoxContorl.Annotation
                 }
                 else
                 {
-                    var ele = PickElement(p);
-                    if (ele != null)
+                    var shape = PickShape(p);
+                    if (shape != null)
                     {
-                        if (_selection.IsSelected(ele))
+                        if (_selection.IsSelected(shape))
                         {
                             // move
-                            _cmd = new MoveCommand(ele, p, this);
+                            _cmd = new MoveCommand(shape, p, this);
                         }
                         else
                         {
                             _selection.ClearSelection();
-                            _selection.AddToSelection(ele);
+                            _selection.AddToSelection(shape);
                         }
                     }
                     else
