@@ -491,9 +491,9 @@ namespace ViewBoxContorl
 
             if (ShowStatistics)
             {
-                foreach (var roi in _annotation.ElementLists)
+                foreach (var roi in _annotation.ShapeList)
                 {
-                    if (!_annotation.SelectedElements.Contains(roi))
+                    if (!_annotation.SelectedShapes.Contains(roi))
                         _renderROIInfo(e.Graphics, roi);
                 }
             }
@@ -505,7 +505,7 @@ namespace ViewBoxContorl
             {
                 if(e.KeyCode == Keys.Delete)
                 {
-                    foreach (var ele in _annotation.SelectedElements)
+                    foreach (var ele in _annotation.SelectedShapes)
                     {
                         _annotation.RemoveShape(ele);
                     }

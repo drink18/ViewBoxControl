@@ -51,7 +51,7 @@
     <Compile Include="Annotation\Annotation_Undo.cs" />
     <Compile Include="Annotation\Shape.cs" />
     <Compile Include="Annotation\Box.cs" />
-    <Compile Include="Annotation\Data\ElementData.cs" />
+    <Compile Include="Annotation\Data\ShapeData.cs" />
     <Compile Include="Annotation\Ellipse.cs" />
     <Compile Include="Annotation\Line.cs" />
     <Compile Include="EventArgs.cs" />

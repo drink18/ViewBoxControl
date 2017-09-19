@@ -10,7 +10,7 @@ namespace ViewBoxContorl.Annotation
     partial class AnnotationSelection
     {
         HashSet<Shape> _selectedElements = new HashSet<Shape>();
-        public HashSet<Shape> SelectedElements
+        public HashSet<Shape> SelectedShapes
         {
             get { return _selectedElements; }
             set { _selectedElements = value; }
