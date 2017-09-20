@@ -245,7 +245,7 @@ namespace testViewBox
                 if (roiInfo != null)
                 {
                     dump += string.Format("Shape is {0}\n", shape.GetType().Name);
-                    dump += string.Format("Var={0}, Mean={1}\n", roiInfo.PixelVariation, roiInfo.PixelMean);
+                    //dump += string.Format("Var={0}, Mean={1}\n", roiInfo.PixelVariation, roiInfo.PixelMean);
                 }
             }
             dump += "End of ROI dump\n";

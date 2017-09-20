@@ -12,10 +12,16 @@ namespace ViewBoxContorl
 {
     partial class ViewBoxForm : UserControl
     {
+        public enum StatKey
+        {
+            Mean,
+            SqrVariation,
+            Length
+        }
+
         public class ROIUserData : UserData
         {
-            public float PixelMean;
-            public float PixelVariation; 
+            public Dictionary<StatKey, float> StatDict = new Dictionary<StatKey, float>();
         }
 
         int[] _getPixelsInsideROI(Shape e)
@@ -64,15 +70,19 @@ namespace ViewBoxContorl
 
         public void _renderROIInfo(Graphics g, Shape roi)
         {
-            if(roi.GetType() != typeof(Line))
+            var userData = roi.UserData as ROIUserData;
+            Font font = new Font("Arial", 8, FontStyle.Bold);
+            SolidBrush brush = new SolidBrush(Color.LightSalmon);
+
+            string statStr = "";
+            foreach (var stat in userData.StatDict)
             {
-                var userData = roi.UserData as ROIUserData;
-                Font font = new Font("Arial", 8, FontStyle.Bold);
-                SolidBrush brush = new SolidBrush(Color.LightSalmon);
-                g.DrawString(string.Format("Mean: {0}\n Var: {1}", userData.PixelMean, userData.PixelVariation), font, brush, _annotation.Img2Client(roi.CenterWld));
-                font.Dispose();
-                brush.Dispose();
+                statStr += string.Format("{0} = {1}\n", Enum.GetName(typeof(StatKey), stat.Key), stat.Value);
             }
+
+            g.DrawString(statStr, font, brush, _annotation.Img2Client(roi.CenterWld));
+            font.Dispose();
+            brush.Dispose();
         }
 
         private void _renderMouseCursorInfo(PaintEventArgs pe)
@@ -98,10 +108,20 @@ namespace ViewBoxContorl
         {
             var userData = new ROIUserData();
 
-            var mean = MeasureMeanPixelValeInDiagram(e);
-            var var = MeasureSquareVariation(e);
-            userData.PixelMean = mean;
-            userData.PixelVariation = var;
+            if (e.GetType() != typeof(Line))
+            {
+                var mean = MeasureMeanPixelValeInDiagram(e);
+                var var = MeasureSquareVariation(e);
+
+                userData.StatDict[StatKey.Mean] = mean;
+                userData.StatDict[StatKey.SqrVariation] = var;
+            }
+            else
+            {
+                var l = e as Line;
+                var d = new PointF(l.Point0.X - l.Point1.X, l.Point0.Y - l.Point1.Y);
+                userData.StatDict[StatKey.Length] = (int)Math.Sqrt(d.X * d.X + d.Y * d.Y); 
+            }
 
             e.UserData = userData;
         }
