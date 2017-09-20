@@ -106,14 +106,7 @@ namespace ViewBoxContorl.Annotation
             }
             else if(ctrlPt == CtrlPt.Rotation)
             {
-                var m = new Matrix();
-                var e = _transform.Elements;
-                var c = CenterWld;
-                m.RotateAt(d.X, new PointF(c.X, c.Y));
-                m.Multiply(_transform);
-                _transform = m;
-
-                Debug.WriteLine("Angle = " + Angle);
+                Angle += d.X;
             }
         }
 
@@ -165,6 +158,15 @@ namespace ViewBoxContorl.Annotation
             get
             {
                 return _getAngleFromMatrixDeg(_transform.Elements);
+            }
+            set
+            {
+                var diff = value - Angle;
+                var m = new Matrix();
+                var c = CenterWld;
+                m.RotateAt(diff, new PointF(c.X, c.Y));
+                m.Multiply(_transform);
+                _transform = m;
             }
         }
 
