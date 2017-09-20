@@ -172,9 +172,9 @@ namespace ViewBoxContorl.Annotation
             Point1 = led.P1;
         }
 
-        public override void RenderAuxilaries(Graphics g, Annotation ano)
+        public override void RenderAuxilaries(Graphics g, Matrix m, float scale)
         {
-            DrawControlPoints(g, ano);
+            DrawControlPoints(g, m, scale);
         }
     }
 }
