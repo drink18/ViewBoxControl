@@ -447,5 +447,18 @@ namespace ViewBoxContorl
                 }
             }
         }
+
+
+        // became focus
+        private void View_Enter(object sender, EventArgs e)
+        {
+            View.FlatAppearance.BorderColor = Color.Red;
+        }
+
+        // lost focus
+        private void View_Leave(object sender, EventArgs e)
+        {
+            View.FlatAppearance.BorderColor = Color.Black;
+        }
     }
 }

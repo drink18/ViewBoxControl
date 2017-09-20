@@ -44,7 +44,9 @@
             this.View.TabIndex = 0;
             this.View.UseVisualStyleBackColor = true;
             this.View.Paint += new System.Windows.Forms.PaintEventHandler(this.img_OnPaint);
+            this.View.Enter += new System.EventHandler(this.View_Enter);
             this.View.KeyDown += new System.Windows.Forms.KeyEventHandler(this.View_KeyDown);
+            this.View.Leave += new System.EventHandler(this.View_Leave);
             this.View.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vbxImage_MouseDown);
             this.View.MouseMove += new System.Windows.Forms.MouseEventHandler(this.View_MouseMove);
             this.View.MouseUp += new System.Windows.Forms.MouseEventHandler(this.vbxImg_MouseUp);
