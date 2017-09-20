@@ -248,7 +248,6 @@ namespace ViewBoxContorl.Annotation
 
         virtual public void RenderAuxilaries(Graphics g, Matrix view, float scale)
         {
-            DrawBoundingBox(g, view, scale);
             DrawControlPoints(g, view, scale);
         }
         
