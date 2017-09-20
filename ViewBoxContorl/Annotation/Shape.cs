@@ -112,6 +112,8 @@ namespace ViewBoxContorl.Annotation
                 m.RotateAt(d.X, new PointF(c.X, c.Y));
                 m.Multiply(_transform);
                 _transform = m;
+
+                Debug.WriteLine("Angle = " + Angle);
             }
         }
 
@@ -156,6 +158,14 @@ namespace ViewBoxContorl.Annotation
         public PointF CenterWld
         {
             get { return _getPointInWld(Center); }
+        }
+
+        public float Angle // angle around piviot (Center)
+        {
+            get
+            {
+                return _getAngleFromMatrixDeg(_transform.Elements);
+            }
         }
 
         protected Matrix _transform = new Matrix();
