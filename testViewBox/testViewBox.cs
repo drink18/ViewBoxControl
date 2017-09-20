@@ -254,13 +254,16 @@ namespace testViewBox
 
         private void btnTestCompound_Click(object sender, EventArgs e)
         {
-            var el = new Ellipse(new PointF(NoCol / 2, NoRow / 2), 100, 30);
-            var l = new Line(new PointF(NoCol / 2 + 50, NoRow / 2 - 50), new PointF(NoCol / 2 + 200, NoRow / 2 + 50));
-            var comp = new CompoundShape();
+            List<Shape> shapes = new List<Shape>();
+            for (int i = 0; i < 5; ++i)
+            {
+                var l = new Line(new PointF(0, 100 + i * 5), new PointF(255, 100 + i * 5));
+                shapes.Add(l);
+            }
 
-            comp.AddSubShapes(new Shape[] { el, l });
+            var comp = new CompoundShape();
+            comp.AddSubShapes(shapes.ToArray());
             vbxImage.AddShape(comp);
-            
         }
     }
 }

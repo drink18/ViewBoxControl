@@ -108,22 +108,13 @@ namespace ViewBoxContorl.Annotation
             {
                 var m = new Matrix();
                 var e = _transform.Elements;
-                float angle = _getAngleFromMatrixDeg(e);
-                angle += d.X;
-                m.Rotate(angle);
-                m.Translate(_transform.OffsetX, _transform.OffsetY, MatrixOrder.Append);
+                var c = CenterWld;
+                m.RotateAt(d.X, new PointF(c.X, c.Y));
+                m.Multiply(_transform);
                 _transform = m;
             }
-
-            {
-                var center = _realignOffcenterRect(LocalRect);
-                var w = LocalRect.Width;
-                var h = LocalRect.Height;
-
-                _transform = _setMatrixTranslation(_transform, center);
-                LocalRect = new RectangleF(-w / 2, -h / 2, w, h);
-            }
         }
+
         virtual public bool IsValid()
         {
             return LocalRect.Width >= MinSizeX && LocalRect.Height >= MinSizeY;
