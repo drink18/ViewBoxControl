@@ -286,7 +286,6 @@ namespace ViewBoxContorl
                 if (rawData.Length != 2 * NoCol * NoRow)
                 {
                     throw new RawDataSizeErrorException(NoCol, NoRow, rawData.Length);
-
                 }
                 Bitmap bmpBk = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);
                 this.View.Image = bmpBk;

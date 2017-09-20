@@ -243,7 +243,7 @@ namespace ViewBoxContorl.Annotation
 
         virtual public void RenderAuxilaries(Graphics g, Annotation ano)
         {
-            DrawBoundingBox(g, ano);
+            //DrawBoundingBox(g, ano);
             DrawControlPoints(g, ano);
         }
         
