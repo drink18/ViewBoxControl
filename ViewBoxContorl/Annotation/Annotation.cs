@@ -65,14 +65,14 @@ namespace ViewBoxContorl.Annotation
         }
 
         #region utils
-        public Tuple<Shape, Shape.CtrlPt> PickCtrlPts(PointF p)
+        public Tuple<Shape, Shape.CtrlPt> PickCtrlPts(PointF pImg)
         {
             foreach(var e in _selection.SelectedShapes)
             {
-                var ctrlPt = e.PickControlPoint(p, this);
-                if(ctrlPt != Shape.CtrlPt.None)
+                var ctrlPt = e.PickControlPoint(pImg);
+                if(ctrlPt != null)
                 {
-                    return new Tuple<Shape, Shape.CtrlPt>(e, ctrlPt);
+                    return ctrlPt;
                 }
             }
 
@@ -276,17 +276,18 @@ namespace ViewBoxContorl.Annotation
         public void OnPaint(PaintEventArgs args)
         {
             args.Graphics.Transform.Reset();
+            var viewMat = matImg2Client;
             foreach(var e in _shapeList)
             {
-                e.Draw(args.Graphics, this);
+                e.Draw(args.Graphics, viewMat, ViewScale);
                 if(_selection.IsSelected(e))
                 {
-                    e.RenderAuxilaries(args.Graphics, this);
+                    e.RenderAuxilaries(args.Graphics, viewMat, ViewScale);
                 }
             }
 
             if(_creatingEle != null)
-                _creatingEle.Draw(args.Graphics, this);
+                _creatingEle.Draw(args.Graphics, viewMat, ViewScale);
         }
         #endregion
 

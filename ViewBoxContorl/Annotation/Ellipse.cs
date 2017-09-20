@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 
 namespace ViewBoxContorl.Annotation  
 {
+
     public class Ellipse : Shape
     {
         float Width {
@@ -18,35 +19,35 @@ namespace ViewBoxContorl.Annotation
             get { return _localRect.Height; }
         }
 
-        public Ellipse(Point topLeft, Matrix client2Img)
+        public Ellipse(PointF center)
         {
-            ValidPickPts = new HashSet<CtrlPt>() {
-                CtrlPt.TopLeft,
-                CtrlPt.TopMiddle,
-                CtrlPt.TopRight,
-                CtrlPt.RightMiddle,
-                CtrlPt.BottomRight,
-                CtrlPt.BottomMiddle,
-                CtrlPt.BottomLeft,
-                CtrlPt.LeftMiddle,
-                CtrlPt.Rotation,
-            };
-
-            var pts = new Point[] { new Point(topLeft.X, topLeft.Y) };
-            client2Img.TransformPoints(pts);
+            _initControlPoints();
 
             _localRect.X = 0;
             _localRect.Y = 0; 
 
-            Init(pts[0]);
+            Init(center);
         }
 
-        public override void Draw(Graphics g, Annotation ano)
+        public Ellipse(PointF center, float axis1, float axis2)
+        {
+            _localRect = new RectangleF(-axis1 / 2, -axis2 / 2, axis1, axis2);
+            _transform.Reset();
+            _transform.Translate(center.X, center.Y);
+
+            _initControlPoints();
+            UpdateCtrlPts();
+
+        }
+
+        public override void Draw(Graphics g, Matrix m, float scale)
         {
             Pen pen = new Pen(Brushes.LightYellow);
-            pen.Width /= ano.ViewScale;
+            pen.Width /= scale;
 
-            g.Transform = _getRenderMatrix(ano);
+            var mat = m.Clone();
+            mat.Multiply(_transform);
+            g.Transform = mat;
             g.DrawEllipse(pen, LocalRect);
 
             pen.Dispose();
@@ -66,6 +67,21 @@ namespace ViewBoxContorl.Annotation
 
             PointF np = new PointF(p.X , p.Y);
             return ((np.X * np.X) / (lx * lx) + (np.Y * np.Y) / (ly * ly) <= 1);
+        }
+
+        private void _initControlPoints()
+        {
+            ValidPickPts = new HashSet<CtrlPt>() {
+                   CtrlPt.TopLeft,
+                   CtrlPt.TopMiddle,
+                   CtrlPt.TopRight,
+                   CtrlPt.RightMiddle,
+                   CtrlPt.BottomRight,
+                   CtrlPt.BottomMiddle,
+                   CtrlPt.BottomLeft,
+                   CtrlPt.LeftMiddle,
+                   CtrlPt.Rotation,
+               };
         }
     }
 }

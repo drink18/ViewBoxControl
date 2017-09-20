@@ -251,5 +251,16 @@ namespace testViewBox
             dump += "End of ROI dump\n";
             tbxInfo.AppendText(dump);
         }
+
+        private void btnTestCompound_Click(object sender, EventArgs e)
+        {
+            var el = new Ellipse(new PointF(NoCol / 2, NoRow / 2), 100, 30);
+            var l = new Line(new PointF(NoCol / 2 + 50, NoRow / 2 - 50), new PointF(NoCol / 2 + 200, NoRow / 2 + 50));
+            var comp = new CompoundShape();
+
+            comp.AddSubShapes(new Shape[] { el, l });
+            vbxImage.AddShape(comp);
+            
+        }
     }
 }

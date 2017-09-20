@@ -35,7 +35,7 @@ namespace ViewBoxContorl.Annotation
 
         public UserData UserData;
 
-        virtual public void Draw(Graphics g, Annotation ano) { }
+        virtual public void Draw(Graphics g,  Matrix view, float scale) { }
         virtual public void Move(PointF delta) { }
 
         virtual public void Manipulate(CtrlPt ctrlPt, PointF d)
@@ -201,7 +201,7 @@ namespace ViewBoxContorl.Annotation
             rects[CtrlPt.RightMiddle] = new PointF(LocalRect.Right, LocalRect.Y + LocalRect.Height / 2);
             rects[CtrlPt.LeftMiddle] = new PointF(LocalRect.X, LocalRect.Y + LocalRect.Height / 2);
 
-            rects[CtrlPt.Rotation] = new PointF(0, 0);
+            rects[CtrlPt.Rotation] = new PointF(LocalRect.X + LocalRect.Width /2, LocalRect.Y + LocalRect.Height / 2);
 
             return rects;
         }
@@ -217,7 +217,7 @@ namespace ViewBoxContorl.Annotation
             }
         }
 
-        virtual public CtrlPt PickControlPoint(PointF pImg, Annotation ano)
+        virtual public Tuple<Shape, CtrlPt> PickControlPoint(PointF pImg)
         {
             foreach(var cpt in CtrlPoints)
             {
@@ -225,31 +225,35 @@ namespace ViewBoxContorl.Annotation
                 var p1 = _getPointInLocal(pImg);
                 if(Math.Abs(p1.X - p.X) <= CtrlPtSize && Math.Abs(p1.Y - p.Y) <= CtrlPtSize)
                 {
-                    return cpt.Key;
+                    return new Tuple<Shape, CtrlPt>(this, cpt.Key);
                 }
             }
-            return CtrlPt.None;
+            return null; 
         }
 
-        virtual public void DrawBoundingBox(Graphics g, Annotation ano)
+        virtual public void DrawBoundingBox(Graphics g, Matrix view, float scale)
         {
-            g.Transform = _getRenderMatrix(ano);
+            var m = view.Clone();
+            m.Multiply(_transform);
+            g.Transform = m;
 
             Pen pen = new Pen(Brushes.CornflowerBlue);
-            pen.Width /= ano.ViewScale;
+            pen.Width /= scale;
             g.DrawRectangle(pen, (int)LocalRect.X - 1, (int)LocalRect.Y - 1, (int)LocalRect.Width + 1, (int)LocalRect.Height + 1);
             pen.Dispose();
         }
 
-        virtual public void RenderAuxilaries(Graphics g, Annotation ano)
+        virtual public void RenderAuxilaries(Graphics g, Matrix view, float scale)
         {
-            //DrawBoundingBox(g, ano);
-            DrawControlPoints(g, ano);
+            DrawBoundingBox(g, view, scale);
+            DrawControlPoints(g, view, scale);
         }
         
-        virtual protected void DrawControlPoints(Graphics g, Annotation ano)
+        virtual public void DrawControlPoints(Graphics g, Matrix view, float scale)
         {
-            g.Transform = _getRenderMatrix(ano);
+            var m = view.Clone();
+            m.Multiply(_transform);
+            g.Transform = m;
 
             Pen ctrlPen= new Pen(Brushes.CornflowerBlue);
             foreach(var cpt in CtrlPoints)
@@ -258,7 +262,7 @@ namespace ViewBoxContorl.Annotation
                 ctrlPen.Color = cpt.Key == CtrlPt.TopLeft ? Color.Red : Color.CornflowerBlue;
                 if (cpt.Key == CtrlPt.Rotation)
                     ctrlPen.Color = Color.Orange;
-                float s = CtrlPtSize / ano.ViewScale; // make sure ctrl points are always the same size regardless the scale
+                float s = CtrlPtSize / scale; // make sure ctrl points are always the same size regardless the scale
 
                 if (cpt.Key == CtrlPt.Rotation)
                 {
@@ -339,5 +343,43 @@ namespace ViewBoxContorl.Annotation
             angle *= 180.0f / (float)Math.PI;
             return angle;
         }
+
+        // merge other into r
+        protected RectangleF MergeRect(RectangleF r1, RectangleF other)
+        {
+            float x = Math.Min(r1.X, other.X);
+            float y = Math.Min(r1.Y, other.Y);
+
+            float r = Math.Max(r1.Right, other.Right);
+            float b = Math.Max(r1.Bottom, other.Bottom);
+
+            return new RectangleF(x, y, r - x, b - y);
+        }
+
+        public RectangleF GetAABB()
+        {
+            var p = new PointF[4];
+            p[0] = _getPointInWld(new PointF(_localRect.X, _localRect.Y));
+            p[1] = _getPointInWld(new PointF(_localRect.Right, _localRect.Y));
+            p[2] = _getPointInWld(new PointF(_localRect.Right, _localRect.Bottom));
+            p[3] = _getPointInWld(new PointF(_localRect.X, _localRect.Bottom));
+
+            float x0, y0, x1, y1;
+            x0 = x1 = p[0].X;
+            y0 = y1 = p[0].Y;
+            for(int i =1; i < 4; i++)
+            {
+                var c = p[i];
+                x0 = Math.Min(c.X, x0);
+                y0 = Math.Min(c.Y, y0);
+
+                x1 = Math.Max(c.X, x1);
+                y1 = Math.Max(c.Y, y1);
+            }
+
+            var ret = new RectangleF(x0, y0, x1 - x0, y1 - y0);
+            return ret;
+        }
     }
+
 }

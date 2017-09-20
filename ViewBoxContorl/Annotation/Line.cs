@@ -14,18 +14,28 @@ namespace ViewBoxContorl.Annotation
         public PointF Point0 { get; set; }
         public PointF Point1 { get; set; }
 
-        public Line(Point topLeft, Matrix client2Img)
+        public Line(PointF center)
         {
             ValidPickPts = new HashSet<CtrlPt>() {
                 CtrlPt.LineEnd0,
                 CtrlPt.LineEnd1};
 
-            var pts = new Point[] { new Point(topLeft.X, topLeft.Y) };
-            client2Img.TransformPoints(pts);
-            _localRect.X = pts[0].X;
-            _localRect.Y = pts[0].Y;
-            Point0 = pts[0];
-            Point1 = pts[0];
+            _localRect.X = center.X;
+            _localRect.Y = center.Y;
+            Point0 = center;
+            Point1 = center;
+        }
+
+        public Line(PointF p0, PointF p1)
+        {
+            ValidPickPts = new HashSet<CtrlPt>() {
+                CtrlPt.LineEnd0,
+                CtrlPt.LineEnd1};
+
+            Point0 = p0;
+            Point1 = p1;
+
+            _buildBoundingRect();
         }
 
 
@@ -35,11 +45,14 @@ namespace ViewBoxContorl.Annotation
             _buildBoundingRect();
         }
 
-        public override void Draw(Graphics g, Annotation ano)
+        public override void Draw(Graphics g, Matrix view, float scale)
         {
             Pen pen = new Pen(Brushes.LightYellow);
-            pen.Width /= ano.ViewScale;
-            g.Transform = _getRenderMatrix(ano);
+            pen.Width /= scale;
+
+            var m = view.Clone();
+            m.Multiply(_transform);
+            g.Transform = m;
             g.DrawLine(pen, Point0, Point1);
             pen.Dispose();
         }
@@ -51,17 +64,19 @@ namespace ViewBoxContorl.Annotation
             Point1 = new PointF(Point1.X + delta.X, Point1.Y + delta.Y);
         }
 
-        protected override void DrawControlPoints(Graphics g, Annotation ano)
+        public override void DrawControlPoints(Graphics g, Matrix view, float scale)
         {
+            g.Transform = view;
+
             Pen ctrlPen= new Pen(Brushes.CornflowerBlue);
-            ctrlPen.Width /= ano.ViewScale;
-            float s = CtrlPtSize / ano.ViewScale; // make sure ctrl points are always the same size regardless the scale
+            ctrlPen.Width /= scale;
+            float s = CtrlPtSize / scale; // make sure ctrl points are always the same size regardless the scale
             g.FillRectangle(ctrlPen.Brush, (int)Point0.X - s / 2, (int)Point0.Y - s / 2, s, s);
             g.FillRectangle(ctrlPen.Brush, (int)Point1.X - s / 2, (int)Point1.Y - s / 2, s, s);
             ctrlPen.Dispose();
         }
 
-        public override CtrlPt PickControlPoint(PointF pImg, Annotation ano)
+        public override Tuple<Shape, CtrlPt> PickControlPoint(PointF pImg)
         {
             var pt0 = _getPointInWld(Point0);
             var pt1 = _getPointInWld(Point1);
@@ -70,12 +85,12 @@ namespace ViewBoxContorl.Annotation
             var r1 = new RectangleF(pt1.X - CtrlPtSize / 2, pt1.Y - CtrlPtSize / 2, CtrlPtSize, CtrlPtSize);
 
             if (r0.Contains(pImg))
-                return CtrlPt.LineEnd0;
+                return new Tuple<Shape, CtrlPt>(this, CtrlPt.LineEnd0);
 
             if (r1.Contains(pImg))
-                return CtrlPt.LineEnd1;
+                return new Tuple<Shape, CtrlPt>(this, CtrlPt.LineEnd1);
 
-            return CtrlPt.None;
+            return null;
         }
 
         public override void Manipulate(CtrlPt ctrlPt, PointF d)

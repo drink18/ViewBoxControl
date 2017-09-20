@@ -29,7 +29,7 @@ namespace ViewBoxContorl.Annotation
         public Shape CreateNewElement(Type t, Point position, Matrix client2Img) 
         {
             _creating = true;
-            _creatingEle = (Shape)Activator.CreateInstance(t, new object[] { position, client2Img });
+            _creatingEle = (Shape)Activator.CreateInstance(t, new object[] {Client2Img(new PointF(position.X, position.Y))});
             return _creatingEle;
         }
 
@@ -40,6 +40,14 @@ namespace ViewBoxContorl.Annotation
                 CurrentInteractContext = InteractContext.Create;
                 NewElementType = t;
             }
+        }
+
+
+        // add shape directly into list, assuming a shape is already setup and valid
+        // supposed to be used by code
+        public void AddShapeToList(Shape e)
+        {
+            _shapeList.Add(e);
         }
     }
 }

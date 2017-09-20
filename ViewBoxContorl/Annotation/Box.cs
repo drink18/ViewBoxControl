@@ -10,31 +10,39 @@ namespace ViewBoxContorl.Annotation
 {
     public class Box : Shape
     {
-        public Box(Point topLeft, Matrix client2Img)
+        public Box(PointF center)
         {
-            ValidPickPts = new HashSet<CtrlPt>() {
-                CtrlPt.TopLeft,
-                CtrlPt.TopMiddle,
-                CtrlPt.TopRight,
-                CtrlPt.RightMiddle,
-                CtrlPt.BottomRight,
-                CtrlPt.BottomMiddle,
-                CtrlPt.BottomLeft,
-                CtrlPt.LeftMiddle,
-                CtrlPt.Rotation,
-            };
+            _initControlPoints();
 
-            var pts = new Point[] { new Point(topLeft.X, topLeft.Y) };
-            client2Img.TransformPoints(pts);
-            Init(pts[0]);
+            Init(center);
         }
 
-        public override void Draw(Graphics g, Annotation ano)
+
+        public Box(PointF topLeft, PointF bottomRight)
+        {
+            _initControlPoints();
+            float x = Math.Min(topLeft.X, bottomRight.X);
+            float y = Math.Min(topLeft.Y, bottomRight.Y);
+            float w = Math.Max(topLeft.X, bottomRight.X) - x;
+            float h = Math.Max(topLeft.Y, bottomRight.Y) - y;
+
+            _localRect = new RectangleF(-w / 2, -h / 2, w, h);
+
+            Init(new PointF(x + w / 2, y + h / 2));
+
+            UpdateCtrlPts();
+        }
+
+
+        public override void Draw(Graphics g, Matrix view, float scale)
         {
             Pen pen = new Pen(Brushes.LightYellow);
-            pen.Width /= ano.ViewScale;
+            pen.Width /= scale;
 
-            g.Transform = _getRenderMatrix(ano);
+            var m = view.Clone();
+            m.Multiply(_transform);
+
+            g.Transform = m;
             g.DrawRectangle(pen, LocalRect.X, LocalRect.Y, LocalRect.Width, LocalRect.Height);
 
             pen.Dispose();
@@ -50,5 +58,20 @@ namespace ViewBoxContorl.Annotation
             var pLocal = _getPointInLocal(p);
             return LocalRect.Contains(pLocal);
         }
+        private void _initControlPoints()
+        {
+            ValidPickPts = new HashSet<CtrlPt>() {
+            CtrlPt.TopLeft,
+            CtrlPt.TopMiddle,
+            CtrlPt.TopRight,
+            CtrlPt.RightMiddle,
+            CtrlPt.BottomRight,
+            CtrlPt.BottomMiddle,
+            CtrlPt.BottomLeft,
+            CtrlPt.LeftMiddle,
+            CtrlPt.Rotation,
+            };
+        }
+
     }
 }
