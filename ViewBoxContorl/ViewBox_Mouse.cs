@@ -11,11 +11,6 @@ namespace ViewBoxContorl
 {
     public partial class ViewBoxForm : UserControl
     {
-        public enum MouseOps
-        {
-            PosLvl
-        }
-        public MouseOps MouseOpMode { get; set; } = MouseOps.PosLvl;
         public MouseButtons WinLvlAdjustingBtn = MouseButtons.Left;
         public MouseButtons PosChangeBtn = MouseButtons.Right;
 
@@ -92,7 +87,7 @@ namespace ViewBoxContorl
         { 
             int dx = (e.X - _dragX0);
             int dy = (e.Y - _dragY0);
-            if ((e.Button & WinLvlAdjustingBtn) == WinLvlAdjustingBtn && MouseOpMode == MouseOps.PosLvl)
+            if ((e.Button & WinLvlAdjustingBtn) == WinLvlAdjustingBtn )
             {
                 bool accelMode = Control.ModifierKeys == Keys.Shift;
                 int scale = accelMode ? AccelModeScale : 1;

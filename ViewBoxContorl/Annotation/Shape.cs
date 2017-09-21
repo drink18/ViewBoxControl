@@ -33,11 +33,29 @@ namespace ViewBoxContorl.Annotation
         public static int MinSizeY = 4;
         public static int CtrlPtSize= 8;
 
+        /// <summary>
+        /// User data. Use this to attach your own business data to shape
+        /// </summary>
         public UserData UserData;
 
+        /// <summary>
+        /// Draw a shape
+        /// </summary>
+        /// <param name="g">graphics</param>
+        /// <param name="view">"View" matrix, multpiled with local transform to get final rendering matrix</param>
+        /// <param name="scale">scale component of View matrix</param>
         virtual public void Draw(Graphics g,  Matrix view, float scale) { }
+        /// <summary>
+        /// Move shape shape by delta (in image space)
+        /// </summary>
+        /// <param name="delta"></param>
         virtual public void Move(PointF delta) { }
 
+        /// <summary>
+        /// Manipulate a shape
+        /// </summary>
+        /// <param name="ctrlPt">control point to manipulate</param>
+        /// <param name="d">delta value</param>
         virtual public void Manipulate(CtrlPt ctrlPt, PointF d)
         {
             if(ctrlPt == CtrlPt.TopLeft)
@@ -110,12 +128,26 @@ namespace ViewBoxContorl.Annotation
             }
         }
 
+        /// <summary>
+        /// Is shape a valid one (not too small )
+        /// </summary>
+        /// <returns></returns>
         virtual public bool IsValid()
         {
             return LocalRect.Width >= MinSizeX && LocalRect.Height >= MinSizeY;
         }
+
+        /// <summary>
+        /// Test if a point (in world space) is inside the shape
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         virtual public bool IsPointInsideShape(PointF p) { return false; }
 
+        /// <summary>
+        /// Export snapshot data
+        /// </summary>
+        /// <returns></returns>
         virtual public ShapeSnapshotData ExportElement()
         {
             var ed = new ShapeSnapshotData();
@@ -124,13 +156,20 @@ namespace ViewBoxContorl.Annotation
             return ed;
         }
 
+        /// <summary>
+        /// Reinit the shape from snapshotdata
+        /// </summary>
+        /// <param name="ed"></param>
         virtual public void InitFromElementData(ShapeSnapshotData ed)
         {
             _transform = ed.Transform.Clone();
             LocalRect = ed.LocalRect;
         }
 
-        protected RectangleF _localRect = new RectangleF(0, 0, MinSizeX, MinSizeY); //rect in absolute coord system
+        /// <summary>
+        /// Rectangle in shape's local system (not necessarily the Image system, in case of compound shape)
+        /// </summary>
+        protected RectangleF _localRect = new RectangleF(0, 0, MinSizeX, MinSizeY); 
         public RectangleF LocalRect {
             get { return _localRect; }
             set
@@ -140,6 +179,9 @@ namespace ViewBoxContorl.Annotation
             }
         }
 
+        /// <summary>
+        /// Center of local rectangle
+        /// </summary>
         public PointF Center
         {
             get
@@ -148,12 +190,18 @@ namespace ViewBoxContorl.Annotation
             }
         }
 
+        /// <summary>
+        /// Center of rectangle in world (local center transformed b shape's transform)
+        /// </summary>
         public PointF CenterWld
         {
             get { return _getPointInWld(Center); }
         }
 
-        public float Angle // angle around piviot (Center)
+        /// <summary>
+        /// angle around pivot (Center)
+        /// </summary>
+        public float Angle
         {
             get
             {
@@ -171,6 +219,9 @@ namespace ViewBoxContorl.Annotation
         }
 
         protected Matrix _transform = new Matrix();
+        /// <summary>
+        /// Shape's transform
+        /// </summary>
         public Matrix Transform
         {
             get { return _transform; }
@@ -178,7 +229,7 @@ namespace ViewBoxContorl.Annotation
         }
 
         protected Dictionary<CtrlPt, PointF> CtrlPoints = new Dictionary<CtrlPt, PointF>();
-        protected HashSet<CtrlPt> ValidPickPts = new HashSet<CtrlPt>();
+        protected HashSet<CtrlPt> SupportedControlPoints = new HashSet<CtrlPt>();
 
         public void Init(PointF startPos)
         {
@@ -187,7 +238,11 @@ namespace ViewBoxContorl.Annotation
 
         }
 
-        virtual protected Dictionary<CtrlPt, PointF> _getCtrlPtRects()
+        /// <summary>
+        /// Return coordinates of all supported control points
+        /// </summary>
+        /// <returns></returns>
+        virtual protected Dictionary<CtrlPt, PointF> _getCtrlPoints()
         {
             var rects = new Dictionary<CtrlPt, PointF>();
             var hf = CtrlPtSize / 2;
@@ -209,23 +264,31 @@ namespace ViewBoxContorl.Annotation
             return rects;
         }
 
+        /// <summary>
+        /// Update all supported control points.
+        /// </summary>
         virtual protected void UpdateCtrlPts()
         {
-            var ctrlPts = _getCtrlPtRects();
+            var ctrlPts = _getCtrlPoints();
             CtrlPoints.Clear();
             foreach(var e in ctrlPts)
             {
-                if (ValidPickPts.Contains(e.Key))
+                if (SupportedControlPoints.Contains(e.Key))
                     CtrlPoints[e.Key] = e.Value;
             }
         }
 
-        virtual public Tuple<Shape, CtrlPt> PickControlPoint(PointF pImg)
+        /// <summary>
+        /// Pick a control point using a point in world space 
+        /// </summary>
+        /// <param name="pWld"></param>
+        /// <returns></returns>
+        virtual public Tuple<Shape, CtrlPt> PickControlPoint(PointF pWld)
         {
             foreach(var cpt in CtrlPoints)
             {
                 var p = cpt.Value;
-                var p1 = _getPointInLocal(pImg);
+                var p1 = _getPointInLocal(pWld);
                 if(Math.Abs(p1.X - p.X) <= CtrlPtSize && Math.Abs(p1.Y - p.Y) <= CtrlPtSize)
                 {
                     return new Tuple<Shape, CtrlPt>(this, cpt.Key);
@@ -234,6 +297,12 @@ namespace ViewBoxContorl.Annotation
             return null; 
         }
 
+        /// <summary>
+        /// Draw bounding box of shape
+        /// </summary>
+        /// <param name="g">graphics </param>
+        /// <param name="view">"View" matrix, the final rendering matrix is obtained by concanating the shape the transform on it</param>
+        /// <param name="scale">scale component of View matrix</param>
         virtual public void DrawBoundingBox(Graphics g, Matrix view, float scale)
         {
             var m = view.Clone();
@@ -246,11 +315,23 @@ namespace ViewBoxContorl.Annotation
             pen.Dispose();
         }
 
+        /// <summary>
+        ///  Draw auxiliary components (Bounding box, control points ,ect)
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="view"></param>
+        /// <param name="scale"></param>
         virtual public void RenderAuxilaries(Graphics g, Matrix view, float scale)
         {
             DrawControlPoints(g, view, scale);
         }
-        
+
+        /// <summary>
+        /// Draw control points of shape
+        /// </summary>
+        /// <param name="g">graphics </param>
+        /// <param name="view">"View" matrix, the final rendering matrix is obtained by concanating the shape the transform on it</param>
+        /// <param name="scale">scale component of View matrix</param>
         virtual public void DrawControlPoints(Graphics g, Matrix view, float scale)
         {
             var m = view.Clone();
@@ -278,6 +359,10 @@ namespace ViewBoxContorl.Annotation
             ctrlPen.Dispose();
         }
 
+        /// <summary>
+        /// Called when creating a shape using mouse dragging
+        /// </summary>
+        /// <param name="p"></param>
         virtual public void OnDragCreating(PointF p)
         {
             var x = _localRect.X;
@@ -299,6 +384,11 @@ namespace ViewBoxContorl.Annotation
             LocalRect = new RectangleF(- w/2, -h/2, w, h);
         }
 
+        /// <summary>
+        /// convert point in local space to world space
+        /// </summary>
+        /// <param name="pLocal"></param>
+        /// <returns></returns>
         protected PointF _getPointInWld(PointF pLocal)
         {
             var pts = new PointF[] {new PointF(pLocal.X, pLocal.Y) };
@@ -306,6 +396,11 @@ namespace ViewBoxContorl.Annotation
             return pts[0];
         }
 
+        /// <summary>
+        /// convert point in world space to local space
+        /// </summary>
+        /// <param name="pWld"></param>
+        /// <returns></returns>
         protected PointF _getPointInLocal(PointF pWld)
         {
             var inv = _transform.Clone();
@@ -315,15 +410,12 @@ namespace ViewBoxContorl.Annotation
             return pts[0];
         }
 
-        protected Matrix _getRenderMatrix(Annotation ano)
-        {
-            var m = ano.matImg2Client.Clone();
-            m.Multiply(_transform);
-            return m;
-        }
-
-        // given a rectangle, return the new center in world so that the rect's center is 
-        // repositioned at (0, 0)
+        /// <summary>
+        /// given a rectangle, return the new center in world so that the rect's center is 
+        /// repositioned at (0, 0)
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
         protected PointF _realignOffcenterRect(RectangleF r)
         {
             var  p0 = _getPointInWld(new PointF(r.X, r.Y)); // topleft
@@ -332,6 +424,12 @@ namespace ViewBoxContorl.Annotation
             return center;
         }
 
+        /// <summary>
+        /// Change translation in a matrix
+        /// </summary>
+        /// <param name="m">input matrix</param>
+        /// <param name="pos">new pos</param>
+        /// <returns>updated matrix</returns>
         protected Matrix _setMatrixTranslation(Matrix m, PointF pos)
         {
             var e = m.Elements;
@@ -339,6 +437,11 @@ namespace ViewBoxContorl.Annotation
             return _m;
         }
 
+        /// <summary>
+        /// Extract rotation angle from a matrix
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns>rotation angle in degrees</returns>
         protected float _getAngleFromMatrixDeg(float[] e)
         {
             var angle = (float)Math.Atan2(e[1], e[0]);
@@ -346,7 +449,12 @@ namespace ViewBoxContorl.Annotation
             return angle;
         }
 
-        // merge other into r
+        /// <summary>
+        /// merge other into r
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="other"></param>
+        /// <returns>merged rect</returns>
         protected RectangleF MergeRect(RectangleF r1, RectangleF other)
         {
             float x = Math.Min(r1.X, other.X);
@@ -358,6 +466,10 @@ namespace ViewBoxContorl.Annotation
             return new RectangleF(x, y, r - x, b - y);
         }
 
+        /// <summary>
+        /// Get AABB of shape
+        /// </summary>
+        /// <returns>the AABB rectangle</returns>
         public RectangleF GetAABB()
         {
             var p = new PointF[4];

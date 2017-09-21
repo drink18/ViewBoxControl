@@ -16,7 +16,7 @@ namespace ViewBoxContorl.Annotation
 
         public Line(PointF center)
         {
-            ValidPickPts = new HashSet<CtrlPt>() {
+            SupportedControlPoints = new HashSet<CtrlPt>() {
                 CtrlPt.LineEnd0,
                 CtrlPt.LineEnd1};
 
@@ -28,7 +28,7 @@ namespace ViewBoxContorl.Annotation
 
         public Line(PointF p0, PointF p1)
         {
-            ValidPickPts = new HashSet<CtrlPt>() {
+            SupportedControlPoints = new HashSet<CtrlPt>() {
                 CtrlPt.LineEnd0,
                 CtrlPt.LineEnd1};
 
@@ -146,7 +146,7 @@ namespace ViewBoxContorl.Annotation
             if(d > 0 && d <= len)
             {
                 PointF v1 = new PointF(v.X - d * n.X, v.Y - d * n.Y);
-                if (v1.X * v1.X + v1.Y * v1.Y < 4) // 2 pixels of fudge factor
+                if (v1.X * v1.X + v1.Y * v1.Y < 16) // 4 pixels of fudge factor
                     return true;
             }
 

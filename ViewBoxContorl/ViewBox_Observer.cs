@@ -12,9 +12,15 @@ using System.Diagnostics;
 
 namespace ViewBoxContorl
 {
+    /// <summary>
+    /// Codes related to tranforming between Image/Client rectangle (rendering window)
+    /// </summary>
     partial class ViewBoxForm : UserControl
     {
         Rectangle _samplingRect;
+        /// <summary>
+        ///  Sampling rectangle over loaded image
+        /// </summary>
         [Browsable(false)]
         public Rectangle SampleRect
         {
@@ -27,6 +33,9 @@ namespace ViewBoxContorl
 
 
         float _sizeScale = 1.0f;
+        /// <summary>
+        /// Zoom factor
+        /// </summary>
         [Browsable(false)]
         public float SizeScale
         {
@@ -39,9 +48,20 @@ namespace ViewBoxContorl
             }
         }
 
+        /// <summary>
+        /// Transform from Client space to Image Space
+        /// </summary>
         public Matrix matClientToImage = new Matrix();
+        /// <summary>
+        /// Transform from Image space to Client space
+        /// </summary>
         public Matrix matImageToClient = new Matrix();
 
+        /// <summary>
+        /// Move sampling rectangle by delta (in pixels)
+        /// </summary>
+        /// <param name="dxInPixel"></param>
+        /// <param name="dyInPixel"></param>
         public void TranslateObserverPos(int dxInPixel, int dyInPixel)
         {
             _samplingRect.X += (int)(dxInPixel / SizeScale);
@@ -50,6 +70,9 @@ namespace ViewBoxContorl
             RenderToPictureBox();
         }
 
+        /// <summary>
+        /// Reset the sampling window to be centered over image, also reset the zoom factor to 1
+        /// </summary>
         public void ResetObserverRect()
         {
             int x = -(Width - NoCol) / 2;
@@ -59,7 +82,9 @@ namespace ViewBoxContorl
             _updateMatrices();
         }
 
-        // keep the center of current sampling rect and apply scale
+        /// <summary>
+        /// keep the center of current sampling rect and apply scale
+        /// </summary>
         void _updateObserverRect()
         {
             if (!_hasImage())
@@ -79,6 +104,12 @@ namespace ViewBoxContorl
             _updateMatrices();
         }
 
+        /// <summary>
+        /// Build Bitmap object over image
+        /// </summary>
+        /// <param name="raw"></param>
+        /// <param name="rawData"></param>
+        /// <returns></returns>
         public Bitmap _buildRawBitMap(Bitmap raw, byte[] rawData)
         {
             Bitmap bmp = raw;
@@ -110,6 +141,9 @@ namespace ViewBoxContorl
             return bmp;
         }
 
+        /// <summary>
+        /// update matrices
+        /// </summary>
         public void _updateMatrices()
         {
             float ox = -SampleRect.X;

@@ -71,7 +71,7 @@ namespace ViewBoxContorl.Annotation
 
         private void _initControlPoints()
         {
-            ValidPickPts = new HashSet<CtrlPt>() {
+            SupportedControlPoints = new HashSet<CtrlPt>() {
                    CtrlPt.TopLeft,
                    CtrlPt.TopMiddle,
                    CtrlPt.TopRight,

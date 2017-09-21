@@ -265,5 +265,19 @@ namespace testViewBox
             comp.AddSubShapes(shapes.ToArray());
             vbxImage.AddShape(comp);
         }
+
+        private void btnCompoundBox_Click(object sender, EventArgs e)
+        {
+            List<Shape> shapes = new List<Shape>();
+            for (int i = 0; i < 5; ++i)
+            {
+                var b = new Box(new PointF(128, 100 + i * 8), 256, 4);
+                shapes.Add(b);
+            }
+
+            var comp = new CompoundShape();
+            comp.AddSubShapes(shapes.ToArray());
+            vbxImage.AddShape(comp);
+        }
     }
 }

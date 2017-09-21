@@ -10,20 +10,35 @@ using ViewBoxContorl.Annotation;
 
 namespace ViewBoxContorl
 {
+    /// <summary>
+    /// ROI measurement relatd code
+    /// </summary>
     partial class ViewBoxForm : UserControl
     {
+        /// <summary>
+        /// Used to define all ROI stats data entries
+        /// </summary>
         public enum StatKey
         {
-            Mean,
-            SqrVariation,
-            Length
+            Mean,  //mean value 
+            SqrVariation, //square variation
+            Length //length (for line annotation)
         }
 
+        /// <summary>
+        /// Defines a UserData class to hold all relevant stats data
+        /// This will be attached to Shape via Shape.UserData field
+        /// </summary>
         public class ROIUserData : UserData
         {
             public Dictionary<StatKey, float> StatDict = new Dictionary<StatKey, float>();
         }
 
+        /// <summary>
+        /// return a array of all pixel values inside a ROI area
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         int[] _getPixelsInsideROI(Shape e)
         {
             var pixels = new List<int>();
@@ -43,6 +58,11 @@ namespace ViewBoxContorl
             return pixels.ToArray();
         }
 
+        /// <summary>
+        /// return mean value of all pixels inside annotation shape 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         float MeasureMeanPixelValeInDiagram(Shape e)
         {
             var pixels = _getPixelsInsideROI(e);
@@ -53,6 +73,11 @@ namespace ViewBoxContorl
             return (float)mean;
         }
 
+        /// <summary>
+        /// return squared variation value of all pixels inside annotation shape 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         float MeasureSquareVariation(Shape e)
         {
             var pixels = _getPixelsInsideROI(e);
@@ -68,6 +93,11 @@ namespace ViewBoxContorl
             return (float)variaton;
         }
 
+        /// <summary>
+        /// _render all ROI infos 
+        /// </summary>
+        /// <param name="g">Graphics device</param>
+        /// <param name="roi">roi shape</param>
         public void _renderROIInfo(Graphics g, Shape roi)
         {
             var userData = roi.UserData as ROIUserData;
@@ -85,6 +115,10 @@ namespace ViewBoxContorl
             brush.Dispose();
         }
 
+        /// <summary>
+        /// Draw all info measure by mouse cursor
+        /// </summary>
+        /// <param name="pe"></param>
         private void _renderMouseCursorInfo(PaintEventArgs pe)
         {
             // pixel measure
@@ -104,9 +138,16 @@ namespace ViewBoxContorl
             }
         }
 
+        /// <summary>
+        ///  Updae statistic data of a annotation shape
+        /// </summary>
+        /// <param name="e"></param>
         private void _updateROIStatistics(Shape e)
         {
             var userData = new ROIUserData();
+
+            if (e.GetType() == typeof(CompoundShape))
+                return;
 
             if (e.GetType() != typeof(Line))
             {
@@ -126,12 +167,20 @@ namespace ViewBoxContorl
             e.UserData = userData;
         }
 
+        /// <summary>
+        /// Event handler. called when an annotation shape is created
+        /// </summary>
+        /// <param name="e"></param>
         private void _annotationShapeCreated_ROI(Shape e)
         {
             if(_hasImage())
                 _updateROIStatistics(e);
         }
 
+        /// <summary>
+        /// Event handler. called when an annotation shape has changed 
+        /// </summary>
+        /// <param name="e"></param>
         private void _annotationShapeChanged_ROI(Shape e, ManipCommand cmd)
         {
             if(_hasImage())

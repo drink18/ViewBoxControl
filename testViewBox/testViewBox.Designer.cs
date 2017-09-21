@@ -48,6 +48,7 @@
             this.btnPrintROI = new System.Windows.Forms.Button();
             this.btnTestCompound = new System.Windows.Forms.Button();
             this.vbxImage = new ViewBoxContorl.ViewBoxForm();
+            this.btnCompoundBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnLoadImage
@@ -255,11 +256,11 @@
             // btnTestCompound
             // 
             this.btnTestCompound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTestCompound.Location = new System.Drawing.Point(507, 169);
+            this.btnTestCompound.Location = new System.Drawing.Point(398, 147);
             this.btnTestCompound.Name = "btnTestCompound";
-            this.btnTestCompound.Size = new System.Drawing.Size(75, 23);
+            this.btnTestCompound.Size = new System.Drawing.Size(94, 23);
             this.btnTestCompound.TabIndex = 11;
-            this.btnTestCompound.Text = "CompoundShape";
+            this.btnTestCompound.Text = "CompoundLine";
             this.btnTestCompound.UseVisualStyleBackColor = true;
             this.btnTestCompound.Click += new System.EventHandler(this.btnTestCompound_Click);
             // 
@@ -276,7 +277,6 @@
             this.vbxImage.Lev = ((short)(0));
             this.vbxImage.Location = new System.Drawing.Point(9, 10);
             this.vbxImage.Margin = new System.Windows.Forms.Padding(2);
-            this.vbxImage.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.PosLvl;
             this.vbxImage.Name = "vbxImage";
             this.vbxImage.NoCol = 0;
             this.vbxImage.NoRow = 0;
@@ -297,11 +297,23 @@
             this.vbxImage.Paint += new System.Windows.Forms.PaintEventHandler(this.vbxImage_Paint);
             this.vbxImage.Resize += new System.EventHandler(this.vbxImage_Resize);
             // 
+            // btnCompoundBox
+            // 
+            this.btnCompoundBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCompoundBox.Location = new System.Drawing.Point(398, 177);
+            this.btnCompoundBox.Name = "btnCompoundBox";
+            this.btnCompoundBox.Size = new System.Drawing.Size(94, 23);
+            this.btnCompoundBox.TabIndex = 12;
+            this.btnCompoundBox.Text = "Compound Box";
+            this.btnCompoundBox.UseVisualStyleBackColor = true;
+            this.btnCompoundBox.Click += new System.EventHandler(this.btnCompoundBox_Click);
+            // 
             // testViewBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(898, 438);
+            this.Controls.Add(this.btnCompoundBox);
             this.Controls.Add(this.btnTestCompound);
             this.Controls.Add(this.btnPrintROI);
             this.Controls.Add(this.cbShowStatistics);
@@ -352,6 +364,7 @@
         private System.Windows.Forms.CheckBox cbShowStatistics;
         private System.Windows.Forms.Button btnPrintROI;
         private System.Windows.Forms.Button btnTestCompound;
+        private System.Windows.Forms.Button btnCompoundBox;
     }
 }
 

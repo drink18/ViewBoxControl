@@ -48,6 +48,7 @@ namespace ViewBoxContorl.Annotation
         public void AddShapeToList(Shape e)
         {
             _shapeList.Add(e);
+            ShapeCreatedEvt(e);
         }
     }
 }

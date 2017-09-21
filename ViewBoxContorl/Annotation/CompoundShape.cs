@@ -14,7 +14,7 @@ namespace ViewBoxContorl.Annotation
 
         public CompoundShape()
         {
-            ValidPickPts = new HashSet<CtrlPt>() {
+            SupportedControlPoints = new HashSet<CtrlPt>() {
                    CtrlPt.Rotation,
                };
         }

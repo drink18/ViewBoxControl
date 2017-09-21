@@ -145,18 +145,42 @@ namespace ViewBoxContorl
 
         #endregion
 
+        /// <summary>
+        /// Do we have image loaded?
+        /// </summary>
+        /// <returns></returns>
+        private bool _hasImage()
+        {
+            return grayLevelData != null;
+        }
 
+        /// <summary>
+        /// enable/disable measurement data display
+        /// </summary>
         public bool ShowStatistics { get; set; }
+        /// <summary>
+        /// enable/disable pixel value data display
+        /// </summary>
         public bool ShowPixelValue { get; set; }
+
+        /// <summary>
+        /// getter of all current annotation shapes
+        /// </summary>
         public Shape[] AnnotationShapes { get { return _annotation.ShapeList.ToArray();} }
 
         public enum Interaction
         {
-            Browse,
-            Annotation
+            Browse,  // browsing
+            Annotation // Annotating (adding, deleting and editing annotation shapes)
         }
 
+        /// <summary>
+        /// Current Interaction mode
+        /// </summary>
         public Interaction InterationMode { get; set; } = Interaction.Browse;
+        /// <summary>
+        /// Current shape type if user drag creating one
+        /// </summary>
         public Type NewAnnotationType = null;
 
         #region privates
@@ -180,12 +204,6 @@ namespace ViewBoxContorl
         {
             this.View.Image = new Bitmap(this.Width, this.Height, _imgFormat);
             _cachedGraphics = Graphics.FromImage(this.View.Image);
-        }
-
-
-        protected override void OnPaint(PaintEventArgs pe)
-        {
-            base.OnPaint(pe);
         }
 
         private void _setWin(short value)
@@ -212,23 +230,22 @@ namespace ViewBoxContorl
             lev = value;
         }
 
-        private void _renderWithObserverRect(Bitmap srcImg, Rectangle destRectInPicture)
-        {
-            var graphics = Graphics.FromImage(this.View.Image);
-            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            graphics.SmoothingMode = SmoothingMode.HighQuality;
-            graphics.Clear(Color.Black);
-            graphics.DrawImage(srcImg, destRectInPicture, SampleRect, GraphicsUnit.Pixel);
-            graphics.Dispose();
-            Refresh();
-        }
-
+        /// <summary>
+        /// Render image based on current Sampling rectangle
+        /// </summary>
         public void RenderToPictureBox()
         {
             if (this.View.Image == null || _rawBmp == null)
                 return;
 
-            _renderWithObserverRect(_rawBmp, new Rectangle(0, 0, Width, Height)); 
+            var destRectInPicture = new Rectangle(0, 0, Width, Height); 
+            var graphics = Graphics.FromImage(this.View.Image);
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.Clear(Color.Black);
+            graphics.DrawImage(_rawBmp, destRectInPicture, SampleRect, GraphicsUnit.Pixel);
+            graphics.Dispose();
+            Refresh();
         }
 
         public byte getTransferedPixedlVal(short rawVal)
@@ -397,15 +414,16 @@ namespace ViewBoxContorl
         {
         }
 
-        private bool _hasImage()
-        {
-            return grayLevelData != null;
-        }
 
         private void vbxImage_AnnotationShapeChanging(Shape e, ManipCommand cmd)
         {
         }
 
+        /// <summary>
+        /// Paint event handler for Image button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void img_OnPaint(object sender, PaintEventArgs e)
         {
             _annotation.OnPaint(e);
@@ -426,36 +444,22 @@ namespace ViewBoxContorl
             }
         }
 
-        private void View_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(InterationMode == Interaction.Annotation)
-            {
-                if(e.KeyCode == Keys.Delete)
-                {
-                    foreach (var ele in _annotation.SelectedShapes)
-                    {
-                        _annotation.RemoveShape(ele);
-                    }
 
-                    this.View.Refresh();
-                }
-
-                if(e.KeyCode == Keys.Z && e.Control)
-                {
-                    _annotation.UndoLastEvent();
-                    View.Refresh();
-                }
-            }
-        }
-
-
-        // became focus
+        /// <summary>
+        /// Event handler when receiving ocus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void View_Enter(object sender, EventArgs e)
         {
             View.FlatAppearance.BorderColor = Color.Red;
         }
 
-        // lost focus
+        /// <summary>
+        /// Event handler when losing focus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void View_Leave(object sender, EventArgs e)
         {
             View.FlatAppearance.BorderColor = Color.Black;

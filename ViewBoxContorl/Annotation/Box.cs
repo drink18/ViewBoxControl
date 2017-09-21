@@ -33,6 +33,19 @@ namespace ViewBoxContorl.Annotation
             UpdateCtrlPts();
         }
 
+        public Box(PointF center, float width, float height)
+        {
+            _initControlPoints();
+            float x = center.X - width / 2;
+            float y = center.Y - height / 2;
+
+            _localRect = new RectangleF(x, y, width, height);
+
+            Init(new PointF(0, 0));
+
+            UpdateCtrlPts();
+        }
+
 
         public override void Draw(Graphics g, Matrix view, float scale)
         {
@@ -60,7 +73,7 @@ namespace ViewBoxContorl.Annotation
         }
         private void _initControlPoints()
         {
-            ValidPickPts = new HashSet<CtrlPt>() {
+            SupportedControlPoints = new HashSet<CtrlPt>() {
             CtrlPt.TopLeft,
             CtrlPt.TopMiddle,
             CtrlPt.TopRight,

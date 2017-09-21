@@ -18,6 +18,10 @@ namespace ViewBoxContorl.Annotation
         }
         ViewBoxForm _vb;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="vb"></param>
         public Annotation(ViewBoxForm vb)
         {
             _vb = vb;
@@ -28,6 +32,9 @@ namespace ViewBoxContorl.Annotation
         }
 
         AnnotationSelection _selection = new AnnotationSelection();
+        /// <summary>
+        /// Selected shapes
+        /// </summary>
         public Shape[] SelectedShapes
         {
             get
@@ -45,15 +52,27 @@ namespace ViewBoxContorl.Annotation
         #endregion
 
         #region display control
+        /// <summary>
+        /// Enable/Disable statistics display
+        /// </summary>
         public bool ShowStatistics { get; set; }
+        /// <summary>
+        /// Enable/dispaly Pixel measure dispaly
+        /// </summary>
         public bool ShowPixelValue { get; set; }
         #endregion
 
+        /// <summary>
+        /// Matrix from Image space to Client space
+        /// </summary>
         public Matrix matImg2Client
         {
             get { return _vb.matImageToClient; }
         }
 
+        /// <summary>
+        /// Matrix from Client space to Image space
+        /// </summary>
         public Matrix matClient2Img
         {
             get { return _vb.matClientToImage; }
