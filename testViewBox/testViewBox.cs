@@ -19,6 +19,7 @@ namespace testViewBox
         string imagePath = @"C:\Users\Windows User\Pictures";
         #region NoCol
         int noCol;
+        Shape compShape;
 
         public int NoCol
         {
@@ -263,7 +264,15 @@ namespace testViewBox
 
             var comp = new CompoundShape();
             comp.AddSubShapes(shapes.ToArray());
+            comp.Angle = hsbAngle.Value;
             vbxImage.AddShape(comp);
+            compShape = comp;
+        }
+
+        private void hsbAngle_ValueChanged(object sender, EventArgs e)
+        {
+            compShape.Angle = hsbAngle.Value;
+            vbxImage.Refresh();
         }
     }
 }

@@ -12,6 +12,10 @@ namespace ViewBoxContorl
 {
     partial class ViewBoxForm : UserControl
     {
+        public Color PixelValueColor = Color.Yellow;
+        public Color AnnotationShapeColor = Color.Yellow;
+        public Color ROIMeasurementTextColor = Color.Red;
+        public float AnnotationStrokeWidth = 2.0f;
         public enum StatKey
         {
             Mean,
@@ -72,7 +76,7 @@ namespace ViewBoxContorl
         {
             var userData = roi.UserData as ROIUserData;
             Font font = new Font("Arial", 8, FontStyle.Bold);
-            SolidBrush brush = new SolidBrush(Color.LightSalmon);
+            SolidBrush brush = new SolidBrush(ROIMeasurementTextColor);
 
             string statStr = "";
             foreach (var stat in userData.StatDict)
@@ -97,7 +101,7 @@ namespace ViewBoxContorl
 
                 Graphics g = pe.Graphics;
                 Font font = new Font("Arial", 10);
-                SolidBrush brush = new SolidBrush(Color.LightYellow);
+                SolidBrush brush = new SolidBrush(PixelValueColor);
                 g.DrawString(string.Format("{0}", val), font, brush, new PointF(p.X + 5, p.Y - 5));
                 font.Dispose();
                 brush.Dispose();

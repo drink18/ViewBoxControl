@@ -265,8 +265,12 @@ namespace ViewBoxContorl
 
         public void SetWinAndLevel(short win, short lvl)
         {
+            var oldWin = Win;
+            var oldLvl = Lev;
             _setWin(win);
             _setLevel(lvl);
+            OnWinChanged(oldWin, win);
+            OnLvlChanged(oldLvl, lvl);
             setGrayLevelData();
         }
 

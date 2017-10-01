@@ -279,7 +279,7 @@ namespace ViewBoxContorl.Annotation
             var viewMat = matImg2Client;
             foreach(var e in _shapeList)
             {
-                e.Draw(args.Graphics, viewMat, ViewScale);
+                e.Draw(args.Graphics, viewMat, ViewScale, _vb.AnnotationStrokeWidth, _vb.AnnotationShapeColor);
                 if(_selection.IsSelected(e))
                 {
                     e.RenderAuxilaries(args.Graphics, viewMat, ViewScale);
@@ -287,7 +287,7 @@ namespace ViewBoxContorl.Annotation
             }
 
             if(_creatingEle != null)
-                _creatingEle.Draw(args.Graphics, viewMat, ViewScale);
+                _creatingEle.Draw(args.Graphics, viewMat, ViewScale, _vb.AnnotationStrokeWidth, _vb.AnnotationShapeColor);
         }
         #endregion
 

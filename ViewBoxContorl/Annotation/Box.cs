@@ -34,9 +34,10 @@ namespace ViewBoxContorl.Annotation
         }
 
 
-        public override void Draw(Graphics g, Matrix view, float scale)
+        public override void Draw(Graphics g, Matrix view, float scale, float strokeWidth, Color strokeColor)
         {
-            Pen pen = new Pen(Brushes.LightYellow);
+            Pen pen = new Pen(strokeColor);
+            pen.Width = strokeWidth;
             pen.Width /= scale;
 
             var m = view.Clone();

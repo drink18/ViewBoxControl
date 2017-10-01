@@ -35,7 +35,7 @@ namespace ViewBoxContorl.Annotation
 
         public UserData UserData;
 
-        virtual public void Draw(Graphics g,  Matrix view, float scale) { }
+        virtual public void Draw(Graphics g,  Matrix view, float scale, float strokeWidth, Color strokeColor) { }
         virtual public void Move(PointF delta) { }
 
         virtual public void Manipulate(CtrlPt ctrlPt, PointF d)

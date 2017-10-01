@@ -33,13 +33,13 @@ namespace ViewBoxContorl.Annotation
             UpdateCtrlPts();
         }
 
-        public override void Draw(Graphics g, Matrix view, float s)
+        public override void Draw(Graphics g, Matrix view, float s, float strokeWidth, Color strokeColor)
         {
             var subView = view.Clone();
             subView.Multiply(_transform);
             foreach (var sub in _subShapes)
             {
-                sub.Draw(g, subView, s);
+                sub.Draw(g, subView, s, strokeWidth, strokeColor);
             }
         }
 

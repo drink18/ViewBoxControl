@@ -41,7 +41,7 @@ namespace testViewBox
         }
         #endregion
         #region MyRegion
-        string defaultRawImagePath = @".\";
+        string defaultRawImagePath = @"D:\wuduan\Engineering\MRI_Spectrometer\EDA\Matlab\phantom\";
         #endregion
 
         public OpenRawImage()
