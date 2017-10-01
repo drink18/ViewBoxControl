@@ -75,7 +75,9 @@ namespace ViewBoxContorl
         public int NoRow
         {
             get { return noRow; }
-            set { noRow = value; }
+            set { noRow = value;
+                ResetObserverRect();
+            }
         }
         #endregion
         #region NoCol
@@ -84,7 +86,9 @@ namespace ViewBoxContorl
         public int NoCol
         {
             get { return noCol; }
-            set { noCol = value; }
+            set { noCol = value;
+                ResetObserverRect();
+            }
         }
         #endregion
         #region FovRow
@@ -145,6 +149,11 @@ namespace ViewBoxContorl
 
         #endregion
 
+        public Image Image
+        {
+            get { return View.Image; }
+            set { View.Image = value; }
+        }
 
         public bool ShowStatistics { get; set; }
         public bool ShowPixelValue { get; set; }

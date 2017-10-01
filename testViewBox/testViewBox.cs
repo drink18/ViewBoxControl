@@ -257,7 +257,7 @@ namespace testViewBox
             List<Shape> shapes = new List<Shape>();
             for (int i = 0; i < 5; ++i)
             {
-                var l = new Line(new PointF(0, 100 + i * 5), new PointF(255, 100 + i * 5));
+                var l = new Line(new PointF(10, 100 + i * 8), new PointF(245, 100 + i * 8));
                 shapes.Add(l);
             }
 
