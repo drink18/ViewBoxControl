@@ -130,7 +130,7 @@ namespace ViewBoxContorl.Annotation
             LocalRect = ed.LocalRect;
         }
 
-        protected RectangleF _localRect = new RectangleF(0, 0, MinSizeX, MinSizeY); //rect in absolute coord system
+        protected RectangleF _localRect = new RectangleF(0, 0, 0, 0); //rect in absolute coord system
         public RectangleF LocalRect {
             get { return _localRect; }
             set
