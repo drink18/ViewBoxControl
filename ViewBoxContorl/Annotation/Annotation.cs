@@ -195,22 +195,33 @@ namespace ViewBoxContorl.Annotation
         #endregion  
 
         #region event handler
-        public void MouseMove(object sender, MouseEventArgs e)
+        public bool MouseMove(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+                return false;
+
+            bool handled = false;
             if(_cmd != null)
             {
                 _cmd.OnMouseMove(new Point(e.X, e.Y ));
                 _vb.Refresh();
+                handled = true;
             }
             else if(_creating)
             {
                 _creatingEle.OnDragCreating(Client2Img(new Point(e.X, e.Y)));
                 _vb.Refresh();
+                handled = true;
             }
+            return handled;
         }
 
-        public void MouseUp(object sender, MouseEventArgs e)
+        public bool MouseUp(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+                return false;
+
+            bool handled = false;
             if (_creating)
             {
                 if (_creatingEle.IsValid())
@@ -221,17 +232,25 @@ namespace ViewBoxContorl.Annotation
                 _creating = false;
                 _creatingEle = null;
                 _vb.Invalidate();
+                handled = true;
             }
 
             if(_cmd != null)
             {
                 _cmd.EndCmd();
+                handled = true;
             }
             _cmd = null;
+
+            return handled;
         }
 
-        public void MouseDown(object sender, MouseEventArgs e)
+        public bool MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+                return false;
+
+            bool handled = false;
             _mouseDownPos = new Point(e.X, e.Y);
             var p = new Point(e.X, e.Y);
             if (CurrentInteractContext == InteractContext.Create && NewElementType != null)
@@ -239,6 +258,7 @@ namespace ViewBoxContorl.Annotation
                 _creatingEle = CreateNewElement(NewElementType, p, _vb.matClientToImage);
                 _creating = true;
                 NewElementType = null;
+                handled = true;
             }
             else
             {
@@ -263,14 +283,21 @@ namespace ViewBoxContorl.Annotation
                             _selection.ClearSelection();
                             _selection.AddToSelection(shape);
                         }
+
+                        handled = true;
                     }
                     else
                     {
-                        _selection.ClearSelection();
+                        if (_selection.SelectedShapes.Count > 0)
+                        {
+                            _selection.ClearSelection();
+                            handled = true;
+                        }
                     }
                     _vb.Invalidate();
                 }
             }
+            return handled;
         }
 
         public void OnPaint(PaintEventArgs args)

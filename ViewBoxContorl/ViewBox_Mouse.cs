@@ -32,36 +32,25 @@ namespace ViewBoxContorl
 
         private void vbxImage_MouseDown(object sender, MouseEventArgs e)
         {
-            if (InterationMode == Interaction.Browse)
+            if (NewAnnotationType != null)
+            {
+                _annotation.SetupCreationContext(NewAnnotationType);
+            }
+            var handled = _annotation.MouseDown(sender, e);
+            if (!handled)
             {
                 BrowseMouseDown(sender, e);
-            }
-            else
-            {
-                if (InterationMode == Interaction.Annotation && NewAnnotationType != null)
-                {
-                    _annotation.SetupCreationContext(NewAnnotationType);
-                }
-                _annotation.MouseDown(sender, e);
             }
         }
 
         private void View_MouseMove(object sender, MouseEventArgs e)
         {
-            if(InterationMode == Interaction.Browse)
+            var handled = _annotation.MouseMove(sender, e);
+            if (!handled)
             {
                 BrowseMouseMove(sender, e);
-                if (ShowPixelValue)
-                {
-                    View.Invalidate();
-                }
             }
-            else
-            {
-                _annotation.MouseMove(sender, e);
-                View.Invalidate();
-            }
-
+            View.Invalidate();
         }
 
         private void vbxImg_MouseWheel(object sender, MouseEventArgs e)
@@ -72,13 +61,7 @@ namespace ViewBoxContorl
 
         private void vbxImg_MouseUp(object sender, MouseEventArgs e)
         {
-            if (InterationMode == Interaction.Browse)
-            {
-            }
-            else
-            {
-                _annotation.MouseUp(sender, e);
-            }
+            var handled = _annotation.MouseUp(sender, e);
         }
 
 #region browse mouse evet

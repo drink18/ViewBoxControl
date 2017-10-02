@@ -159,13 +159,6 @@ namespace ViewBoxContorl
         public bool ShowPixelValue { get; set; }
         public Shape[] AnnotationShapes { get { return _annotation.ShapeList.ToArray();} }
 
-        public enum Interaction
-        {
-            Browse,
-            Annotation
-        }
-
-        public Interaction InterationMode { get; set; } = Interaction.Browse;
         public Type NewAnnotationType = null;
 
         #region privates
@@ -441,23 +434,20 @@ namespace ViewBoxContorl
 
         private void View_KeyDown(object sender, KeyEventArgs e)
         {
-            if(InterationMode == Interaction.Annotation)
+            if (e.KeyCode == Keys.Delete)
             {
-                if(e.KeyCode == Keys.Delete)
+                foreach (var ele in _annotation.SelectedShapes)
                 {
-                    foreach (var ele in _annotation.SelectedShapes)
-                    {
-                        _annotation.RemoveShape(ele);
-                    }
-
-                    this.View.Refresh();
+                    _annotation.RemoveShape(ele);
                 }
 
-                if(e.KeyCode == Keys.Z && e.Control)
-                {
-                    _annotation.UndoLastEvent();
-                    View.Refresh();
-                }
+                this.View.Refresh();
+            }
+
+            if (e.KeyCode == Keys.Z && e.Control)
+            {
+                _annotation.UndoLastEvent();
+                View.Refresh();
             }
         }
 

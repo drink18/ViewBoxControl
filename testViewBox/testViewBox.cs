@@ -56,7 +56,6 @@ namespace testViewBox
             vbxImage.OnLvlChanged += vbxImg_OnLvlValChanged;
 
             dbNewShape.SelectedIndex = 0;
-            dbNewShape.Enabled = false;
         }
 
         private void btnLoadImage_Click(object sender, EventArgs e)
@@ -199,8 +198,6 @@ namespace testViewBox
 
         private void cbAnnotation_CheckedChanged(object sender, EventArgs e)
         {
-            vbxImage.InterationMode = cbAnnotation.Checked ? ViewBoxContorl.ViewBoxForm.Interaction.Annotation : ViewBoxContorl.ViewBoxForm.Interaction.Browse;
-            dbNewShape.Enabled = cbAnnotation.Checked;
         }
 
         private void dbNewShape_SelectedIndexChanged(object sender, EventArgs e)
