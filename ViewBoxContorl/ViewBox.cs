@@ -417,7 +417,7 @@ namespace ViewBoxContorl
             _annotation.OnPaint(e);
             e.Graphics.ResetTransform();
 
-            if(ShowPixelValue)
+            if(ShowPixelValue && _hasImage())
             {
                 _renderMouseCursorInfo(e);
             }
@@ -463,5 +463,6 @@ namespace ViewBoxContorl
         {
             View.FlatAppearance.BorderColor = Color.Black;
         }
+
     }
 }

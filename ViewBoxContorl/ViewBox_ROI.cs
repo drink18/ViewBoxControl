@@ -93,18 +93,21 @@ namespace ViewBoxContorl
         {
             // pixel measure
             var e = PointToClient(MousePosition);
-            var p = new PointF(e.X, e.Y);
-            var pImg = _annotation.Client2Img(p);
-            if (pImg.X >= 0 && pImg.Y >= 0 && pImg.X < NoCol && pImg.Y < NoRow)
+            if (View.ClientRectangle.Contains(e))
             {
-                var val = PixelData[(int)pImg.Y, (int)pImg.X];
+                var p = new PointF(e.X, e.Y);
+                var pImg = _annotation.Client2Img(p);
+                if (pImg.X >= 0 && pImg.Y >= 0 && pImg.X < NoCol && pImg.Y < NoRow)
+                {
+                    var val = PixelData[(int)pImg.Y, (int)pImg.X];
 
-                Graphics g = pe.Graphics;
-                Font font = new Font("Arial", 10);
-                SolidBrush brush = new SolidBrush(PixelValueColor);
-                g.DrawString(string.Format("{0}", val), font, brush, new PointF(p.X + 5, p.Y - 5));
-                font.Dispose();
-                brush.Dispose();
+                    Graphics g = pe.Graphics;
+                    Font font = new Font("Arial", 10);
+                    SolidBrush brush = new SolidBrush(PixelValueColor);
+                    g.DrawString(string.Format("{0}", val), font, brush, new PointF(p.X + 5, p.Y - 5));
+                    font.Dispose();
+                    brush.Dispose();
+                }
             }
         }
 
