@@ -78,8 +78,8 @@ namespace testViewBox
                     MessageBox.Show("wrong file size!");
                     return;
                 }
-                    FileName = ofd.FileName;
-                    tbxFileName.Text = FileName;
+                FileName = ofd.FileName;
+                tbxFileName.Text = FileName;
             }
         }
 

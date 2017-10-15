@@ -49,15 +49,21 @@
             this.btnTestCompound = new System.Windows.Forms.Button();
             this.vbxImage = new ViewBoxContorl.ViewBoxForm();
             this.hsbAngle = new System.Windows.Forms.HScrollBar();
+            this.numRowSpacing = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numColSpacing = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numRowSpacing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numColSpacing)).BeginInit();
             this.SuspendLayout();
             // 
             // btnLoadImage
             // 
             this.btnLoadImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadImage.Location = new System.Drawing.Point(411, 10);
-            this.btnLoadImage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLoadImage.Location = new System.Drawing.Point(411, 11);
+            this.btnLoadImage.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoadImage.Name = "btnLoadImage";
-            this.btnLoadImage.Size = new System.Drawing.Size(101, 18);
+            this.btnLoadImage.Size = new System.Drawing.Size(101, 20);
             this.btnLoadImage.TabIndex = 1;
             this.btnLoadImage.Text = "Load Image";
             this.btnLoadImage.UseVisualStyleBackColor = true;
@@ -67,20 +73,20 @@
             // 
             this.tbxInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxInfo.Location = new System.Drawing.Point(398, 206);
-            this.tbxInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxInfo.Location = new System.Drawing.Point(398, 305);
+            this.tbxInfo.Margin = new System.Windows.Forms.Padding(2);
             this.tbxInfo.Multiline = true;
             this.tbxInfo.Name = "tbxInfo";
-            this.tbxInfo.Size = new System.Drawing.Size(493, 223);
+            this.tbxInfo.Size = new System.Drawing.Size(493, 244);
             this.tbxInfo.TabIndex = 2;
             // 
             // btnLoadRawImage
             // 
             this.btnLoadRawImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadRawImage.Location = new System.Drawing.Point(517, 10);
-            this.btnLoadRawImage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLoadRawImage.Location = new System.Drawing.Point(517, 11);
+            this.btnLoadRawImage.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoadRawImage.Name = "btnLoadRawImage";
-            this.btnLoadRawImage.Size = new System.Drawing.Size(114, 18);
+            this.btnLoadRawImage.Size = new System.Drawing.Size(114, 20);
             this.btnLoadRawImage.TabIndex = 1;
             this.btnLoadRawImage.Text = "Load Raw Image";
             this.btnLoadRawImage.UseVisualStyleBackColor = true;
@@ -90,50 +96,50 @@
             // 
             this.lblMaxPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMaxPixel.AutoSize = true;
-            this.lblMaxPixel.Location = new System.Drawing.Point(637, 10);
+            this.lblMaxPixel.Location = new System.Drawing.Point(637, 11);
             this.lblMaxPixel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMaxPixel.Name = "lblMaxPixel";
-            this.lblMaxPixel.Size = new System.Drawing.Size(59, 12);
+            this.lblMaxPixel.Size = new System.Drawing.Size(51, 13);
             this.lblMaxPixel.TabIndex = 3;
             this.lblMaxPixel.Text = "maxPixel:";
             // 
             // tbxMaxPixel
             // 
             this.tbxMaxPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxMaxPixel.Location = new System.Drawing.Point(700, 8);
-            this.tbxMaxPixel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxMaxPixel.Location = new System.Drawing.Point(700, 9);
+            this.tbxMaxPixel.Margin = new System.Windows.Forms.Padding(2);
             this.tbxMaxPixel.Name = "tbxMaxPixel";
-            this.tbxMaxPixel.Size = new System.Drawing.Size(59, 21);
+            this.tbxMaxPixel.Size = new System.Drawing.Size(59, 20);
             this.tbxMaxPixel.TabIndex = 4;
             // 
             // lblMinPixel
             // 
             this.lblMinPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMinPixel.AutoSize = true;
-            this.lblMinPixel.Location = new System.Drawing.Point(770, 10);
+            this.lblMinPixel.Location = new System.Drawing.Point(770, 11);
             this.lblMinPixel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMinPixel.Name = "lblMinPixel";
-            this.lblMinPixel.Size = new System.Drawing.Size(59, 12);
+            this.lblMinPixel.Size = new System.Drawing.Size(48, 13);
             this.lblMinPixel.TabIndex = 3;
             this.lblMinPixel.Text = "minPixel:";
             // 
             // tbxMinPixel
             // 
             this.tbxMinPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxMinPixel.Location = new System.Drawing.Point(833, 8);
-            this.tbxMinPixel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxMinPixel.Location = new System.Drawing.Point(833, 9);
+            this.tbxMinPixel.Margin = new System.Windows.Forms.Padding(2);
             this.tbxMinPixel.Name = "tbxMinPixel";
-            this.tbxMinPixel.Size = new System.Drawing.Size(59, 21);
+            this.tbxMinPixel.Size = new System.Drawing.Size(59, 20);
             this.tbxMinPixel.TabIndex = 4;
             // 
             // lblWin
             // 
             this.lblWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWin.AutoSize = true;
-            this.lblWin.Location = new System.Drawing.Point(412, 50);
+            this.lblWin.Location = new System.Drawing.Point(412, 54);
             this.lblWin.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblWin.Name = "lblWin";
-            this.lblWin.Size = new System.Drawing.Size(29, 12);
+            this.lblWin.Size = new System.Drawing.Size(29, 13);
             this.lblWin.TabIndex = 3;
             this.lblWin.Text = "Win:";
             // 
@@ -141,11 +147,11 @@
             // 
             this.tbxWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxWin.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tbxWin.Location = new System.Drawing.Point(446, 48);
-            this.tbxWin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxWin.Location = new System.Drawing.Point(446, 52);
+            this.tbxWin.Margin = new System.Windows.Forms.Padding(2);
             this.tbxWin.Name = "tbxWin";
             this.tbxWin.ReadOnly = true;
-            this.tbxWin.Size = new System.Drawing.Size(59, 21);
+            this.tbxWin.Size = new System.Drawing.Size(59, 20);
             this.tbxWin.TabIndex = 4;
             this.tbxWin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_KeyPress);
             // 
@@ -153,10 +159,10 @@
             // 
             this.lblLev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLev.AutoSize = true;
-            this.lblLev.Location = new System.Drawing.Point(508, 50);
+            this.lblLev.Location = new System.Drawing.Point(508, 54);
             this.lblLev.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLev.Name = "lblLev";
-            this.lblLev.Size = new System.Drawing.Size(29, 12);
+            this.lblLev.Size = new System.Drawing.Size(28, 13);
             this.lblLev.TabIndex = 3;
             this.lblLev.Text = "Lev:";
             // 
@@ -164,18 +170,18 @@
             // 
             this.tbxLev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxLev.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tbxLev.Location = new System.Drawing.Point(535, 48);
-            this.tbxLev.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxLev.Location = new System.Drawing.Point(535, 52);
+            this.tbxLev.Margin = new System.Windows.Forms.Padding(2);
             this.tbxLev.Name = "tbxLev";
             this.tbxLev.ReadOnly = true;
-            this.tbxLev.Size = new System.Drawing.Size(59, 21);
+            this.tbxLev.Size = new System.Drawing.Size(59, 20);
             this.tbxLev.TabIndex = 4;
             this.tbxLev.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_KeyPress);
             // 
             // hsbWin
             // 
             this.hsbWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.hsbWin.Location = new System.Drawing.Point(446, 86);
+            this.hsbWin.Location = new System.Drawing.Point(446, 93);
             this.hsbWin.Name = "hsbWin";
             this.hsbWin.Size = new System.Drawing.Size(434, 21);
             this.hsbWin.TabIndex = 5;
@@ -184,7 +190,7 @@
             // hsbLev
             // 
             this.hsbLev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.hsbLev.Location = new System.Drawing.Point(446, 112);
+            this.hsbLev.Location = new System.Drawing.Point(446, 121);
             this.hsbLev.Name = "hsbLev";
             this.hsbLev.Size = new System.Drawing.Size(434, 21);
             this.hsbLev.TabIndex = 5;
@@ -200,9 +206,9 @@
             "Ellipse",
             "Box",
             "Line"});
-            this.dbNewShape.Location = new System.Drawing.Point(765, 144);
+            this.dbNewShape.Location = new System.Drawing.Point(765, 248);
             this.dbNewShape.Name = "dbNewShape";
-            this.dbNewShape.Size = new System.Drawing.Size(121, 20);
+            this.dbNewShape.Size = new System.Drawing.Size(121, 21);
             this.dbNewShape.TabIndex = 7;
             this.dbNewShape.SelectedIndexChanged += new System.EventHandler(this.dbNewShape_SelectedIndexChanged);
             // 
@@ -210,9 +216,9 @@
             // 
             this.cbShowPixelMeasure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbShowPixelMeasure.AutoSize = true;
-            this.cbShowPixelMeasure.Location = new System.Drawing.Point(669, 147);
+            this.cbShowPixelMeasure.Location = new System.Drawing.Point(681, 251);
             this.cbShowPixelMeasure.Name = "cbShowPixelMeasure";
-            this.cbShowPixelMeasure.Size = new System.Drawing.Size(90, 16);
+            this.cbShowPixelMeasure.Size = new System.Drawing.Size(78, 17);
             this.cbShowPixelMeasure.TabIndex = 8;
             this.cbShowPixelMeasure.Text = "Pixel Value";
             this.cbShowPixelMeasure.UseVisualStyleBackColor = true;
@@ -222,9 +228,9 @@
             // 
             this.cbShowStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbShowStatistics.AutoSize = true;
-            this.cbShowStatistics.Location = new System.Drawing.Point(669, 169);
+            this.cbShowStatistics.Location = new System.Drawing.Point(685, 275);
             this.cbShowStatistics.Name = "cbShowStatistics";
-            this.cbShowStatistics.Size = new System.Drawing.Size(84, 16);
+            this.cbShowStatistics.Size = new System.Drawing.Size(68, 17);
             this.cbShowStatistics.TabIndex = 9;
             this.cbShowStatistics.Text = "Statistics";
             this.cbShowStatistics.UseVisualStyleBackColor = true;
@@ -233,9 +239,9 @@
             // btnPrintROI
             // 
             this.btnPrintROI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrintROI.Location = new System.Drawing.Point(588, 170);
+            this.btnPrintROI.Location = new System.Drawing.Point(588, 276);
             this.btnPrintROI.Name = "btnPrintROI";
-            this.btnPrintROI.Size = new System.Drawing.Size(75, 23);
+            this.btnPrintROI.Size = new System.Drawing.Size(75, 25);
             this.btnPrintROI.TabIndex = 10;
             this.btnPrintROI.Text = "Print ROI";
             this.btnPrintROI.UseVisualStyleBackColor = true;
@@ -244,9 +250,9 @@
             // btnTestCompound
             // 
             this.btnTestCompound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTestCompound.Location = new System.Drawing.Point(507, 169);
+            this.btnTestCompound.Location = new System.Drawing.Point(507, 275);
             this.btnTestCompound.Name = "btnTestCompound";
-            this.btnTestCompound.Size = new System.Drawing.Size(75, 23);
+            this.btnTestCompound.Size = new System.Drawing.Size(75, 25);
             this.btnTestCompound.TabIndex = 11;
             this.btnTestCompound.Text = "CompoundShape";
             this.btnTestCompound.UseVisualStyleBackColor = true;
@@ -258,23 +264,25 @@
             this.vbxImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.vbxImage.ColSpacing = 1F;
             this.vbxImage.FovCol = 0D;
             this.vbxImage.FovRow = 0D;
             this.vbxImage.GrayLevelData = null;
             this.vbxImage.Image = ((System.Drawing.Image)(resources.GetObject("vbxImage.Image")));
             this.vbxImage.Lev = ((short)(0));
-            this.vbxImage.Location = new System.Drawing.Point(9, 10);
-            this.vbxImage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.vbxImage.Location = new System.Drawing.Point(9, 11);
+            this.vbxImage.Margin = new System.Windows.Forms.Padding(2);
             this.vbxImage.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.PosLvl;
             this.vbxImage.Name = "vbxImage";
             this.vbxImage.NoCol = 0;
             this.vbxImage.NoRow = 0;
             this.vbxImage.Pannable = false;
             this.vbxImage.PixelData = null;
+            this.vbxImage.RowSpacing = 1F;
             this.vbxImage.SampleRect = new System.Drawing.Rectangle(-161, -205, 322, 410);
             this.vbxImage.ShowPixelValue = false;
             this.vbxImage.ShowStatistics = false;
-            this.vbxImage.Size = new System.Drawing.Size(322, 410);
+            this.vbxImage.Size = new System.Drawing.Size(322, 529);
             this.vbxImage.SizeScale = 1F;
             this.vbxImage.TabIndex = 0;
             this.vbxImage.TabStop = false;
@@ -289,7 +297,7 @@
             // hsbAngle
             // 
             this.hsbAngle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.hsbAngle.Location = new System.Drawing.Point(651, 50);
+            this.hsbAngle.Location = new System.Drawing.Point(651, 54);
             this.hsbAngle.Maximum = 90;
             this.hsbAngle.Minimum = -90;
             this.hsbAngle.Name = "hsbAngle";
@@ -297,11 +305,63 @@
             this.hsbAngle.TabIndex = 12;
             this.hsbAngle.ValueChanged += new System.EventHandler(this.hsbAngle_ValueChanged);
             // 
+            // numRowSpacing
+            // 
+            this.numRowSpacing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numRowSpacing.Location = new System.Drawing.Point(657, 202);
+            this.numRowSpacing.Name = "numRowSpacing";
+            this.numRowSpacing.Size = new System.Drawing.Size(63, 20);
+            this.numRowSpacing.TabIndex = 13;
+            this.numRowSpacing.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.numRowSpacing.ValueChanged += new System.EventHandler(this.numRowSpacing_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(580, 204);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 13);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Row Spacing";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(434, 204);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Col Spacing";
+            // 
+            // numColSpacing
+            // 
+            this.numColSpacing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numColSpacing.Location = new System.Drawing.Point(511, 202);
+            this.numColSpacing.Name = "numColSpacing";
+            this.numColSpacing.Size = new System.Drawing.Size(63, 20);
+            this.numColSpacing.TabIndex = 15;
+            this.numColSpacing.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.numColSpacing.ValueChanged += new System.EventHandler(this.numColSpacing_ValueChanged);
+            // 
             // testViewBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(898, 438);
+            this.ClientSize = new System.Drawing.Size(898, 560);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.numColSpacing);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.numRowSpacing);
             this.Controls.Add(this.hsbAngle);
             this.Controls.Add(this.btnTestCompound);
             this.Controls.Add(this.btnPrintROI);
@@ -322,9 +382,11 @@
             this.Controls.Add(this.btnLoadRawImage);
             this.Controls.Add(this.btnLoadImage);
             this.Controls.Add(this.vbxImage);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "testViewBox";
             this.Text = "Test ViewBox";
+            ((System.ComponentModel.ISupportInitialize)(this.numRowSpacing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numColSpacing)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -352,6 +414,10 @@
         private System.Windows.Forms.Button btnPrintROI;
         private System.Windows.Forms.Button btnTestCompound;
         private System.Windows.Forms.HScrollBar hsbAngle;
+        private System.Windows.Forms.NumericUpDown numRowSpacing;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown numColSpacing;
     }
 }
 

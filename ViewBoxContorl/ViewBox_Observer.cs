@@ -68,9 +68,10 @@ namespace ViewBoxContorl
             int cy = _samplingRect.Y + _samplingRect.Height/ 2;
 
             float factor = 1.0f / SizeScale;
+            float scaleSpacing = RowSpacing / ColSpacing;
 
             _samplingRect.Width = (int)(this.Width * factor);
-            _samplingRect.Height = (int)(this.Height * factor);
+            _samplingRect.Height = (int)(this.Height * factor / scaleSpacing);
 
             _samplingRect.X = cx - _samplingRect.Width / 2;
             _samplingRect.Y = cy - _samplingRect.Height / 2;

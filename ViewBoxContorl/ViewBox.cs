@@ -91,6 +91,7 @@ namespace ViewBoxContorl
             }
         }
         #endregion
+
         #region FovRow
         private double fovRow;
         public double FovRow
@@ -123,6 +124,33 @@ namespace ViewBoxContorl
         {
             get { return pannable; }
             set { pannable = value; }
+        }
+        #endregion
+
+        #region Col spacing
+        float _colSpacing = 1.0f;
+        public float ColSpacing {
+            get { return _colSpacing; }
+            set
+            {
+                _colSpacing = value;
+                _updateObserverRect();
+                RenderToPictureBox();
+            }
+        }
+        #endregion
+
+        #region Row spacing
+        float _rowSpacing = 1.0f;
+        public float RowSpacing
+        {
+            get { return _rowSpacing; }
+            set
+            {
+                _rowSpacing = value;
+                _updateObserverRect();
+                RenderToPictureBox();
+            }
         }
         #endregion
 

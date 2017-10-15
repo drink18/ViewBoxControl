@@ -56,6 +56,11 @@ namespace testViewBox
             vbxImage.OnLvlChanged += vbxImg_OnLvlValChanged;
 
             dbNewShape.SelectedIndex = 0;
+
+            numColSpacing.DecimalPlaces = 6;
+            numRowSpacing.DecimalPlaces = 6;
+            numColSpacing.Increment = new Decimal(0.005f);
+            numRowSpacing.Increment = new Decimal(0.005f);
         }
 
         private void btnLoadImage_Click(object sender, EventArgs e)
@@ -270,6 +275,16 @@ namespace testViewBox
         {
             compShape.Angle = hsbAngle.Value;
             vbxImage.Refresh();
+        }
+
+        private void numColSpacing_ValueChanged(object sender, EventArgs e)
+        {
+            vbxImage.ColSpacing = (float)numColSpacing.Value;
+        }
+
+        private void numRowSpacing_ValueChanged(object sender, EventArgs e)
+        {
+            vbxImage.RowSpacing = (float)numRowSpacing.Value;
         }
     }
 }
