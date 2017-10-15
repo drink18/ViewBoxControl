@@ -149,6 +149,11 @@ namespace ViewBoxContorl
 
         #endregion
 
+        public Button ImageView
+        {
+            get { return this.View; }
+        }
+
         public Image Image
         {
             get { return View.Image; }
