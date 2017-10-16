@@ -51,14 +51,15 @@ namespace testViewBox
         {
             InitializeComponent();
 
-            //MouseWheel += new MouseEventHandler(testMouseWheel);
-            vbxImage.OnWinChanged += vbxImg_OnWinValChanged;
-            vbxImage.OnLvlChanged += vbxImg_OnLvlValChanged;
+            vbxImage.OnWinLvlChangedByUI += vbxImg_OnWinValChanged;
+            vbxImage.OnWinLvlChangedByUI +=  vbxImg_OnLvlValChanged;
+            vbxImage.OnWinLvlChangingByUI += vbxImg_WinChangedTextBox;
+            vbxImage.OnWinLvlChangingByUI += vbxImg_LvlChangedTextBox;
 
             dbNewShape.SelectedIndex = 0;
 
-            numColSpacing.DecimalPlaces = 6;
-            numRowSpacing.DecimalPlaces = 6;
+            numColSpacing.DecimalPlaces = 4;
+            numRowSpacing.DecimalPlaces = 4;
             numColSpacing.Increment = new Decimal(0.005f);
             numRowSpacing.Increment = new Decimal(0.005f);
         }
@@ -182,23 +183,24 @@ namespace testViewBox
 
         }
 
-
-        private void vbxImg_OnWinValChanged(int oldVal, int newVal)
+        private void vbxImg_OnWinValChanged()
         {
-            hsbWin.Value = Math.Min(hsbWin.Maximum, Math.Max(hsbWin.Minimum, newVal));
-            tbxWin.Text = string.Format("{0}", newVal);
+            hsbWin.Value = Math.Min(hsbWin.Maximum, Math.Max(hsbWin.Minimum, vbxImage.Win));
         }
 
-        private void vbxImg_OnLvlValChanged(int oldVal, int newVal)
+        private void vbxImg_OnLvlValChanged()
         {
-           hsbLev.Value = Math.Min(hsbLev.Maximum, Math.Max(hsbLev.Minimum, newVal));
-           tbxLev.Text = string.Format("{0}", newVal);
+           hsbLev.Value = Math.Min(hsbLev.Maximum, Math.Max(hsbLev.Minimum, vbxImage.Lev));
         }
 
-        private void testMouseWheel(object sender, MouseEventArgs args)
+        private void vbxImg_WinChangedTextBox()
         {
-            var delta = args.Delta / 120.0f * 0.1f;
-            vbxImage.SizeScale += delta;
+            tbxWin.Text = "" + vbxImage.Win;
+        }
+
+        private void vbxImg_LvlChangedTextBox()
+        {
+            tbxLev.Text = "" + vbxImage.Lev;
         }
 
         private void cbAnnotation_CheckedChanged(object sender, EventArgs e)

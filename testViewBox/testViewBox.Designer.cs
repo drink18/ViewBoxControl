@@ -272,7 +272,6 @@
             this.vbxImage.Lev = ((short)(0));
             this.vbxImage.Location = new System.Drawing.Point(9, 11);
             this.vbxImage.Margin = new System.Windows.Forms.Padding(2);
-            this.vbxImage.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.PosLvl;
             this.vbxImage.Name = "vbxImage";
             this.vbxImage.NoCol = 0;
             this.vbxImage.NoRow = 0;
