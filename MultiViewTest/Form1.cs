@@ -24,6 +24,8 @@ namespace MultiViewTest
             {
                 vbxImg.ShowPixelValue = true;
                 vbxImg.OnWinLvlChangedByUI += OnWinLvlChanged;
+                vbxImg.OnZoomFactorChangedByUI += OnZoomFactorChanged;
+                vbxImg.OnPanPositionChangedByUI += OnPanPosChanged;
             }
         }
 
@@ -65,13 +67,34 @@ namespace MultiViewTest
 
         private void OnWinLvlChanged(ViewBoxForm viewbox)
         {
-
             foreach (var vb in _viewBoxes)
             {
                 if(vb != viewbox)
                 {
                     vb.Win = viewbox.Win;
                     vb.Lev = viewbox.Lev;
+                }
+            }
+        }
+
+        private void OnPanPosChanged(ViewBoxForm viewbox)
+        {
+            foreach (var vb in _viewBoxes)
+            {
+                if(vb != viewbox)
+                {
+                    vb.PanPosition = viewbox.PanPosition;
+                }
+            }
+        }
+
+        private void OnZoomFactorChanged(ViewBoxForm viewbox)
+        {
+            foreach (var vb in _viewBoxes)
+            {
+                if (vb != viewbox)
+                {
+                    vb.ZoomFactor = viewbox.ZoomFactor;
                 }
             }
         }

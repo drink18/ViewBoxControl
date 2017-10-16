@@ -39,13 +39,27 @@ namespace ViewBoxContorl
             }
         }
 
+        public PointF PanPosition
+        {
+            get { return new PointF(_samplingRect.X, _samplingRect.Y); }
+            set
+            {
+                _samplingRect.X = (int)value.X;
+                _samplingRect.Y = (int)value.Y;
+
+                _updateObserverRect();
+                RenderToPictureBox();
+            }
+        }
 
         #region delegation
-        public delegate void ZoomChangedEvent();
+        public delegate void ZoomChangedEvent(ViewBoxForm vb);
+        public delegate void PanPositionEvent(ViewBoxForm vb);
         #endregion
 
         #region Events
-        public ZoomChangedEvent OnZoomFactorChangedByUI = ()=> { };
+        public ZoomChangedEvent OnZoomFactorChangedByUI = (o) => { };
+        public PanPositionEvent OnPanPositionChangedByUI = (o) => { };
         #endregion
 
         public Matrix matClientToImage = new Matrix();

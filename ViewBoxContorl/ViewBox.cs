@@ -27,7 +27,6 @@ namespace ViewBoxContorl
             set
             {
                 _setWin(value);
-                OnWinChanged(this);
                 setGrayLevelData();
             }
         }
@@ -44,7 +43,6 @@ namespace ViewBoxContorl
             {
                 var old = lev;
                 _setLevel(value);
-                OnLvlChanged(this);
                 setGrayLevelData();
             }
         }
@@ -296,8 +294,6 @@ namespace ViewBoxContorl
             var oldLvl = Lev;
             _setWin(win);
             _setLevel(lvl);
-            OnWinChanged(this);
-            OnLvlChanged(this);
             setGrayLevelData();
         }
 

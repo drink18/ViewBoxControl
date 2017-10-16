@@ -15,7 +15,7 @@ namespace ViewBoxContorl
         public enum MouseOps
         {
             None,
-            PosLvl,
+            WinLvl,
             Pan,
             Zoom
         }
@@ -33,8 +33,6 @@ namespace ViewBoxContorl
         #endregion
 
         #region Events
-        public WinLvlChangedEvt OnWinChanged = (o) => { };
-        public WinLvlChangedEvt OnLvlChanged = (o) => { };
         public WinLvlChangedEvt OnWinLvlChangingByUI = (o) => { };
         public WinLvlChangedEvt OnWinLvlChangedByUI = (o) => { };
         #endregion  
@@ -68,7 +66,7 @@ namespace ViewBoxContorl
         {
             var delta = e.Delta / 120.0f * 0.1f;
             ZoomFactor += delta;
-            OnZoomFactorChangedByUI();
+            OnZoomFactorChangedByUI(this);
         }
 
         private void vbxImg_MouseUp(object sender, MouseEventArgs e)
@@ -98,7 +96,7 @@ namespace ViewBoxContorl
                 {
                     if ((e.Button & WinLvlAdjustingBtn) == WinLvlAdjustingBtn)
                     {
-                        MouseOpMode = MouseOps.PosLvl;
+                        MouseOpMode = MouseOps.WinLvl;
                     }
                     if ((e.Button & PanButton) == PanButton)
                     {
@@ -106,7 +104,7 @@ namespace ViewBoxContorl
                     }
                 }
             }
-            else if(MouseOpMode == MouseOps.PosLvl)
+            else if(MouseOpMode == MouseOps.WinLvl)
             {
                 bool accelMode = Control.ModifierKeys == Keys.Shift;
                 int scale = accelMode ? AccelModeScale : 1;
@@ -128,8 +126,15 @@ namespace ViewBoxContorl
 
         private void BrowseMouseUp(object sender, MouseEventArgs e)
         {
+            if(MouseOpMode == MouseOps.WinLvl)
+            {
+                OnWinLvlChangedByUI(this);
+            }
+            else if(MouseOpMode == MouseOps.Pan)
+            {
+                OnPanPositionChangedByUI(this);
+            }
             MouseOpMode = MouseOps.None;
-            OnWinLvlChangedByUI(this);
         }
 #endregion
 
