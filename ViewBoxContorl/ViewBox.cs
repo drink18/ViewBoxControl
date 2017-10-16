@@ -171,11 +171,13 @@ namespace ViewBoxContorl
             get { return grayLevelData; }
             set { grayLevelData = value; }
         }
-
         Bitmap _rawBmp; // raw bmp built from gray level data (same size)
-
-
         #endregion
+
+        public bool HasImage
+        {
+            get { return _hasImage(); }
+        }
 
         public Button ImageView
         {
