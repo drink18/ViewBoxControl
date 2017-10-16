@@ -56,6 +56,7 @@ namespace ViewBoxContorl
             int y = -(Height- NoRow) / 2;
             _samplingRect = new Rectangle(x, y, Width, Height);
             _sizeScale = 1.0f;
+            _updateMatrices();
         }
 
         // keep the center of current sampling rect and apply scale
