@@ -68,7 +68,6 @@
             this.vb1.Image = ((System.Drawing.Image)(resources.GetObject("vb1.Image")));
             this.vb1.Lev = ((short)(0));
             this.vb1.Location = new System.Drawing.Point(3, 3);
-            this.vb1.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.PosLvl;
             this.vb1.Name = "vb1";
             this.vb1.NoCol = 100;
             this.vb1.NoRow = 100;
@@ -78,7 +77,7 @@
             this.vb1.ShowPixelValue = false;
             this.vb1.ShowStatistics = false;
             this.vb1.Size = new System.Drawing.Size(442, 253);
-            this.vb1.SizeScale = 1F;
+            this.vb1.ZoomFactor = 1F;
             this.vb1.TabIndex = 0;
             this.vb1.Win = ((short)(0));
             this.vb1.Zoomable = false;
@@ -93,7 +92,6 @@
             this.vb2.Image = ((System.Drawing.Image)(resources.GetObject("vb2.Image")));
             this.vb2.Lev = ((short)(0));
             this.vb2.Location = new System.Drawing.Point(451, 3);
-            this.vb2.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.PosLvl;
             this.vb2.Name = "vb2";
             this.vb2.NoCol = 100;
             this.vb2.NoRow = 100;
@@ -103,7 +101,7 @@
             this.vb2.ShowPixelValue = false;
             this.vb2.ShowStatistics = false;
             this.vb2.Size = new System.Drawing.Size(444, 253);
-            this.vb2.SizeScale = 1F;
+            this.vb2.ZoomFactor = 1F;
             this.vb2.TabIndex = 1;
             this.vb2.Win = ((short)(0));
             this.vb2.Zoomable = false;
@@ -118,7 +116,6 @@
             this.vb3.Image = ((System.Drawing.Image)(resources.GetObject("vb3.Image")));
             this.vb3.Lev = ((short)(0));
             this.vb3.Location = new System.Drawing.Point(3, 262);
-            this.vb3.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.PosLvl;
             this.vb3.Name = "vb3";
             this.vb3.NoCol = 100;
             this.vb3.NoRow = 100;
@@ -128,7 +125,7 @@
             this.vb3.ShowPixelValue = false;
             this.vb3.ShowStatistics = false;
             this.vb3.Size = new System.Drawing.Size(442, 253);
-            this.vb3.SizeScale = 1F;
+            this.vb3.ZoomFactor = 1F;
             this.vb3.TabIndex = 2;
             this.vb3.Win = ((short)(0));
             this.vb3.Zoomable = false;
@@ -143,7 +140,6 @@
             this.vb4.Image = ((System.Drawing.Image)(resources.GetObject("vb4.Image")));
             this.vb4.Lev = ((short)(0));
             this.vb4.Location = new System.Drawing.Point(451, 262);
-            this.vb4.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.PosLvl;
             this.vb4.Name = "vb4";
             this.vb4.NoCol = 100;
             this.vb4.NoRow = 100;
@@ -153,7 +149,7 @@
             this.vb4.ShowPixelValue = false;
             this.vb4.ShowStatistics = false;
             this.vb4.Size = new System.Drawing.Size(444, 253);
-            this.vb4.SizeScale = 1F;
+            this.vb4.ZoomFactor = 1F;
             this.vb4.TabIndex = 3;
             this.vb4.Win = ((short)(0));
             this.vb4.Zoomable = false;

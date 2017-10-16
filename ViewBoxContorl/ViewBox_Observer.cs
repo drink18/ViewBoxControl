@@ -28,7 +28,7 @@ namespace ViewBoxContorl
 
         float _sizeScale = 1.0f;
         [Browsable(false)]
-        public float SizeScale
+        public float ZoomFactor
         {
             get { return _sizeScale; }
             set
@@ -39,13 +39,22 @@ namespace ViewBoxContorl
             }
         }
 
+
+        #region delegation
+        public delegate void ZoomChangedEvent();
+        #endregion
+
+        #region Events
+        public ZoomChangedEvent OnZoomFactorChangedByUI = ()=> { };
+        #endregion
+
         public Matrix matClientToImage = new Matrix();
         public Matrix matImageToClient = new Matrix();
 
         public void TranslateObserverPos(int dxInPixel, int dyInPixel)
         {
-            _samplingRect.X += (int)(dxInPixel / SizeScale);
-            _samplingRect.Y += (int)(dyInPixel / SizeScale);
+            _samplingRect.X += (int)(dxInPixel / ZoomFactor);
+            _samplingRect.Y += (int)(dyInPixel / ZoomFactor);
             _updateObserverRect();
             RenderToPictureBox();
         }
@@ -68,7 +77,7 @@ namespace ViewBoxContorl
             int cx = _samplingRect.X + _samplingRect.Width / 2;
             int cy = _samplingRect.Y + _samplingRect.Height/ 2;
 
-            float factor = 1.0f / SizeScale;
+            float factor = 1.0f / ZoomFactor;
             float scaleSpacing = RowSpacing / ColSpacing;
 
             _samplingRect.Width = (int)(this.Width * factor);

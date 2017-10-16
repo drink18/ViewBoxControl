@@ -29,15 +29,14 @@ namespace ViewBoxContorl
         int _dragY0;
 
         #region delegtaion
-        public delegate void WinChangedEvt();
-        public delegate void LvlChangedEvt();
+        public delegate void WinLvlChangedEvt(ViewBoxForm vb);
         #endregion
 
         #region Events
-        public WinChangedEvt OnWinChanged = () => { };
-        public LvlChangedEvt OnLvlChanged = () => { };
-        public WinChangedEvt OnWinLvlChangingByUI = () => { };
-        public WinChangedEvt OnWinLvlChangedByUI = () => { };
+        public WinLvlChangedEvt OnWinChanged = (o) => { };
+        public WinLvlChangedEvt OnLvlChanged = (o) => { };
+        public WinLvlChangedEvt OnWinLvlChangingByUI = (o) => { };
+        public WinLvlChangedEvt OnWinLvlChangedByUI = (o) => { };
         #endregion  
 
         public int AccelModeScale { get; set; } = 3;
@@ -68,7 +67,8 @@ namespace ViewBoxContorl
         private void vbxImg_MouseWheel(object sender, MouseEventArgs e)
         {
             var delta = e.Delta / 120.0f * 0.1f;
-            SizeScale += delta;
+            ZoomFactor += delta;
+            OnZoomFactorChangedByUI();
         }
 
         private void vbxImg_MouseUp(object sender, MouseEventArgs e)
@@ -114,7 +114,7 @@ namespace ViewBoxContorl
                 int sdx = dx * scale;
                 int sdy = dy * scale;
                 SetWinAndLevel((short)(Win + sdx), (short)(Lev + sdy));
-                OnWinLvlChangingByUI();
+                OnWinLvlChangingByUI(this);
             }
             else if(MouseOpMode == MouseOps.Pan)
             {
@@ -129,7 +129,7 @@ namespace ViewBoxContorl
         private void BrowseMouseUp(object sender, MouseEventArgs e)
         {
             MouseOpMode = MouseOps.None;
-            OnWinLvlChangedByUI();
+            OnWinLvlChangedByUI(this);
         }
 #endregion
 

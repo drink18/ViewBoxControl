@@ -282,7 +282,7 @@
             this.vbxImage.ShowPixelValue = false;
             this.vbxImage.ShowStatistics = false;
             this.vbxImage.Size = new System.Drawing.Size(322, 529);
-            this.vbxImage.SizeScale = 1F;
+            this.vbxImage.ZoomFactor = 1F;
             this.vbxImage.TabIndex = 0;
             this.vbxImage.TabStop = false;
             this.vbxImage.Win = ((short)(1));

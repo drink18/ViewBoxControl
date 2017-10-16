@@ -8,19 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ViewBoxContorl;
 
 namespace MultiViewTest
 {
     public partial class Form1 : Form
     {
+        ViewBoxForm[] _viewBoxes;
         public Form1()
         {
             InitializeComponent();
 
-            var vbxImages = new ViewBoxContorl.ViewBoxForm[] { vb1, vb2, vb3, vb4 };
-            foreach (var vbxImg in vbxImages)
+            _viewBoxes = new ViewBoxContorl.ViewBoxForm[] { vb1, vb2, vb3, vb4 };
+            foreach (var vbxImg in _viewBoxes)
             {
                 vbxImg.ShowPixelValue = true;
+                vbxImg.OnWinLvlChangedByUI += OnWinLvlChanged;
             }
         }
 
@@ -56,6 +59,19 @@ namespace MultiViewTest
                         vbxImage.readPixelData(rawData);
                         vbxImage.setGrayLevelData();
                     }
+                }
+            }
+        }
+
+        private void OnWinLvlChanged(ViewBoxForm viewbox)
+        {
+
+            foreach (var vb in _viewBoxes)
+            {
+                if(vb != viewbox)
+                {
+                    vb.Win = viewbox.Win;
+                    vb.Lev = viewbox.Lev;
                 }
             }
         }

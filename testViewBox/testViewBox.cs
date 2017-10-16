@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ViewBoxContorl;
 using ViewBoxContorl.Annotation;
 
 namespace testViewBox
@@ -183,22 +184,22 @@ namespace testViewBox
 
         }
 
-        private void vbxImg_OnWinValChanged()
+        private void vbxImg_OnWinValChanged(ViewBoxForm vbx)
         {
             hsbWin.Value = Math.Min(hsbWin.Maximum, Math.Max(hsbWin.Minimum, vbxImage.Win));
         }
 
-        private void vbxImg_OnLvlValChanged()
+        private void vbxImg_OnLvlValChanged(ViewBoxForm vbx)
         {
            hsbLev.Value = Math.Min(hsbLev.Maximum, Math.Max(hsbLev.Minimum, vbxImage.Lev));
         }
 
-        private void vbxImg_WinChangedTextBox()
+        private void vbxImg_WinChangedTextBox(ViewBoxForm vbx)
         {
             tbxWin.Text = "" + vbxImage.Win;
         }
 
-        private void vbxImg_LvlChangedTextBox()
+        private void vbxImg_LvlChangedTextBox(ViewBoxForm vbx)
         {
             tbxLev.Text = "" + vbxImage.Lev;
         }

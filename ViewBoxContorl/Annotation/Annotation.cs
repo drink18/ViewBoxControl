@@ -61,7 +61,7 @@ namespace ViewBoxContorl.Annotation
 
         public float ViewScale
         {
-            get { return _vb.SizeScale; }
+            get { return _vb.ZoomFactor; }
         }
 
         #region utils
