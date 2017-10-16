@@ -60,6 +60,7 @@ namespace ViewBoxContorl
         #region Events
         public ZoomChangedEvent OnZoomFactorChangedByUI = (o) => { };
         public PanPositionEvent OnPanPositionChangedByUI = (o) => { };
+        public PanPositionEvent OnPanPositionChangingByUI = (o) => { };
         #endregion
 
         public Matrix matClientToImage = new Matrix();

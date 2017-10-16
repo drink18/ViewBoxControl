@@ -117,6 +117,7 @@ namespace ViewBoxContorl
             else if(MouseOpMode == MouseOps.Pan)
             {
                 TranslateObserverPos(-dx, -dy);
+                OnPanPositionChangingByUI(this);
             }
 
             _dragX0 = e.X;

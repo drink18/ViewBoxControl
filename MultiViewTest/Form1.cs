@@ -23,9 +23,7 @@ namespace MultiViewTest
             foreach (var vbxImg in _viewBoxes)
             {
                 vbxImg.ShowPixelValue = true;
-                vbxImg.OnWinLvlChangedByUI += OnWinLvlChanged;
                 vbxImg.OnZoomFactorChangedByUI += OnZoomFactorChanged;
-                vbxImg.OnPanPositionChangedByUI += OnPanPosChanged;
             }
         }
 
@@ -88,6 +86,29 @@ namespace MultiViewTest
             }
         }
 
+        private void OnWinLvlChanging(ViewBoxForm viewbox)
+        {
+            foreach (var vb in _viewBoxes)
+            {
+                if (vb != viewbox)
+                {
+                    vb.Win = viewbox.Win;
+                    vb.Lev = viewbox.Lev;
+                }
+            }
+        }
+
+        private void OnPanPosChanging(ViewBoxForm viewbox)
+        {
+            foreach (var vb in _viewBoxes)
+            {
+                if (vb != viewbox)
+                {
+                    vb.PanPosition = viewbox.PanPosition;
+                }
+            }
+        }
+
         private void OnZoomFactorChanged(ViewBoxForm viewbox)
         {
             foreach (var vb in _viewBoxes)
@@ -95,6 +116,42 @@ namespace MultiViewTest
                 if (vb != viewbox)
                 {
                     vb.ZoomFactor = viewbox.ZoomFactor;
+                }
+            }
+        }
+
+        private void cbSync_CheckedChanged(object sender, EventArgs e)
+        {
+            cbContSync.Enabled = cbSync.Checked;
+            
+            foreach (var vbxImg in _viewBoxes)
+            {
+                if (cbSync.Checked)
+                {
+                    vbxImg.OnWinLvlChangedByUI += OnWinLvlChanged;
+                    vbxImg.OnPanPositionChangedByUI += OnPanPosChanged;
+                }
+                else
+                {
+                    vbxImg.OnWinLvlChangedByUI -= OnWinLvlChanged;
+                    vbxImg.OnPanPositionChangedByUI -= OnPanPosChanged;
+                }
+            }
+        }
+
+        private void cbContSync_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (var vbxImg in _viewBoxes)
+            {
+                if (cbContSync.Checked)
+                {
+                    vbxImg.OnWinLvlChangingByUI += OnWinLvlChanging;
+                    vbxImg.OnPanPositionChangingByUI += OnPanPosChanging;
+                }
+                else
+                {
+                    vbxImg.OnWinLvlChangingByUI -= OnWinLvlChanging;
+                    vbxImg.OnPanPositionChangingByUI -= OnPanPosChanging;
                 }
             }
         }
