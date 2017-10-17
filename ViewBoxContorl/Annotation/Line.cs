@@ -11,6 +11,8 @@ namespace ViewBoxContorl.Annotation
 {
     public class Line : Shape
     {
+        #region Properties
+        #endregion
         public PointF Point0 { get; set; }
         public PointF Point1 { get; set; }
 

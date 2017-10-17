@@ -26,6 +26,10 @@ namespace ViewBoxContorl.Annotation
 
         bool _creating = false;
         Shape _creatingEle = null;
+        public Shape ShapeBeingCreated
+        {
+            get { return _creatingEle; }
+        }
         public Shape CreateNewElement(Type t, Point position, Matrix client2Img) 
         {
             _creating = true;

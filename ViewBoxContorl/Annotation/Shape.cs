@@ -34,6 +34,8 @@ namespace ViewBoxContorl.Annotation
         public static int CtrlPtSize= 8;
 
         public UserData UserData;
+        #region Properties
+        #endregion
 
         virtual public void Draw(Graphics g,  Matrix view, float scale, float strokeWidth, Color strokeColor) { }
         virtual public void Move(PointF delta) { }

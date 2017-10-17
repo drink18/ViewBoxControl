@@ -205,8 +205,9 @@ namespace ViewBoxContorl
             this.ResizeRedraw = true;
             this.MouseWheel += vbxImg_MouseWheel;
             _annotation =  new Annotation.Annotation(this);
+            _annotation.ShapeCreatingEvt += _annotationShapeCreating_ROI;
             _annotation.ShapeCreatedEvt += _annotationShapeCreated_ROI;
-            _annotation.ShapeChangingEvt += vbxImage_AnnotationShapeChanging;
+            _annotation.ShapeChangingEvt += _annotationShapeChanging_ROI;
             _annotation.ShapeChangeEndEvt += _annotationShapeChanged_ROI;
         }
 
@@ -438,10 +439,6 @@ namespace ViewBoxContorl
             return grayLevelData != null;
         }
 
-        private void vbxImage_AnnotationShapeChanging(Shape e, ManipCommand cmd)
-        {
-        }
-
         private void img_OnPaint(object sender, PaintEventArgs e)
         {
             _annotation.OnPaint(e);
@@ -458,6 +455,12 @@ namespace ViewBoxContorl
                 {
                     if (!_annotation.SelectedShapes.Contains(roi))
                         _renderROIInfo(e.Graphics, roi);
+                }
+
+                // render roi info for lines even it is being created
+                if(_annotation.ShapeBeingCreated != null && _annotation.ShapeBeingCreated is Line)
+                {
+                    _renderROIInfo(e.Graphics, _annotation.ShapeBeingCreated);
                 }
             }
         }

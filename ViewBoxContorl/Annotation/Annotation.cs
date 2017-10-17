@@ -184,12 +184,14 @@ namespace ViewBoxContorl.Annotation
         public delegate void ShapeChangeBegin(Shape e, ManipCommand cmd);
         public delegate void ShapeChanging(Shape e, ManipCommand cmd);
         public delegate void ShapeChangeEnd(Shape e, ManipCommand cmd);
+        public delegate void ShapeCreating(Shape e);
         public delegate void ShapeCreated(Shape e);
         public delegate void ShapeDeleted(Shape e);
 
         public ShapeChangeBegin ShapeChangeBeginEvt = (o,c) => { };
         public ShapeChanging ShapeChangingEvt = (o,c)=> { };
         public ShapeChangeEnd ShapeChangeEndEvt = (o,c)=> { };
+        public ShapeCreating ShapeCreatingEvt = o=> { };
         public ShapeCreated ShapeCreatedEvt = o=> { };
         public ShapeDeleted ShapeDeletedEvt = o => { };
         #endregion  
@@ -210,6 +212,7 @@ namespace ViewBoxContorl.Annotation
             else if(_creating)
             {
                 _creatingEle.OnDragCreating(Client2Img(new Point(e.X, e.Y)));
+                ShapeChangingEvt(_creatingEle, null);
                 _vb.Refresh();
                 handled = true;
             }
@@ -256,6 +259,7 @@ namespace ViewBoxContorl.Annotation
             if (CurrentInteractContext == InteractContext.Create && NewElementType != null)
             {
                 _creatingEle = CreateNewElement(NewElementType, p, _vb.matClientToImage);
+                ShapeCreatingEvt(_creatingEle);
                 _creating = true;
                 NewElementType = null;
                 handled = true;

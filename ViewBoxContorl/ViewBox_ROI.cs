@@ -26,6 +26,11 @@ namespace ViewBoxContorl
         public class ROIUserData : UserData
         {
             public Dictionary<StatKey, float> StatDict = new Dictionary<StatKey, float>();
+            public bool AllowRealtimeROI = false;
+            public ROIUserData(Shape shape)
+            {
+                AllowRealtimeROI = shape is Line;
+            }
         }
 
         int[] _getPixelsInsideROI(Shape e)
@@ -78,13 +83,7 @@ namespace ViewBoxContorl
             Font font = new Font("Arial", 8, FontStyle.Bold);
             SolidBrush brush = new SolidBrush(ROIMeasurementTextColor);
 
-            string statStr = "";
-            foreach (var stat in userData.StatDict)
-            {
-                statStr += string.Format("{0} = {1}\n", Enum.GetName(typeof(StatKey), stat.Key), stat.Value);
-            }
-
-            g.DrawString(statStr, font, brush, _annotation.Img2Client(roi.CenterWld));
+            g.DrawString(GetROIString(roi), font, brush, _annotation.Img2Client(roi.CenterWld));
             font.Dispose();
             brush.Dispose();
         }
@@ -116,7 +115,7 @@ namespace ViewBoxContorl
 
         private void _updateROIStatistics(Shape e)
         {
-            var userData = new ROIUserData();
+            var userData = e.UserData as ROIUserData; 
 
             if (e.GetType() != typeof(Line))
             {
@@ -130,10 +129,35 @@ namespace ViewBoxContorl
             {
                 var l = e as Line;
                 var d = new PointF(l.Point0.X - l.Point1.X, l.Point0.Y - l.Point1.Y);
+                d.X *= ColSpacing;
+                d.Y *= RowSpacing;
                 userData.StatDict[StatKey.Length] = (int)Math.Sqrt(d.X * d.X + d.Y * d.Y); 
             }
 
             e.UserData = userData;
+        }
+
+        private string GetROIString(Shape e)
+        {
+            string roi = "";
+            var userData = e.UserData as ROIUserData;
+            if(e.GetType() != typeof(Line))
+            {
+                roi = string.Format("Mean={0}\nSqrVar={1}", userData.StatDict[StatKey.Mean], userData.StatDict[StatKey.SqrVariation]);
+            }
+            else
+            {
+                roi = string.Format("{0} mm",userData.StatDict[StatKey.Length]);
+            }
+            return roi;
+        }
+
+        private void _annotationShapeCreating_ROI(Shape e)
+        {
+            var ud = new ROIUserData(e);
+            e.UserData = ud;
+            if (HasImage && ud.AllowRealtimeROI)
+                _updateROIStatistics(e);
         }
 
         private void _annotationShapeCreated_ROI(Shape e)
@@ -147,5 +171,13 @@ namespace ViewBoxContorl
             if(_hasImage())
                 _updateROIStatistics(e);
         }
+
+        private void _annotationShapeChanging_ROI(Shape e, ManipCommand cmd)
+        {
+            var ud = e.UserData as ROIUserData;
+            if (_hasImage() && ud.AllowRealtimeROI)
+                _updateROIStatistics(e);
+        }
+
     }
 }
