@@ -27,14 +27,17 @@ namespace ViewBoxContorl
 
         int _dragX0;
         int _dragY0;
+        Point _origMouseDownPos;
 
         #region delegtaion
         public delegate void WinLvlChangedEvt(ViewBoxForm vb);
+        public delegate void MouseRightClickEvt(object sender, MouseEventArgs e);
         #endregion
 
         #region Events
         public WinLvlChangedEvt OnWinLvlChangingByUI = (o) => { };
         public WinLvlChangedEvt OnWinLvlChangedByUI = (o) => { };
+        public MouseRightClickEvt MouseRightClick = (o, b) => { };
         #endregion  
 
         public int AccelModeScale { get; set; } = 3;
@@ -84,6 +87,7 @@ namespace ViewBoxContorl
         {
             _dragX0 = e.X;
             _dragY0 = e.Y;
+            _origMouseDownPos = new Point(e.X, e.Y);
         }
 
         private void BrowseMouseMove(object sender, MouseEventArgs e)
@@ -127,14 +131,28 @@ namespace ViewBoxContorl
 
         private void BrowseMouseUp(object sender, MouseEventArgs e)
         {
-            if(MouseOpMode == MouseOps.WinLvl)
+            bool hasMoved = _origMouseDownPos.X != e.X || _origMouseDownPos.Y != e.Y;
+            if (hasMoved)
             {
-                OnWinLvlChangedByUI(this);
+                if (MouseOpMode == MouseOps.WinLvl)
+                {
+                    OnWinLvlChangedByUI(this);
+                }
+                else if (MouseOpMode == MouseOps.Pan)
+                {
+                    OnPanPositionChangedByUI(this);
+                }
             }
-            else if(MouseOpMode == MouseOps.Pan)
+            else
             {
-                OnPanPositionChangedByUI(this);
+                //did't move we want to fire mouse right clicked
+                if(e.Button == MouseButtons.Right)
+                {
+                    MouseRightClick(sender, e);
+                }
+
             }
+
             MouseOpMode = MouseOps.None;
         }
 #endregion
