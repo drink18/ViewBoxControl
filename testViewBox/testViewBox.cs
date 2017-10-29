@@ -63,6 +63,9 @@ namespace testViewBox
             numRowSpacing.DecimalPlaces = 4;
             numColSpacing.Increment = new Decimal(0.005f);
             numRowSpacing.Increment = new Decimal(0.005f);
+
+            cbPannable.Checked = vbxImage.Pannable;
+            cbZoomable.Checked = vbxImage.Zoomable;
         }
 
         private void btnLoadImage_Click(object sender, EventArgs e)
@@ -290,6 +293,16 @@ namespace testViewBox
         private void btnUnload_Click(object sender, EventArgs e)
         {
             vbxImage.unloadImage();
+        }
+
+        private void cbPannable_CheckedChanged(object sender, EventArgs e)
+        {
+            vbxImage.Pannable = cbPannable.Checked;
+        }
+
+        private void cbZoomable_CheckedChanged(object sender, EventArgs e)
+        {
+            vbxImage.Zoomable = cbZoomable.Checked;
         }
     }
 }

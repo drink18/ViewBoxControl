@@ -67,6 +67,9 @@ namespace ViewBoxContorl
 
         private void vbxImg_MouseWheel(object sender, MouseEventArgs e)
         {
+            if (!zoomable)
+                return;
+
             var delta = e.Delta / 120.0f * 0.1f;
             ZoomFactor += delta;
             OnZoomFactorChangedByUI(this);
@@ -120,8 +123,11 @@ namespace ViewBoxContorl
             }
             else if(MouseOpMode == MouseOps.Pan)
             {
-                TranslateObserverPos(-dx, -dy);
-                OnPanPositionChangingByUI(this);
+                if (pannable)
+                {
+                    TranslateObserverPos(-dx, -dy);
+                    OnPanPositionChangingByUI(this);
+                }
             }
 
             _dragX0 = e.X;

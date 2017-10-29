@@ -53,6 +53,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.numColSpacing = new System.Windows.Forms.NumericUpDown();
             this.btnUnload = new System.Windows.Forms.Button();
+            this.cbPannable = new System.Windows.Forms.CheckBox();
+            this.cbZoomable = new System.Windows.Forms.CheckBox();
             this.vbxImage = new ViewBoxContorl.ViewBoxForm();
             ((System.ComponentModel.ISupportInitialize)(this.numRowSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numColSpacing)).BeginInit();
@@ -243,7 +245,7 @@
             // btnPrintROI
             // 
             this.btnPrintROI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrintROI.Location = new System.Drawing.Point(915, 531);
+            this.btnPrintROI.Location = new System.Drawing.Point(775, 529);
             this.btnPrintROI.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnPrintROI.Name = "btnPrintROI";
             this.btnPrintROI.Size = new System.Drawing.Size(150, 48);
@@ -255,7 +257,7 @@
             // btnTestCompound
             // 
             this.btnTestCompound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTestCompound.Location = new System.Drawing.Point(753, 529);
+            this.btnTestCompound.Location = new System.Drawing.Point(613, 531);
             this.btnTestCompound.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnTestCompound.Name = "btnTestCompound";
             this.btnTestCompound.Size = new System.Drawing.Size(150, 48);
@@ -338,6 +340,30 @@
             this.btnUnload.UseVisualStyleBackColor = true;
             this.btnUnload.Click += new System.EventHandler(this.btnUnload_Click);
             // 
+            // cbPannable
+            // 
+            this.cbPannable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPannable.AutoSize = true;
+            this.cbPannable.Location = new System.Drawing.Point(612, 477);
+            this.cbPannable.Name = "cbPannable";
+            this.cbPannable.Size = new System.Drawing.Size(135, 29);
+            this.cbPannable.TabIndex = 18;
+            this.cbPannable.Text = "Pannable";
+            this.cbPannable.UseVisualStyleBackColor = true;
+            this.cbPannable.CheckedChanged += new System.EventHandler(this.cbPannable_CheckedChanged);
+            // 
+            // cbZoomable
+            // 
+            this.cbZoomable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbZoomable.AutoSize = true;
+            this.cbZoomable.Location = new System.Drawing.Point(775, 477);
+            this.cbZoomable.Name = "cbZoomable";
+            this.cbZoomable.Size = new System.Drawing.Size(139, 29);
+            this.cbZoomable.TabIndex = 19;
+            this.cbZoomable.Text = "Zoomable";
+            this.cbZoomable.UseVisualStyleBackColor = true;
+            this.cbZoomable.CheckedChanged += new System.EventHandler(this.cbZoomable_CheckedChanged);
+            // 
             // vbxImage
             // 
             this.vbxImage.AccelModeScale = 3;
@@ -380,6 +406,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1535, 930);
+            this.Controls.Add(this.cbZoomable);
+            this.Controls.Add(this.cbPannable);
             this.Controls.Add(this.btnUnload);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numColSpacing);
@@ -442,6 +470,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numColSpacing;
         private System.Windows.Forms.Button btnUnload;
+        private System.Windows.Forms.CheckBox cbPannable;
+        private System.Windows.Forms.CheckBox cbZoomable;
     }
 }
 
