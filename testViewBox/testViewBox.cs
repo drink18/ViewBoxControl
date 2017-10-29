@@ -92,13 +92,10 @@ namespace testViewBox
                 FileName = formOpenRawImage.FileName;
                 using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
                 {
-                    vbxImage.NoCol = NoCol;
-                    vbxImage.NoRow = NoRow;
-                    vbxImage.ResetObserverRect();
                     byte[] rawData=new byte[2*NoCol*NoRow];
                     long fileLen= fs.Read(rawData, 0, rawData.Length);
-                    vbxImage.readPixelData(rawData);
-                    vbxImage.setGrayLevelData();
+                    vbxImage.loadRawImage(rawData, NoCol, NoRow);
+
                     tbxMaxPixel.Text = vbxImage.MaxPixel.ToString();
                     tbxMinPixel.Text = vbxImage.MinPixel.ToString();
                     tbxWin.Text = vbxImage.Win.ToString();
@@ -288,6 +285,11 @@ namespace testViewBox
         private void numRowSpacing_ValueChanged(object sender, EventArgs e)
         {
             vbxImage.RowSpacing = (float)numRowSpacing.Value;
+        }
+
+        private void btnUnload_Click(object sender, EventArgs e)
+        {
+            vbxImage.unloadImage();
         }
     }
 }

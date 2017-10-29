@@ -202,6 +202,7 @@ namespace ViewBoxContorl
         public ViewBoxForm()
         {
             InitializeComponent();
+
             this.ResizeRedraw = true;
             this.MouseWheel += vbxImg_MouseWheel;
             _annotation =  new Annotation.Annotation(this);
@@ -315,7 +316,6 @@ namespace ViewBoxContorl
         {
             Debug.WriteLine("ViewBox_ClientSizeChanged");
         }
-
         public void readPixelData(byte[] rawData)
         {
             try
@@ -354,6 +354,27 @@ namespace ViewBoxContorl
                 MessageBox.Show(ex.row + "," + ex.col + "," + ex.size);
                 return;
             }
+        }
+
+        public void loadRawImage(byte[] rawData, int col, int row)
+        {
+            ResetObserverRect();
+            NoCol = col;
+            NoRow = row;
+            readPixelData(rawData);
+            setGrayLevelData();
+        }
+
+        public void unloadImage()
+        {
+            this.View.Image = new Bitmap(this.Width, this.Height);
+            PixelData = null;
+            grayLevelData = null;
+            _rawBmp = new Bitmap(64, 64);
+            _annotation.ClearAll();
+            ResetObserverRect();
+            RenderToPictureBox();
+            this.Refresh();
         }
 
         public void readPixelData(Int16[] rawData)

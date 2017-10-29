@@ -333,5 +333,11 @@ namespace ViewBoxContorl.Annotation
             DeleteShape(e);
             ShapeDeletedEvt(e);
         }
+
+        public void ClearAll()
+        {
+            _shapeList.Clear();
+            _selection.ClearSelection();
+        }
     }
 }
