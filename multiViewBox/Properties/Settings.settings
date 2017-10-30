@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="multiViewBox.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="defaultRawDataPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\wuduan\Engineering\MRI_Spectrometer\EDA\Matlab\mri_data\20171020</Value>
+    </Setting>
+    <Setting Name="defaultDICOMFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\SlimscopeClientFolder\DicomFolder</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
