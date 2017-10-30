@@ -216,6 +216,8 @@ namespace ViewBoxContorl
         {
             this.View.Image = new Bitmap(this.Width, this.Height, _imgFormat);
             _cachedGraphics = Graphics.FromImage(this.View.Image);
+
+            RenderToPictureBox();
         }
 
 
