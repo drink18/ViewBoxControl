@@ -19,7 +19,7 @@ namespace ViewBoxContorl
         public enum StatKey
         {
             Mean,
-            SqrVariation,
+            StandardVariation,
             Length
         }
 
@@ -63,6 +63,20 @@ namespace ViewBoxContorl
         }
 
         float MeasureSquareVariation(Shape e)
+        {
+            var pixels = _getPixelsInsideROI(e);
+            double variaton = 0;
+
+            if (pixels.Length > 0)
+            {
+                var mean = pixels.Average();
+                var sum = pixels.Sum(d => (d - mean) * (d - mean));
+                variaton = sum / pixels.Length;
+            }
+
+            return (float)variaton;
+        }
+        float MeasureStandardVariation(Shape e)
         {
             var pixels = _getPixelsInsideROI(e);
             double variaton = 0;
@@ -120,10 +134,10 @@ namespace ViewBoxContorl
             if (e.GetType() != typeof(Line))
             {
                 var mean = MeasureMeanPixelValeInDiagram(e);
-                var var = MeasureSquareVariation(e);
+                var var = MeasureStandardVariation(e);
 
                 userData.StatDict[StatKey.Mean] = mean;
-                userData.StatDict[StatKey.SqrVariation] = var;
+                userData.StatDict[StatKey.StandardVariation] = var;
             }
             else
             {
@@ -143,7 +157,7 @@ namespace ViewBoxContorl
             var userData = e.UserData as ROIUserData;
             if(e.GetType() != typeof(Line))
             {
-                roi = string.Format("Mean={0}\nSqrVar={1}", userData.StatDict[StatKey.Mean], userData.StatDict[StatKey.SqrVariation]);
+                roi = string.Format("Mean={0}\nSqrVar={1}", userData.StatDict[StatKey.Mean], userData.StatDict[StatKey.StandardVariation]);
             }
             else
             {
