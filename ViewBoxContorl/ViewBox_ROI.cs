@@ -155,6 +155,9 @@ namespace ViewBoxContorl
         {
             string roi = "";
             var userData = e.UserData as ROIUserData;
+            if (e.GetType() == typeof(CompoundShape))
+                return roi;
+
             if(e.GetType() != typeof(Line))
             {
                 roi = string.Format("Mean={0}\nSqrVar={1}", userData.StatDict[StatKey.Mean], userData.StatDict[StatKey.StandardVariation]);
