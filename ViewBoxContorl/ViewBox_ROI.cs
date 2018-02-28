@@ -129,7 +129,10 @@ namespace ViewBoxContorl
 
         private void _updateROIStatistics(Shape e)
         {
-            var userData = e.UserData as ROIUserData; 
+            // TODO: REFACTOR THIS FOR BETTER ABSTRACTION!
+            var userData = e.UserData as ROIUserData;
+            if (userData == null)
+                return;
 
             if (e.GetType() != typeof(Line))
             {
