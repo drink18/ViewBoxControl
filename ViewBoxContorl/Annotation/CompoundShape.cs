@@ -12,6 +12,8 @@ namespace ViewBoxContorl.Annotation
     {
         List<Shape> _subShapes = new List<Shape>();
 
+        public List<Shape> SubShapes { get { return _subShapes; } }
+
         public CompoundShape()
         {
             ValidPickPts = new HashSet<CtrlPt>() {
@@ -22,13 +24,25 @@ namespace ViewBoxContorl.Annotation
         public void AddSubShapes(Shape[] subShapes)
         {
             _subShapes.AddRange(subShapes);
-            _updateRect();
-            UpdateCtrlPts();
+            OnSubshapeListChanged();
         }
 
         public void AddSubShape(Shape s)
         {
             _subShapes.Add(s);
+            OnSubshapeListChanged();
+        }
+        public void RemoveSubShape(Shape s)
+        {
+            if(_subShapes.Exists(o=>o == s))
+            {
+                _subShapes.Remove(s);
+            }
+            OnSubshapeListChanged();
+        }
+
+        public void OnSubshapeListChanged()
+        {
             _updateRect();
             UpdateCtrlPts();
         }

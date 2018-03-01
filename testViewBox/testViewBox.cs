@@ -20,7 +20,7 @@ namespace testViewBox
         string imagePath = @"C:\Users\Windows User\Pictures";
         #region NoCol
         int noCol;
-        Shape compShape;
+        CompoundShape compShape;
 
         public int NoCol
         {
@@ -267,11 +267,26 @@ namespace testViewBox
                 shapes.Add(l);
             }
 
+            var b = new Box(new PointF(10, 200), new PointF(230, 220));
+            shapes.Add(b);
+
             var comp = new CompoundShape();
             comp.AddSubShapes(shapes.ToArray());
             comp.Angle = hsbAngle.Value;
             vbxImage.AddShape(comp);
             compShape = comp;
+
+
+        }
+
+        private void btnRemoveSub_Click(object sender, EventArgs e)
+        {
+            if(compShape != null && compShape.SubShapes.Count > 0)
+            {
+                var lastShape = compShape.SubShapes.Last();
+                compShape.RemoveSubShape(lastShape);
+                vbxImage.Refresh(); //DO NOT FORGET TO REFRESH!
+            }
         }
 
         private void hsbAngle_ValueChanged(object sender, EventArgs e)
@@ -304,5 +319,6 @@ namespace testViewBox
         {
             vbxImage.Zoomable = cbZoomable.Checked;
         }
+
     }
 }
