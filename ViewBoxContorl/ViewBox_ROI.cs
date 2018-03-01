@@ -195,7 +195,7 @@ namespace ViewBoxContorl
         private void _annotationShapeChanging_ROI(Shape e, ManipCommand cmd)
         {
             var ud = e.UserData as ROIUserData;
-            if (_hasImage() && ud.AllowRealtimeROI)
+            if (_hasImage() && ud != null && ud.AllowRealtimeROI)
                 _updateROIStatistics(e);
         }
 
