@@ -33,6 +33,50 @@ namespace ViewBoxContorl.Annotation
             UpdateCtrlPts();
         }
 
+        // Set  TopLeftLocal coordinate in world space
+        public PointF TopLeft
+        {
+            get
+            {
+                var p = new PointF(_localRect.X, _localRect.Y);
+                var pl = new PointF[] { p };
+                _transform.TransformPoints(pl);
+                return pl[0];
+            }
+            set
+            {
+                var invT = _transform.Clone();
+                invT.Invert();
+                var pl = new PointF[] { value };
+                invT.TransformPoints(pl);
+
+               _localRect.X = pl[0].X;
+               _localRect.Y = pl[0].Y;
+            }
+        }
+
+        // Set  BottomRight coordinate in  World space
+        public PointF BottomRight
+        {
+            get
+            {
+                var p = new PointF(_localRect.Right, _localRect.Bottom);
+                var pl = new PointF[] { p };
+                _transform.TransformPoints(pl);
+                return pl[0];
+            }
+            set
+            {
+                var invT = _transform.Clone();
+                invT.Invert();
+                var pl = new PointF[] { value };
+                invT.TransformPoints(pl);
+
+                _localRect.Width = pl[0].X - _localRect.X;
+                _localRect.Height = pl[0].Y - _localRect.Y;
+            }
+        }
+
 
         public override void Draw(Graphics g, Matrix view, float scale, float strokeWidth, Color strokeColor)
         {

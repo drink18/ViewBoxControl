@@ -270,13 +270,14 @@ namespace testViewBox
             var b = new Box(new PointF(10, 200), new PointF(230, 220));
             shapes.Add(b);
 
+            b.TopLeft = new PointF(-10, 200);
+            b.BottomRight = new PointF(245, 245);
+
             var comp = new CompoundShape();
             comp.AddSubShapes(shapes.ToArray());
             comp.Angle = hsbAngle.Value;
             vbxImage.AddShape(comp);
             compShape = comp;
-
-
         }
 
         private void btnRemoveSub_Click(object sender, EventArgs e)
