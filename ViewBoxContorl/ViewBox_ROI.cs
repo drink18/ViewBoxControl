@@ -85,7 +85,7 @@ namespace ViewBoxContorl
             {
                 var mean = pixels.Average();
                 var sum = pixels.Sum(d => (d - mean) * (d - mean));
-                variaton = sum / pixels.Length;
+                variaton = Math.Sqrt(sum / pixels.Length);
             }
 
             return (float)variaton;
