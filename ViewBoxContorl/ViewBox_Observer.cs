@@ -33,7 +33,7 @@ namespace ViewBoxContorl
             get { return _sizeScale; }
             set
             {
-                _sizeScale = Math.Max(1.0f, value);
+                _sizeScale = Math.Max(0.5f, value);
                 _updateObserverRect();
                 RenderToPictureBox();
             }
