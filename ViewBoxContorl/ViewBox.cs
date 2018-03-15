@@ -193,6 +193,8 @@ namespace ViewBoxContorl
 
         public Type NewAnnotationType = null;
 
+        public Annotation.Annotation AnnotationData { get { return _annotation; } }
+
         #region privates
         Graphics _cachedGraphics;
         PixelFormat _imgFormat = PixelFormat.Format24bppRgb;
