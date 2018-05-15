@@ -250,8 +250,10 @@ namespace testViewBox
                 var roiInfo = shape.UserData as ViewBoxContorl.ViewBoxForm.ROIUserData;
                 if (roiInfo != null)
                 {
-                    dump += string.Format("Shape is {0}\n", shape.GetType().Name);
-                    //dump += string.Format("Var={0}, Mean={1}\n", roiInfo.PixelVariation, roiInfo.PixelMean);
+                    dump += string.Format("Shape is {0}\r\n", shape.GetType().Name);
+                    //dump += string.Format("Var={0}, Mean={1}\n", roiInfo.StatDict[0]..PixelVariation, roiInfo.PixelMean);
+                    dump += string.Format("Var={0},    Mean={1}\r\n", roiInfo.StatDict.Keys.ToArray()[0], roiInfo.StatDict.Values.ToArray()[0]);
+                    dump += string.Format("Var={0},    Mean={1}\r\n", roiInfo.StatDict.Keys.ToArray()[1], roiInfo.StatDict.Values.ToArray()[1]);
                 }
             }
             dump += "End of ROI dump\n";

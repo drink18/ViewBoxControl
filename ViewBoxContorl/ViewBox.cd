@@ -7,11 +7,148 @@
       <FileName>EventArgs.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ViewBoxContorl.ViewBox">
-    <Position X="3" Y="0.5" Width="3" />
+  <Class Name="ViewBoxContorl.Annotation.Annotation" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CEAAIBAAACAQQIAAhECgCQQGICAABiAAAAIAAAgAAAA=</HashCode>
+      <HashCode>iADAnQIAABACBE5BABBAEBAAEAIREAQFwACAGICACFE=</HashCode>
+      <FileName>Annotation\Annotation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.ManipCommand" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAEhAAAgAAIAAAAAIDAAA=</HashCode>
+      <FileName>Annotation\Annotation_Manip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.MoveCommand" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Annotation\Annotation_Manip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.DragCtrlPtCommand" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Annotation\Annotation_Manip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.AnnotationSelection" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAEAAAAAAAAAAAAAAAAAAAAAACEAAEAgA=</HashCode>
+      <FileName>Annotation\Annotation_Selection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.Box" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAIAAAhAAQAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Annotation\Box.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.CompoundShape" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAgQiAAAIAAAAAAAAACACAAAABADAEAA=</HashCode>
+      <FileName>Annotation\CompoundShape.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.Ellipse" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABIAAAgAAQAAAAEAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Annotation\Ellipse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.Line" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAIAAggAkAAgAAQCgAAAAAAAAAAAAAACAEAA=</HashCode>
+      <FileName>Annotation\Line.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.UserData" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Annotation\Shape.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.Shape" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QASBAAAIAIAAAkAkQQgAAMXgAlAAAAAMAEACAACIUEE=</HashCode>
+      <FileName>Annotation\Shape.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.Data.ShapeSnapshotData" Collapsed="true">
+    <Position X="5.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Annotation\Data\ShapeData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Annotation.Data.LineData" Collapsed="true">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Annotation\Data\ShapeData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.ViewBoxForm">
+    <Position X="11.75" Y="1.5" Width="7.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="ViewBoxContorl.ViewBoxForm.MouseOps" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewBox_Mouse.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Delegate Name="ViewBoxContorl.ViewBoxForm.WinLvlChangedEvt" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewBox_Mouse.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="ViewBoxContorl.ViewBoxForm.MouseRightClickEvt" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewBox_Mouse.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="ViewBoxContorl.ViewBoxForm.ZoomChangedEvent" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewBox_Observer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="ViewBoxContorl.ViewBoxForm.PanPositionEvent" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewBox_Observer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Enum Name="ViewBoxContorl.ViewBoxForm.StatKey" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewBox_ROI.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Class Name="ViewBoxContorl.ViewBoxForm.ROIUserData" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewBox_ROI.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>jOrAYJCATCYUQIJYDmKlSI6GsCbrB3EFsEOQHAigBQY=</HashCode>
       <FileName>ViewBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewBoxContorl.Properties.Resources" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Font Name="微软雅黑" Size="9" />
