@@ -79,13 +79,14 @@ namespace ViewBoxContorl.Annotation
             ctrlPen.Dispose();
         }
 
-        public override Tuple<Shape, CtrlPt> PickControlPoint(PointF pImg)
+        public override Tuple<Shape, CtrlPt> PickControlPoint(PointF pImg, float viewScale)
         {
             var pt0 = _getPointInWld(Point0);
             var pt1 = _getPointInWld(Point1);
 
-            var r0 = new RectangleF(pt0.X - CtrlPtSize / 2, pt0.Y - CtrlPtSize / 2, CtrlPtSize, CtrlPtSize);
-            var r1 = new RectangleF(pt1.X - CtrlPtSize / 2, pt1.Y - CtrlPtSize / 2, CtrlPtSize, CtrlPtSize);
+            var scp = CtrlPtSize / viewScale;
+            var r0 = new RectangleF(pt0.X - scp / 2, pt0.Y - scp / 2, scp, scp);
+            var r1 = new RectangleF(pt1.X - scp/ 2, pt1.Y - scp / 2, scp, scp);
 
             if (r0.Contains(pImg))
                 return new Tuple<Shape, CtrlPt>(this, CtrlPt.LineEnd0);

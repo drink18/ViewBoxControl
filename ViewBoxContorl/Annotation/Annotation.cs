@@ -69,7 +69,7 @@ namespace ViewBoxContorl.Annotation
         {
             foreach(var e in _selection.SelectedShapes)
             {
-                var ctrlPt = e.PickControlPoint(pImg);
+                var ctrlPt = e.PickControlPoint(pImg, ViewScale);
                 if(ctrlPt != null)
                 {
                     return ctrlPt;
