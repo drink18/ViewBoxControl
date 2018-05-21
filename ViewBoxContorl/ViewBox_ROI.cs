@@ -36,13 +36,20 @@ namespace ViewBoxContorl
         int[] _getPixelsInsideROI(Shape e)
         {
             var pixels = new List<int>();
-
-            for (int row = 0; row < NoRow; row++)
+            var rect = e.GetAABB();
+            for (int row = (int)rect.Left; row <= (int)rect.Right; row++)
             {
-                for (int col = 0; col < NoCol; col++)
+                for (int col = (int)rect.Top; col <= (int)rect.Bottom; col++)
                 {
+                    var invMat = e.Transform.Clone();
+                    invMat.Invert();
+                    var localP = new PointF();
+                    var ele = invMat.Elements;
+                    localP.X = col * ele[0] + row * ele[1] + ele[4];
+                    localP.Y = col * ele[2] + row * ele[3] + ele[5];
+
                     if (col >= 0 && row >= 0 && col < NoCol && row < NoRow 
-                        && e.IsPointInsideShape(new PointF(col, row)))
+                        && e.IsLocalPointInsideShape(localP))
                     {
                         pixels.Add(pixelData[row, col]);
                     }
@@ -52,40 +59,37 @@ namespace ViewBoxContorl
             return pixels.ToArray();
         }
 
-        float MeasureMeanPixelValeInDiagram(Shape e)
+        float MeasureMeanPixelValeInDiagram(Shape e,int[] pixelsInROI)
         {
-            var pixels = _getPixelsInsideROI(e);
             double mean = 0;
-            if(pixels.Length > 0 )
-                mean = pixels.Average();
+            if(pixelsInROI.Length > 0 )
+                mean = pixelsInROI.Average();
 
             return (float)mean;
         }
 
-        float MeasureSquareVariation(Shape e)
+        float MeasureSquareVariation(Shape e, int[] pixelsInROI)
         {
-            var pixels = _getPixelsInsideROI(e);
             double variaton = 0;
 
-            if (pixels.Length > 0)
+            if (pixelsInROI.Length > 0)
             {
-                var mean = pixels.Average();
-                var sum = pixels.Sum(d => (d - mean) * (d - mean));
-                variaton = sum / pixels.Length;
+                var mean = pixelsInROI.Average();
+                var sum = pixelsInROI.Sum(d => (d - mean) * (d - mean));
+                variaton = sum / pixelsInROI.Length;
             }
 
             return (float)variaton;
         }
-        float MeasureStandardVariation(Shape e)
+        float MeasureStandardVariation(Shape e, int[] pixelsInROI)
         {
-            var pixels = _getPixelsInsideROI(e);
             double variaton = 0;
 
-            if (pixels.Length > 0)
+            if (pixelsInROI.Length > 0)
             {
-                var mean = pixels.Average();
-                var sum = pixels.Sum(d => (d - mean) * (d - mean));
-                variaton = Math.Sqrt(sum / pixels.Length);
+                var mean = pixelsInROI.Average();
+                var sum = pixelsInROI.Sum(d => (d - mean) * (d - mean));
+                variaton = Math.Sqrt(sum / pixelsInROI.Length);
             }
 
             return (float)variaton;
@@ -136,8 +140,9 @@ namespace ViewBoxContorl
 
             if (e.GetType() != typeof(Line))
             {
-                var mean = MeasureMeanPixelValeInDiagram(e);
-                var var = MeasureStandardVariation(e);
+                var pixels = _getPixelsInsideROI(e);
+                var mean = MeasureMeanPixelValeInDiagram(e, pixels);
+                var var = MeasureStandardVariation(e, pixels);
 
                 userData.StatDict[StatKey.Mean] = mean;
                 userData.StatDict[StatKey.StandardVariation] = var;

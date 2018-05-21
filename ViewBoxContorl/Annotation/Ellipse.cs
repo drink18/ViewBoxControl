@@ -69,6 +69,14 @@ namespace ViewBoxContorl.Annotation
             PointF np = new PointF(p.X , p.Y);
             return ((np.X * np.X) / (lx * lx) + (np.Y * np.Y) / (ly * ly) <= 1);
         }
+        public override bool IsLocalPointInsideShape(PointF p)
+        {
+            float lx = LocalRect.Width / 2;
+            float ly = LocalRect.Height / 2;
+
+            PointF np = new PointF(p.X , p.Y);
+            return ((np.X * np.X) / (lx * lx) + (np.Y * np.Y) / (ly * ly) <= 1);
+        }
 
         private void _initControlPoints()
         {

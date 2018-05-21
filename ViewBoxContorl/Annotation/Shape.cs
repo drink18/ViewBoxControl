@@ -117,6 +117,7 @@ namespace ViewBoxContorl.Annotation
             return LocalRect.Width >= MinSizeX && LocalRect.Height >= MinSizeY;
         }
         virtual public bool IsPointInsideShape(PointF p) { return false; }
+        virtual public bool IsLocalPointInsideShape(PointF p) { return false; }
 
         virtual public ShapeSnapshotData ExportElement()
         {
@@ -312,9 +313,11 @@ namespace ViewBoxContorl.Annotation
         {
             var inv = _transform.Clone();
             inv.Invert();
-            var pts = new PointF[] {new PointF(pWld.X, pWld.Y) };
-            inv.TransformPoints(pts);
-            return pts[0];
+            var pt = new PointF();
+            var ele = inv.Elements;
+            pt.X = pWld.X * ele[0] + pWld.Y * ele[1] + ele[4];
+            pt.Y = pWld.X * ele[2] + pWld.Y * ele[3] + ele[5];
+            return pt;
         }
 
         protected Matrix _getRenderMatrix(Annotation ano)
