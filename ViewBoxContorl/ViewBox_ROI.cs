@@ -45,8 +45,8 @@ namespace ViewBoxContorl
                     invMat.Invert();
                     var localP = new PointF();
                     var ele = invMat.Elements;
-                    localP.X = col * ele[0] + row * ele[1] + ele[4];
-                    localP.Y = col * ele[2] + row * ele[3] + ele[5];
+                    localP.X = col * ele[0] + row * ele[2] + ele[4];
+                    localP.Y = col * ele[1] + row * ele[3] + ele[5];
 
                     var pts = new PointF[] { new PointF(col, row) };
                     invMat.TransformPoints(pts);

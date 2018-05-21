@@ -223,13 +223,13 @@ namespace ViewBoxContorl.Annotation
             }
         }
 
-        virtual public Tuple<Shape, CtrlPt> PickControlPoint(PointF pImg)
+        virtual public Tuple<Shape, CtrlPt> PickControlPoint(PointF pImg, float viewScale)
         {
             foreach(var cpt in CtrlPoints)
             {
                 var p = cpt.Value;
                 var p1 = _getPointInLocal(pImg);
-                if(Math.Abs(p1.X - p.X) <= CtrlPtSize && Math.Abs(p1.Y - p.Y) <= CtrlPtSize)
+                if(Math.Abs(p1.X - p.X) <= CtrlPtSize / viewScale && Math.Abs(p1.Y - p.Y) <= CtrlPtSize / viewScale )
                 {
                     return new Tuple<Shape, CtrlPt>(this, cpt.Key);
                 }
@@ -313,10 +313,11 @@ namespace ViewBoxContorl.Annotation
         {
             var inv = _transform.Clone();
             inv.Invert();
+            
             var pt = new PointF();
             var ele = inv.Elements;
-            pt.X = pWld.X * ele[0] + pWld.Y * ele[1] + ele[4];
-            pt.Y = pWld.X * ele[2] + pWld.Y * ele[3] + ele[5];
+            pt.X = pWld.X * ele[0] + pWld.Y * ele[2] + ele[4];
+            pt.Y = pWld.X * ele[1] + pWld.Y * ele[3] + ele[5];
             return pt;
         }
 

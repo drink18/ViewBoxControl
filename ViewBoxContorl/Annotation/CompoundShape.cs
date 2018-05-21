@@ -85,7 +85,7 @@ namespace ViewBoxContorl.Annotation
             var p = _getPointInLocal(pImg);
             foreach (var sub in _subShapes)
             {
-                var ctrlPtr = sub.PickControlPoint(p);
+                var ctrlPtr = sub.PickControlPoint(p, 1);
                 if (ctrlPtr != null)
                 {
                     return ctrlPtr;

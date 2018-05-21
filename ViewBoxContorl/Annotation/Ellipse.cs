@@ -65,6 +65,11 @@ namespace ViewBoxContorl.Annotation
             var p = _getPointInLocal(pWld);
             float lx = LocalRect.Width / 2;
             float ly = LocalRect.Height / 2;
+            float cx = LocalRect.Left + lx;
+            float cy = LocalRect.Top + ly;
+
+            p.X -= cx;
+            p.Y -= cy;
 
             PointF np = new PointF(p.X , p.Y);
             return ((np.X * np.X) / (lx * lx) + (np.Y * np.Y) / (ly * ly) <= 1);
