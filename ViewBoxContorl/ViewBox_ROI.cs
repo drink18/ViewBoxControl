@@ -37,9 +37,9 @@ namespace ViewBoxContorl
         {
             var pixels = new List<int>();
             var rect = e.GetAABB();
-            for (int row = (int)rect.Left; row <= (int)rect.Right; row++)
+            for (int row = (int)rect.Top; row <= (int)rect.Bottom; row++)
             {
-                for (int col = (int)rect.Top; col <= (int)rect.Bottom; col++)
+                for (int col = (int)rect.Left; col <= (int)rect.Right; col++)
                 {
                     var invMat = e.Transform.Clone();
                     invMat.Invert();
@@ -47,6 +47,10 @@ namespace ViewBoxContorl
                     var ele = invMat.Elements;
                     localP.X = col * ele[0] + row * ele[1] + ele[4];
                     localP.Y = col * ele[2] + row * ele[3] + ele[5];
+
+                    var pts = new PointF[] { new PointF(col, row) };
+                    invMat.TransformPoints(pts);
+                    localP = pts[0];
 
                     if (col >= 0 && row >= 0 && col < NoCol && row < NoRow 
                         && e.IsLocalPointInsideShape(localP))
