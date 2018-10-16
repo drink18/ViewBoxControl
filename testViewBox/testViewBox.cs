@@ -329,9 +329,10 @@ namespace testViewBox
             float a0 = startAngle / 180.0f * (float)Math.PI;
             PointF p1 = new PointF(p.X + len * (float)Math.Cos(a + a0), p.Y + len * (float)Math.Sin(a + a0));
             var line = new Line(p, p1);
-            line.P0Annotation = "P0";
-            line.P1Annotation = "P1";
+            line.P0Annotation = "P000000";
+            line.P1Annotation = "P111111";
             line.MidAnnotation = "MidPoint";
+            line.AnnotationTextColor = Color.BlueViolet;
 
             return line;
         }

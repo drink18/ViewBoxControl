@@ -25,6 +25,8 @@ namespace ViewBoxContorl.Annotation
 
         string[] _annotationTexts = new string[3];
 
+        public Color AnnotationTextColor { get; set; }
+
         public string P0Annotation { get { return getAnnotationText(AnnotationPosition.StartPoint); } set { setAnnotationText(AnnotationPosition.StartPoint, value); } }
         public string P1Annotation { get { return getAnnotationText(AnnotationPosition.EndPoint); } set { setAnnotationText(AnnotationPosition.EndPoint, value); } }
         public string MidAnnotation { get { return getAnnotationText(AnnotationPosition.MidPoint); } set { setAnnotationText(AnnotationPosition.MidPoint, value); } }
@@ -40,6 +42,7 @@ namespace ViewBoxContorl.Annotation
             Point0 = center;
             Point1 = center;
             _annotationTexts = new string [] { "", "", "" };
+            AnnotationTextColor = Color.Blue;
         }
 
         public Line(PointF p0, PointF p1)
@@ -54,6 +57,7 @@ namespace ViewBoxContorl.Annotation
             _annotationTexts = new string [] { "", "", "" };
 
             _buildBoundingRect();
+            AnnotationTextColor = Color.Blue;
         }
 
         public override void OnDragCreating(PointF p)
@@ -66,7 +70,7 @@ namespace ViewBoxContorl.Annotation
         {
             Pen pen = new Pen(strokeColor);
             Font font = new Font("Arial", 8, FontStyle.Bold);
-            SolidBrush brush = new SolidBrush(strokeColor);
+            SolidBrush brush = new SolidBrush(AnnotationTextColor);
 
             pen.Width = strokeWidth;
             pen.Width /= scale;
