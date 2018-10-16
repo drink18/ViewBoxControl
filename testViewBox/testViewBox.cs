@@ -322,14 +322,39 @@ namespace testViewBox
         {
             vbxImage.Zoomable = cbZoomable.Checked;
         }
-
-        private void btnLineText_Click(object sender, EventArgs e)
+        
+        Line spawnTestLines(PointF p, float len,  float startAngle, float angle)
         {
-            var line = new Line(new PointF(10, 10), new PointF(100, 100));
+            float a = angle / 180.0f * (float)Math.PI;
+            float a0 = startAngle / 180.0f * (float)Math.PI;
+            PointF p1 = new PointF(p.X + len * (float)Math.Cos(a + a0), p.Y + len * (float)Math.Sin(a + a0));
+            var line = new Line(p, p1);
             line.P0Annotation = "P0";
             line.P1Annotation = "P1";
             line.MidAnnotation = "MidPoint";
-            vbxImage.AddShape(line);
+
+            return line;
+        }
+
+        private void btnLineText_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 5; ++i)
+            {
+                var line = spawnTestLines(new PointF(i * 150, i), 100, 0, 5 * i);
+                vbxImage.AddShape(line);
+            }
+
+            for (int i = 0; i < 5; ++i)
+            {
+                var line = spawnTestLines(new PointF(i * 150, 150), 100, 0, - 15 * i);
+                vbxImage.AddShape(line);
+            }
+
+            for (int i = 0; i < 5; ++i)
+            {
+                var line = spawnTestLines(new PointF(i * 150, 300), 100, 180, - 15 * i);
+                vbxImage.AddShape(line);
+            }
         }
 
         private void testViewBox_Load(object sender, EventArgs e)
