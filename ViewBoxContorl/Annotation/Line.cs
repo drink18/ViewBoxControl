@@ -69,7 +69,7 @@ namespace ViewBoxContorl.Annotation
         public override void Draw(Graphics g, Matrix view, float scale, float strokeWidth, Color strokeColor)
         {
             Pen pen = new Pen(strokeColor);
-            Font font = new Font("Arial", 8, FontStyle.Bold);
+            Font font = new Font("Arial", 8 / scale, FontStyle.Bold);
             SolidBrush brush = new SolidBrush(AnnotationTextColor);
 
             pen.Width = strokeWidth;

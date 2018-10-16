@@ -58,6 +58,7 @@
             this.btnRemoveSub = new System.Windows.Forms.Button();
             this.btnLineText = new System.Windows.Forms.Button();
             this.vbxImage = new ViewBoxContorl.ViewBoxForm();
+            this.btnTextBlock = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numRowSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numColSpacing)).BeginInit();
             this.SuspendLayout();
@@ -426,11 +427,23 @@
             this.vbxImage.Paint += new System.Windows.Forms.PaintEventHandler(this.vbxImage_Paint);
             this.vbxImage.Resize += new System.EventHandler(this.vbxImage_Resize);
             // 
+            // btnTextBlock
+            // 
+            this.btnTextBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTextBlock.Location = new System.Drawing.Point(788, 602);
+            this.btnTextBlock.Name = "btnTextBlock";
+            this.btnTextBlock.Size = new System.Drawing.Size(150, 51);
+            this.btnTextBlock.TabIndex = 22;
+            this.btnTextBlock.Text = "TextBlock";
+            this.btnTextBlock.UseVisualStyleBackColor = true;
+            this.btnTextBlock.Click += new System.EventHandler(this.btnTextBlock_Click);
+            // 
             // testViewBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1584, 1056);
+            this.Controls.Add(this.btnTextBlock);
             this.Controls.Add(this.btnLineText);
             this.Controls.Add(this.btnRemoveSub);
             this.Controls.Add(this.cbZoomable);
@@ -502,6 +515,7 @@
         private System.Windows.Forms.CheckBox cbZoomable;
         private System.Windows.Forms.Button btnRemoveSub;
         private System.Windows.Forms.Button btnLineText;
+        private System.Windows.Forms.Button btnTextBlock;
     }
 }
 

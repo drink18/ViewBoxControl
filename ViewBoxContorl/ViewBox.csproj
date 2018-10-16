@@ -55,6 +55,7 @@
     <Compile Include="Annotation\Data\ShapeData.cs" />
     <Compile Include="Annotation\Ellipse.cs" />
     <Compile Include="Annotation\Line.cs" />
+    <Compile Include="Annotation\TextBlock.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

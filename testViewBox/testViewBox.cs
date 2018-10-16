@@ -339,6 +339,11 @@ namespace testViewBox
 
         private void btnLineText_Click(object sender, EventArgs e)
         {
+            var line = new Line(new PointF(0, 0), new PointF(100, 100));
+            line.P0Annotation = "起点";
+            line.P1Annotation = "终点";
+            vbxImage.AddShape(line);
+            /*
             for (int i = 0; i < 5; ++i)
             {
                 var line = spawnTestLines(new PointF(i * 150, i), 100, 0, 5 * i);
@@ -356,11 +361,20 @@ namespace testViewBox
                 var line = spawnTestLines(new PointF(i * 150, 300), 100, 180, - 15 * i);
                 vbxImage.AddShape(line);
             }
+            */
         }
 
         private void testViewBox_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Maximized;
+        }
+
+        private void btnTextBlock_Click(object sender, EventArgs e)
+        {
+            TextBlock tb = new TextBlock(new PointF(100, 130), "文本块");
+            tb.TextColor = Color.Orange;
+            tb.TextSize = 16;
+            vbxImage.AddShape(tb);
         }
     }
 }
