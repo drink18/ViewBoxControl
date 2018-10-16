@@ -82,16 +82,17 @@ namespace ViewBoxContorl.Annotation
 
             for(var penum = AnnotationPosition.StartPoint; penum <= AnnotationPosition.MidPoint; ++penum)
             {
-                var pos = getAnnotationTextPos(penum);
+                SizeF size = g.MeasureString(getAnnotationText(penum), font, 200);
+
+                var pos = getAnnotationTextPos(penum, size);
                 g.DrawString(getAnnotationText(penum), font, brush, _getPointInWld(pos));
             }
             pen.Dispose();
         }
 
-       PointF getAnnotationTextPos(AnnotationPosition pos)
+       PointF getAnnotationTextPos(AnnotationPosition pos, SizeF stringSize)
        {
             var ret = new PointF();
-            var fontOffset = 15.0f;
             
             if(pos == AnnotationPosition.StartPoint)
             {
@@ -100,7 +101,7 @@ namespace ViewBoxContorl.Annotation
                 float ox = 0;
                 float oy = 0;
                 if (dx > 0 && dy > 0)
-                    ox -= fontOffset;
+                    ox -= stringSize.Width;
 
                 ret = new PointF(Point0.X + ox, Point0.Y + oy);
             }
@@ -111,7 +112,7 @@ namespace ViewBoxContorl.Annotation
                 float ox = 0;
                 float oy = 0;
                 if (dx > 0 && dy > 0)
-                    ox -= fontOffset;
+                    ox -= stringSize.Width;
 
                 ret = new PointF(Point1.X + ox, Point1.Y + oy);
             }
