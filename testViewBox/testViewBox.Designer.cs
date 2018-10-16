@@ -55,8 +55,9 @@
             this.btnUnload = new System.Windows.Forms.Button();
             this.cbPannable = new System.Windows.Forms.CheckBox();
             this.cbZoomable = new System.Windows.Forms.CheckBox();
-            this.vbxImage = new ViewBoxContorl.ViewBoxForm();
             this.btnRemoveSub = new System.Windows.Forms.Button();
+            this.btnLineText = new System.Windows.Forms.Button();
+            this.vbxImage = new ViewBoxContorl.ViewBoxForm();
             ((System.ComponentModel.ISupportInitialize)(this.numRowSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numColSpacing)).BeginInit();
             this.SuspendLayout();
@@ -64,10 +65,10 @@
             // btnLoadImage
             // 
             this.btnLoadImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadImage.Location = new System.Drawing.Point(374, 13);
-            this.btnLoadImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnLoadImage.Location = new System.Drawing.Point(611, 22);
+            this.btnLoadImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnLoadImage.Name = "btnLoadImage";
-            this.btnLoadImage.Size = new System.Drawing.Size(135, 22);
+            this.btnLoadImage.Size = new System.Drawing.Size(202, 37);
             this.btnLoadImage.TabIndex = 1;
             this.btnLoadImage.Text = "Load Image";
             this.btnLoadImage.UseVisualStyleBackColor = true;
@@ -77,20 +78,20 @@
             // 
             this.tbxInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxInfo.Location = new System.Drawing.Point(356, 363);
-            this.tbxInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbxInfo.Location = new System.Drawing.Point(584, 698);
+            this.tbxInfo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbxInfo.Multiline = true;
             this.tbxInfo.Name = "tbxInfo";
-            this.tbxInfo.Size = new System.Drawing.Size(656, 182);
+            this.tbxInfo.Size = new System.Drawing.Size(982, 334);
             this.tbxInfo.TabIndex = 2;
             // 
             // btnLoadRawImage
             // 
             this.btnLoadRawImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadRawImage.Location = new System.Drawing.Point(516, 13);
-            this.btnLoadRawImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnLoadRawImage.Location = new System.Drawing.Point(824, 22);
+            this.btnLoadRawImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnLoadRawImage.Name = "btnLoadRawImage";
-            this.btnLoadRawImage.Size = new System.Drawing.Size(152, 22);
+            this.btnLoadRawImage.Size = new System.Drawing.Size(228, 37);
             this.btnLoadRawImage.TabIndex = 1;
             this.btnLoadRawImage.Text = "Load Raw Image";
             this.btnLoadRawImage.UseVisualStyleBackColor = true;
@@ -100,47 +101,50 @@
             // 
             this.lblMaxPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMaxPixel.AutoSize = true;
-            this.lblMaxPixel.Location = new System.Drawing.Point(676, 13);
+            this.lblMaxPixel.Location = new System.Drawing.Point(1064, 22);
+            this.lblMaxPixel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMaxPixel.Name = "lblMaxPixel";
-            this.lblMaxPixel.Size = new System.Drawing.Size(79, 15);
+            this.lblMaxPixel.Size = new System.Drawing.Size(105, 25);
             this.lblMaxPixel.TabIndex = 3;
             this.lblMaxPixel.Text = "maxPixel:";
             // 
             // tbxMaxPixel
             // 
             this.tbxMaxPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxMaxPixel.Location = new System.Drawing.Point(759, 10);
-            this.tbxMaxPixel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbxMaxPixel.Location = new System.Drawing.Point(1188, 17);
+            this.tbxMaxPixel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbxMaxPixel.Name = "tbxMaxPixel";
-            this.tbxMaxPixel.Size = new System.Drawing.Size(77, 25);
+            this.tbxMaxPixel.Size = new System.Drawing.Size(114, 31);
             this.tbxMaxPixel.TabIndex = 4;
             // 
             // lblMinPixel
             // 
             this.lblMinPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMinPixel.AutoSize = true;
-            this.lblMinPixel.Location = new System.Drawing.Point(852, 13);
+            this.lblMinPixel.Location = new System.Drawing.Point(1328, 22);
+            this.lblMinPixel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMinPixel.Name = "lblMinPixel";
-            this.lblMinPixel.Size = new System.Drawing.Size(79, 15);
+            this.lblMinPixel.Size = new System.Drawing.Size(99, 25);
             this.lblMinPixel.TabIndex = 3;
             this.lblMinPixel.Text = "minPixel:";
             // 
             // tbxMinPixel
             // 
             this.tbxMinPixel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxMinPixel.Location = new System.Drawing.Point(937, 10);
-            this.tbxMinPixel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbxMinPixel.Location = new System.Drawing.Point(1456, 17);
+            this.tbxMinPixel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbxMinPixel.Name = "tbxMinPixel";
-            this.tbxMinPixel.Size = new System.Drawing.Size(77, 25);
+            this.tbxMinPixel.Size = new System.Drawing.Size(114, 31);
             this.tbxMinPixel.TabIndex = 4;
             // 
             // lblWin
             // 
             this.lblWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWin.AutoSize = true;
-            this.lblWin.Location = new System.Drawing.Point(375, 106);
+            this.lblWin.Location = new System.Drawing.Point(612, 177);
+            this.lblWin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblWin.Name = "lblWin";
-            this.lblWin.Size = new System.Drawing.Size(39, 15);
+            this.lblWin.Size = new System.Drawing.Size(55, 25);
             this.lblWin.TabIndex = 3;
             this.lblWin.Text = "Win:";
             // 
@@ -148,11 +152,11 @@
             // 
             this.tbxWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxWin.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tbxWin.Location = new System.Drawing.Point(420, 104);
-            this.tbxWin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbxWin.Location = new System.Drawing.Point(680, 173);
+            this.tbxWin.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbxWin.Name = "tbxWin";
             this.tbxWin.ReadOnly = true;
-            this.tbxWin.Size = new System.Drawing.Size(77, 25);
+            this.tbxWin.Size = new System.Drawing.Size(114, 31);
             this.tbxWin.TabIndex = 4;
             this.tbxWin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_KeyPress);
             // 
@@ -160,9 +164,10 @@
             // 
             this.lblLev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLev.AutoSize = true;
-            this.lblLev.Location = new System.Drawing.Point(503, 106);
+            this.lblLev.Location = new System.Drawing.Point(804, 177);
+            this.lblLev.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLev.Name = "lblLev";
-            this.lblLev.Size = new System.Drawing.Size(39, 15);
+            this.lblLev.Size = new System.Drawing.Size(53, 25);
             this.lblLev.TabIndex = 3;
             this.lblLev.Text = "Lev:";
             // 
@@ -170,29 +175,29 @@
             // 
             this.tbxLev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxLev.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tbxLev.Location = new System.Drawing.Point(540, 104);
-            this.tbxLev.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbxLev.Location = new System.Drawing.Point(860, 173);
+            this.tbxLev.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbxLev.Name = "tbxLev";
             this.tbxLev.ReadOnly = true;
-            this.tbxLev.Size = new System.Drawing.Size(77, 25);
+            this.tbxLev.Size = new System.Drawing.Size(114, 31);
             this.tbxLev.TabIndex = 4;
             this.tbxLev.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_KeyPress);
             // 
             // hsbWin
             // 
             this.hsbWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.hsbWin.Location = new System.Drawing.Point(420, 152);
+            this.hsbWin.Location = new System.Drawing.Point(680, 253);
             this.hsbWin.Name = "hsbWin";
-            this.hsbWin.Size = new System.Drawing.Size(579, 21);
+            this.hsbWin.Size = new System.Drawing.Size(868, 21);
             this.hsbWin.TabIndex = 5;
             this.hsbWin.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hsbWin_Scroll);
             // 
             // hsbLev
             // 
             this.hsbLev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.hsbLev.Location = new System.Drawing.Point(420, 184);
+            this.hsbLev.Location = new System.Drawing.Point(680, 307);
             this.hsbLev.Name = "hsbLev";
-            this.hsbLev.Size = new System.Drawing.Size(579, 21);
+            this.hsbLev.Size = new System.Drawing.Size(868, 21);
             this.hsbLev.TabIndex = 5;
             this.hsbLev.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hsbLev_Scroll);
             // 
@@ -206,10 +211,10 @@
             "Ellipse",
             "Box",
             "Line"});
-            this.dbNewShape.Location = new System.Drawing.Point(846, 286);
-            this.dbNewShape.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dbNewShape.Location = new System.Drawing.Point(1319, 477);
+            this.dbNewShape.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.dbNewShape.Name = "dbNewShape";
-            this.dbNewShape.Size = new System.Drawing.Size(160, 23);
+            this.dbNewShape.Size = new System.Drawing.Size(238, 33);
             this.dbNewShape.TabIndex = 7;
             this.dbNewShape.SelectedIndexChanged += new System.EventHandler(this.dbNewShape_SelectedIndexChanged);
             // 
@@ -217,10 +222,10 @@
             // 
             this.cbShowPixelMeasure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbShowPixelMeasure.AutoSize = true;
-            this.cbShowPixelMeasure.Location = new System.Drawing.Point(722, 290);
-            this.cbShowPixelMeasure.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShowPixelMeasure.Location = new System.Drawing.Point(1157, 483);
+            this.cbShowPixelMeasure.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbShowPixelMeasure.Name = "cbShowPixelMeasure";
-            this.cbShowPixelMeasure.Size = new System.Drawing.Size(117, 19);
+            this.cbShowPixelMeasure.Size = new System.Drawing.Size(152, 29);
             this.cbShowPixelMeasure.TabIndex = 8;
             this.cbShowPixelMeasure.Text = "Pixel Value";
             this.cbShowPixelMeasure.UseVisualStyleBackColor = true;
@@ -230,10 +235,10 @@
             // 
             this.cbShowStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbShowStatistics.AutoSize = true;
-            this.cbShowStatistics.Location = new System.Drawing.Point(721, 317);
-            this.cbShowStatistics.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShowStatistics.Location = new System.Drawing.Point(1165, 528);
+            this.cbShowStatistics.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbShowStatistics.Name = "cbShowStatistics";
-            this.cbShowStatistics.Size = new System.Drawing.Size(109, 19);
+            this.cbShowStatistics.Size = new System.Drawing.Size(131, 29);
             this.cbShowStatistics.TabIndex = 9;
             this.cbShowStatistics.Text = "Statistics";
             this.cbShowStatistics.UseVisualStyleBackColor = true;
@@ -242,10 +247,10 @@
             // btnPrintROI
             // 
             this.btnPrintROI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrintROI.Location = new System.Drawing.Point(602, 317);
-            this.btnPrintROI.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPrintROI.Location = new System.Drawing.Point(953, 528);
+            this.btnPrintROI.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.btnPrintROI.Name = "btnPrintROI";
-            this.btnPrintROI.Size = new System.Drawing.Size(100, 28);
+            this.btnPrintROI.Size = new System.Drawing.Size(150, 47);
             this.btnPrintROI.TabIndex = 10;
             this.btnPrintROI.Text = "Print ROI";
             this.btnPrintROI.UseVisualStyleBackColor = true;
@@ -254,10 +259,10 @@
             // btnTestCompound
             // 
             this.btnTestCompound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTestCompound.Location = new System.Drawing.Point(379, 317);
-            this.btnTestCompound.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTestCompound.Location = new System.Drawing.Point(618, 528);
+            this.btnTestCompound.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.btnTestCompound.Name = "btnTestCompound";
-            this.btnTestCompound.Size = new System.Drawing.Size(100, 28);
+            this.btnTestCompound.Size = new System.Drawing.Size(150, 47);
             this.btnTestCompound.TabIndex = 11;
             this.btnTestCompound.Text = "CompoundShape";
             this.btnTestCompound.UseVisualStyleBackColor = true;
@@ -266,21 +271,21 @@
             // hsbAngle
             // 
             this.hsbAngle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.hsbAngle.Location = new System.Drawing.Point(694, 106);
+            this.hsbAngle.Location = new System.Drawing.Point(1091, 177);
             this.hsbAngle.Maximum = 90;
             this.hsbAngle.Minimum = -90;
             this.hsbAngle.Name = "hsbAngle";
-            this.hsbAngle.Size = new System.Drawing.Size(219, 21);
+            this.hsbAngle.Size = new System.Drawing.Size(328, 21);
             this.hsbAngle.TabIndex = 12;
             this.hsbAngle.ValueChanged += new System.EventHandler(this.hsbAngle_ValueChanged);
             // 
             // numRowSpacing
             // 
             this.numRowSpacing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numRowSpacing.Location = new System.Drawing.Point(702, 232);
-            this.numRowSpacing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numRowSpacing.Location = new System.Drawing.Point(1103, 387);
+            this.numRowSpacing.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.numRowSpacing.Name = "numRowSpacing";
-            this.numRowSpacing.Size = new System.Drawing.Size(84, 25);
+            this.numRowSpacing.Size = new System.Drawing.Size(126, 31);
             this.numRowSpacing.TabIndex = 13;
             this.numRowSpacing.Value = new decimal(new int[] {
             10,
@@ -293,10 +298,10 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(599, 236);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(948, 393);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 15);
+            this.label1.Size = new System.Drawing.Size(138, 25);
             this.label1.TabIndex = 14;
             this.label1.Text = "Row Spacing";
             // 
@@ -304,20 +309,20 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(404, 236);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(656, 393);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 15);
+            this.label2.Size = new System.Drawing.Size(128, 25);
             this.label2.TabIndex = 16;
             this.label2.Text = "Col Spacing";
             // 
             // numColSpacing
             // 
             this.numColSpacing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numColSpacing.Location = new System.Drawing.Point(508, 232);
-            this.numColSpacing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numColSpacing.Location = new System.Drawing.Point(812, 387);
+            this.numColSpacing.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.numColSpacing.Name = "numColSpacing";
-            this.numColSpacing.Size = new System.Drawing.Size(84, 25);
+            this.numColSpacing.Size = new System.Drawing.Size(126, 31);
             this.numColSpacing.TabIndex = 15;
             this.numColSpacing.Value = new decimal(new int[] {
             10,
@@ -329,10 +334,9 @@
             // btnUnload
             // 
             this.btnUnload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUnload.Location = new System.Drawing.Point(374, 40);
-            this.btnUnload.Margin = new System.Windows.Forms.Padding(2);
+            this.btnUnload.Location = new System.Drawing.Point(611, 67);
             this.btnUnload.Name = "btnUnload";
-            this.btnUnload.Size = new System.Drawing.Size(135, 26);
+            this.btnUnload.Size = new System.Drawing.Size(202, 43);
             this.btnUnload.TabIndex = 17;
             this.btnUnload.Text = "Unload";
             this.btnUnload.UseVisualStyleBackColor = true;
@@ -342,10 +346,9 @@
             // 
             this.cbPannable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbPannable.AutoSize = true;
-            this.cbPannable.Location = new System.Drawing.Point(405, 286);
-            this.cbPannable.Margin = new System.Windows.Forms.Padding(2);
+            this.cbPannable.Location = new System.Drawing.Point(663, 477);
             this.cbPannable.Name = "cbPannable";
-            this.cbPannable.Size = new System.Drawing.Size(93, 19);
+            this.cbPannable.Size = new System.Drawing.Size(135, 29);
             this.cbPannable.TabIndex = 18;
             this.cbPannable.Text = "Pannable";
             this.cbPannable.UseVisualStyleBackColor = true;
@@ -355,14 +358,36 @@
             // 
             this.cbZoomable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbZoomable.AutoSize = true;
-            this.cbZoomable.Location = new System.Drawing.Point(516, 286);
-            this.cbZoomable.Margin = new System.Windows.Forms.Padding(2);
+            this.cbZoomable.Location = new System.Drawing.Point(825, 477);
             this.cbZoomable.Name = "cbZoomable";
-            this.cbZoomable.Size = new System.Drawing.Size(93, 19);
+            this.cbZoomable.Size = new System.Drawing.Size(139, 29);
             this.cbZoomable.TabIndex = 19;
             this.cbZoomable.Text = "Zoomable";
             this.cbZoomable.UseVisualStyleBackColor = true;
             this.cbZoomable.CheckedChanged += new System.EventHandler(this.cbZoomable_CheckedChanged);
+            // 
+            // btnRemoveSub
+            // 
+            this.btnRemoveSub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveSub.Location = new System.Drawing.Point(788, 528);
+            this.btnRemoveSub.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.btnRemoveSub.Name = "btnRemoveSub";
+            this.btnRemoveSub.Size = new System.Drawing.Size(150, 47);
+            this.btnRemoveSub.TabIndex = 20;
+            this.btnRemoveSub.Text = "Remove Sub";
+            this.btnRemoveSub.UseVisualStyleBackColor = true;
+            this.btnRemoveSub.Click += new System.EventHandler(this.btnRemoveSub_Click);
+            // 
+            // btnLineText
+            // 
+            this.btnLineText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLineText.Location = new System.Drawing.Point(618, 602);
+            this.btnLineText.Name = "btnLineText";
+            this.btnLineText.Size = new System.Drawing.Size(150, 51);
+            this.btnLineText.TabIndex = 21;
+            this.btnLineText.Text = "LineText";
+            this.btnLineText.UseVisualStyleBackColor = true;
+            this.btnLineText.Click += new System.EventHandler(this.btnLineText_Click);
             // 
             // vbxImage
             // 
@@ -376,8 +401,8 @@
             this.vbxImage.GrayLevelData = null;
             this.vbxImage.Image = ((System.Drawing.Image)(resources.GetObject("vbxImage.Image")));
             this.vbxImage.Lev = ((short)(0));
-            this.vbxImage.Location = new System.Drawing.Point(12, 13);
-            this.vbxImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.vbxImage.Location = new System.Drawing.Point(18, 22);
+            this.vbxImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.vbxImage.MouseOpMode = ViewBoxContorl.ViewBoxForm.MouseOps.None;
             this.vbxImage.Name = "vbxImage";
             this.vbxImage.NoCol = 0;
@@ -389,7 +414,7 @@
             this.vbxImage.SampleRect = new System.Drawing.Rectangle(-161, -205, 322, 410);
             this.vbxImage.ShowPixelValue = false;
             this.vbxImage.ShowStatistics = false;
-            this.vbxImage.Size = new System.Drawing.Size(313, 531);
+            this.vbxImage.Size = new System.Drawing.Size(520, 1011);
             this.vbxImage.TabIndex = 0;
             this.vbxImage.TabStop = false;
             this.vbxImage.Win = ((short)(1));
@@ -401,23 +426,12 @@
             this.vbxImage.Paint += new System.Windows.Forms.PaintEventHandler(this.vbxImage_Paint);
             this.vbxImage.Resize += new System.EventHandler(this.vbxImage_Resize);
             // 
-            // btnRemoveSub
-            // 
-            this.btnRemoveSub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveSub.Location = new System.Drawing.Point(492, 317);
-            this.btnRemoveSub.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnRemoveSub.Name = "btnRemoveSub";
-            this.btnRemoveSub.Size = new System.Drawing.Size(100, 28);
-            this.btnRemoveSub.TabIndex = 20;
-            this.btnRemoveSub.Text = "Remove Sub";
-            this.btnRemoveSub.UseVisualStyleBackColor = true;
-            this.btnRemoveSub.Click += new System.EventHandler(this.btnRemoveSub_Click);
-            // 
             // testViewBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1023, 558);
+            this.ClientSize = new System.Drawing.Size(1584, 1056);
+            this.Controls.Add(this.btnLineText);
             this.Controls.Add(this.btnRemoveSub);
             this.Controls.Add(this.cbZoomable);
             this.Controls.Add(this.cbPannable);
@@ -446,9 +460,10 @@
             this.Controls.Add(this.btnLoadRawImage);
             this.Controls.Add(this.btnLoadImage);
             this.Controls.Add(this.vbxImage);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "testViewBox";
             this.Text = "Test ViewBox";
+            this.Load += new System.EventHandler(this.testViewBox_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numRowSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numColSpacing)).EndInit();
             this.ResumeLayout(false);
@@ -486,6 +501,7 @@
         private System.Windows.Forms.CheckBox cbPannable;
         private System.Windows.Forms.CheckBox cbZoomable;
         private System.Windows.Forms.Button btnRemoveSub;
+        private System.Windows.Forms.Button btnLineText;
     }
 }
 

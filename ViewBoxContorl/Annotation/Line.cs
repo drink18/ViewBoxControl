@@ -11,10 +11,23 @@ namespace ViewBoxContorl.Annotation
 {
     public class Line : Shape
     {
+        public enum AnnotationPosition
+        {
+            StartPoint,
+            EndPoint,
+            MidPoint
+        }
+
         #region Properties
         #endregion
         public PointF Point0 { get; set; }
         public PointF Point1 { get; set; }
+
+        string[] _annotationTexts = new string[3];
+
+        public string P0Annotation { get { return getAnnotationText(AnnotationPosition.StartPoint); } set { setAnnotationText(AnnotationPosition.StartPoint, value); } }
+        public string P1Annotation { get { return getAnnotationText(AnnotationPosition.EndPoint); } set { setAnnotationText(AnnotationPosition.EndPoint, value); } }
+        public string MidAnnotation { get { return getAnnotationText(AnnotationPosition.MidPoint); } set { setAnnotationText(AnnotationPosition.MidPoint, value); } }
 
         public Line(PointF center)
         {
@@ -26,6 +39,7 @@ namespace ViewBoxContorl.Annotation
             _localRect.Y = center.Y;
             Point0 = center;
             Point1 = center;
+            _annotationTexts = new string [] { "", "", "" };
         }
 
         public Line(PointF p0, PointF p1)
@@ -37,9 +51,10 @@ namespace ViewBoxContorl.Annotation
             Point0 = p0;
             Point1 = p1;
 
+            _annotationTexts = new string [] { "", "", "" };
+
             _buildBoundingRect();
         }
-
 
         public override void OnDragCreating(PointF p)
         {
@@ -50,6 +65,9 @@ namespace ViewBoxContorl.Annotation
         public override void Draw(Graphics g, Matrix view, float scale, float strokeWidth, Color strokeColor)
         {
             Pen pen = new Pen(strokeColor);
+            Font font = new Font("Arial", 8, FontStyle.Bold);
+            SolidBrush brush = new SolidBrush(strokeColor);
+
             pen.Width = strokeWidth;
             pen.Width /= scale;
 
@@ -57,8 +75,50 @@ namespace ViewBoxContorl.Annotation
             m.Multiply(_transform);
             g.Transform = m;
             g.DrawLine(pen, Point0, Point1);
+
+            for(var penum = AnnotationPosition.StartPoint; penum <= AnnotationPosition.MidPoint; ++penum)
+            {
+                var pos = getAnnotationTextPos(penum);
+                g.DrawString(getAnnotationText(penum), font, brush, _getPointInWld(pos));
+            }
             pen.Dispose();
         }
+
+       PointF getAnnotationTextPos(AnnotationPosition pos)
+       {
+            var ret = new PointF();
+            var fontOffset = 15.0f;
+            
+            if(pos == AnnotationPosition.StartPoint)
+            {
+                var dx = Point1.X - Point0.X;
+                var dy = Point1.Y - Point0.Y;
+                float ox = 0;
+                float oy = 0;
+                if (dx > 0 && dy > 0)
+                    ox -= fontOffset;
+
+                ret = new PointF(Point0.X + ox, Point0.Y + oy);
+            }
+            else if(pos == AnnotationPosition.EndPoint)
+            {
+                var dx = Point0.X - Point1.X;
+                var dy = Point0.Y - Point1.Y;
+                float ox = 0;
+                float oy = 0;
+                if (dx > 0 && dy > 0)
+                    ox -= fontOffset;
+
+                ret = new PointF(Point1.X + ox, Point1.Y + oy);
+            }
+            else
+            {
+                // mid point 
+                ret.X = (Point0.X + Point1.X) / 2;
+                ret.Y = (Point0.Y + Point1.Y) / 2;
+            }
+            return ret;
+       }
 
         public override void Move(PointF delta)
         {
@@ -179,6 +239,15 @@ namespace ViewBoxContorl.Annotation
         public override void RenderAuxilaries(Graphics g, Matrix m, float scale)
         {
             DrawControlPoints(g, m, scale);
+        }
+
+        void setAnnotationText(AnnotationPosition pos, string text)
+        {
+            _annotationTexts[(int)pos] = text;
+        }
+        string getAnnotationText(AnnotationPosition pos)
+        {
+            return _annotationTexts[(int)pos];
         }
     }
 }

@@ -323,5 +323,18 @@ namespace testViewBox
             vbxImage.Zoomable = cbZoomable.Checked;
         }
 
+        private void btnLineText_Click(object sender, EventArgs e)
+        {
+            var line = new Line(new PointF(10, 10), new PointF(100, 100));
+            line.P0Annotation = "P0";
+            line.P1Annotation = "P1";
+            line.MidAnnotation = "MidPoint";
+            vbxImage.AddShape(line);
+        }
+
+        private void testViewBox_Load(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Maximized;
+        }
     }
 }
