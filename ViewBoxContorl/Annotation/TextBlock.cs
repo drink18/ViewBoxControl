@@ -41,18 +41,16 @@ namespace ViewBoxContorl.Annotation
 
         public override void Draw(Graphics g, Matrix view, float scale, float strokeWidth, Color strokeColor)
         {
-            Font font = new Font("Arial", TextSize / scale, FontStyle.Bold);
-            SolidBrush brush = new SolidBrush(TextColor);
-            _buildBoundingRect(g, font);
+            using (Font font = new Font("Arial", TextSize / scale, FontStyle.Bold))
+            using (SolidBrush brush = new SolidBrush(TextColor))
+            {
+                _buildBoundingRect(g, font);
 
-            var m = view.Clone();
-            m.Multiply(_transform);
-            g.Transform = m;
-            g.DrawString(Text, font, brush, _getPointInWld(new PointF(LocalRect.X, LocalRect.Y)));
-
-
-            font.Dispose();
-            brush.Dispose();
+                var m = view.Clone();
+                m.Multiply(_transform);
+                g.Transform = m;
+                g.DrawString(Text, font, brush, _getPointInWld(new PointF(LocalRect.X, LocalRect.Y)));
+            }
         }
 
         private void _buildBoundingRect(Graphics g, Font font)

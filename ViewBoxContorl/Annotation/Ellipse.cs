@@ -42,16 +42,16 @@ namespace ViewBoxContorl.Annotation
 
         public override void Draw(Graphics g, Matrix m, float scale, float strokeWidth, Color strokeColor)
         {
-            Pen pen = new Pen(strokeColor);
-            pen.Width = strokeWidth;
-            pen.Width /= scale;
+            using (Pen pen = new Pen(strokeColor))
+            {
+                pen.Width = strokeWidth;
+                pen.Width /= scale;
 
-            var mat = m.Clone();
-            mat.Multiply(_transform);
-            g.Transform = mat;
-            g.DrawEllipse(pen, LocalRect);
-
-            pen.Dispose();
+                var mat = m.Clone();
+                mat.Multiply(_transform);
+                g.Transform = mat;
+                g.DrawEllipse(pen, LocalRect);
+            }
         }
 
         public override void Move(PointF delta)

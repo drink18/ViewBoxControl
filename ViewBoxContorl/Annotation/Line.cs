@@ -68,26 +68,26 @@ namespace ViewBoxContorl.Annotation
 
         public override void Draw(Graphics g, Matrix view, float scale, float strokeWidth, Color strokeColor)
         {
-            Pen pen = new Pen(strokeColor);
-            Font font = new Font("Arial", 8 / scale, FontStyle.Bold);
-            SolidBrush brush = new SolidBrush(AnnotationTextColor);
-
-            pen.Width = strokeWidth;
-            pen.Width /= scale;
-
-            var m = view.Clone();
-            m.Multiply(_transform);
-            g.Transform = m;
-            g.DrawLine(pen, Point0, Point1);
-
-            for(var penum = AnnotationPosition.StartPoint; penum <= AnnotationPosition.MidPoint; ++penum)
+            using (Pen pen = new Pen(strokeColor))
+            using(SolidBrush brush = new SolidBrush(AnnotationTextColor))
+            using (Font font = new Font("Arial", 8 / scale, FontStyle.Bold))
             {
-                SizeF size = g.MeasureString(getAnnotationText(penum), font, 200);
+                pen.Width = strokeWidth;
+                pen.Width /= scale;
 
-                var pos = getAnnotationTextPos(penum, size);
-                g.DrawString(getAnnotationText(penum), font, brush, _getPointInWld(pos));
+                var m = view.Clone();
+                m.Multiply(_transform);
+                g.Transform = m;
+                g.DrawLine(pen, Point0, Point1);
+
+                for (var penum = AnnotationPosition.StartPoint; penum <= AnnotationPosition.MidPoint; ++penum)
+                {
+                    SizeF size = g.MeasureString(getAnnotationText(penum), font, 200);
+
+                    var pos = getAnnotationTextPos(penum, size);
+                    g.DrawString(getAnnotationText(penum), font, brush, _getPointInWld(pos));
+                }
             }
-            pen.Dispose();
         }
 
        PointF getAnnotationTextPos(AnnotationPosition pos, SizeF stringSize)

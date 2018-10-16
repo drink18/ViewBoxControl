@@ -80,17 +80,17 @@ namespace ViewBoxContorl.Annotation
 
         public override void Draw(Graphics g, Matrix view, float scale, float strokeWidth, Color strokeColor)
         {
-            Pen pen = new Pen(strokeColor);
-            pen.Width = strokeWidth;
-            pen.Width /= scale;
+            using (Pen pen = new Pen(strokeColor))
+            {
+                pen.Width = strokeWidth;
+                pen.Width /= scale;
 
-            var m = view.Clone();
-            m.Multiply(_transform);
+                var m = view.Clone();
+                m.Multiply(_transform);
 
-            g.Transform = m;
-            g.DrawRectangle(pen, LocalRect.X, LocalRect.Y, LocalRect.Width, LocalRect.Height);
-
-            pen.Dispose();
+                g.Transform = m;
+                g.DrawRectangle(pen, LocalRect.X, LocalRect.Y, LocalRect.Width, LocalRect.Height);
+            }
         }
 
         public override void Move(PointF delta)
