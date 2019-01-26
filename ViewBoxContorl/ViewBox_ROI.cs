@@ -25,7 +25,7 @@ namespace ViewBoxContorl
 
         public class ROIUserData : UserData
         {
-            public Dictionary<StatKey, float> StatDict = new Dictionary<StatKey, float>();
+            public Dictionary<StatKey, object> StatDict = new Dictionary<StatKey, object>();
             public bool AllowRealtimeROI = false;
             public ROIUserData(Shape shape)
             {

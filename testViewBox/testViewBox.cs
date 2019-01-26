@@ -251,9 +251,12 @@ namespace testViewBox
                 if (roiInfo != null)
                 {
                     dump += string.Format("Shape is {0}\r\n", shape.GetType().Name);
-                    //dump += string.Format("Var={0}, Mean={1}\n", roiInfo.StatDict[0]..PixelVariation, roiInfo.PixelMean);
-                    dump += string.Format("Var={0},    Mean={1}\r\n", roiInfo.StatDict.Keys.ToArray()[0], roiInfo.StatDict.Values.ToArray()[0]);
-                    dump += string.Format("Var={0},    Mean={1}\r\n", roiInfo.StatDict.Keys.ToArray()[1], roiInfo.StatDict.Values.ToArray()[1]);
+                    foreach (var keyVal in roiInfo.StatDict)
+                    {
+                        var key = keyVal.Key;
+                        var value = keyVal.Value;
+                        dump += string.Format("PropName={0},  Value={1}\r\n", key, value);
+                    }
                 }
             }
             dump += "End of ROI dump\n";
